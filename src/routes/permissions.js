@@ -7,7 +7,9 @@ export const ROLE_ACCESS = {
     '/student',
     '/mission-1', '/mission-1/submit', '/mission-1/submitted', '/mission-1/history',
     '/mission-1/strikes', '/mission-1/evidence',
+    '/mission-2',
     '/mission-3',
+
     '/mission-4/tiffin',
     '/mission-5', '/mission-5/report', '/mission-5/success', '/mission-5/history',
     '/mission-6',
