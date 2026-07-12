@@ -111,7 +111,7 @@ export default function ElectionResults() {
         </Card>
 
         <Card className="p-5">
-          <SectionHeader title="Participation by department" description="Turnout percentage per department" />
+          <SectionHeader title="Participation by class" description="Turnout percentage per class" />
           <div style={{ width: '100%', height: 260 }}>
             <ResponsiveContainer>
               <LineChart data={DEPT_TURNOUT}>
