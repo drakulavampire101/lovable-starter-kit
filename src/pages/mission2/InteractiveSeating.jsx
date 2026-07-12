@@ -42,15 +42,9 @@ export default function InteractiveSeating() {
   return (
     <PageContainer>
       <PageHeader
-        title="Interactive Seating"
-        subtitle="Drag any student card to swap seats. Empty desks are highlighted on hover."
+        title="Seating Preview"
+        subtitle="Click a seat to view its assigned student. Assignments are automated."
         icon={<MousePointerClick size={18} />}
-        actions={
-          <div className="flex gap-2">
-            <Button variant="secondary" leftIcon={<RotateCcw size={14} />} onClick={reset}>Reset</Button>
-            <Button leftIcon={<Save size={14} />} onClick={() => toast.push({ tone: 'success', title: 'Arrangement saved (mock)' })}>Save Arrangement</Button>
-          </div>
-        }
       />
       <Mission2SubNav />
 
@@ -58,8 +52,8 @@ export default function InteractiveSeating() {
         <span>Room · {size.label}</span>
         <span>Occupied · {seats.length - emptyCount}</span>
         <span>Empty · {emptyCount}</span>
-        <span className="sm:ml-auto">Tip: click a seat to select · drag to swap</span>
       </Card>
+
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_280px] gap-4">
         <ClassroomGrid
