@@ -59,6 +59,7 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
   };
 
   return (
+    <>
     <header
       style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
       className="sticky top-0 z-20 border-b border-[rgb(var(--chrome-fg))]/15 text-[rgb(var(--chrome-fg))]"
