@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext.jsx';
 import {
   ArrowRight,
   ShieldCheck,
@@ -16,6 +17,8 @@ import {
   Armchair,
   Github,
   ChevronRight,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 const MISSIONS = [
