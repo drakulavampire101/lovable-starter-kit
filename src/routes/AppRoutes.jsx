@@ -11,6 +11,7 @@ import StudentSeatView from '../pages/mission2/StudentSeatView.jsx';
 
 // Route-level code splitting — everything below is lazy.
 const Dashboard = lazy(() => import('../pages/Dashboard.jsx'));
+const Landing = lazy(() => import('../pages/Landing.jsx'));
 
 // Auth flow (only hit once, keep out of main bundle)
 const Welcome = lazy(() => import('../pages/auth/Welcome.jsx'));
@@ -228,6 +229,7 @@ export default function AppRoutes() {
           <Route path="/office" element={<OfficeDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
         </Route>
+        <Route path="/landing" element={<Landing />} />
         <Route path="/auth/welcome" element={<Welcome />} />
         <Route path="/auth/login" element={<RollLogin />} />
         <Route path="/auth/register" element={<Register />} />
