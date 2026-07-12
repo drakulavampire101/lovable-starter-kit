@@ -4,6 +4,9 @@ import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import LoadingPage from '../pages/LoadingPage.jsx';
 import { RequireAuth, RoleGuard } from './guards.jsx';
 import ViewOnlyGate from './ViewOnlyGate.jsx';
+import RoleSwitch from './RoleSwitch.jsx';
+import StudentSeatView from '../pages/mission2/StudentSeatView.jsx';
+
 
 
 // Eagerly loaded — always needed on first paint
@@ -137,14 +140,16 @@ export default function AppRoutes() {
           <Route path="/mission-1/captain" element={<M1CaptainDashboard />} />
           <Route path="/mission-1/moderation" element={<TeacherModeration />} />
           <Route path="/mission-1/analytics" element={<ComplaintAnalytics />} />
-          <Route path="/mission-2" element={<ViewOnlyGate><Mission2Overview /></ViewOnlyGate>} />
-          <Route path="/mission-2/students" element={<ViewOnlyGate><StudentManagement /></ViewOnlyGate>} />
-          <Route path="/mission-2/classroom" element={<ViewOnlyGate><ClassroomLayout /></ViewOnlyGate>} />
-          <Route path="/mission-2/interactive" element={<ViewOnlyGate><InteractiveSeating /></ViewOnlyGate>} />
-          <Route path="/mission-2/constraints" element={<ViewOnlyGate><Mission2Constraints /></ViewOnlyGate>} />
-          <Route path="/mission-2/line-of-sight" element={<ViewOnlyGate><LineOfSight /></ViewOnlyGate>} />
-          <Route path="/mission-2/plan" element={<ViewOnlyGate><GeneratedPlan /></ViewOnlyGate>} />
-          <Route path="/mission-2/analytics" element={<ViewOnlyGate><SeatAnalytics /></ViewOnlyGate>} />
+          <Route path="/mission-2" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<Mission2Overview />} />} />
+          <Route path="/mission-2/students" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<StudentManagement />} />} />
+          <Route path="/mission-2/classroom" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ClassroomLayout />} />} />
+          <Route path="/mission-2/interactive" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<InteractiveSeating />} />} />
+          <Route path="/mission-2/constraints" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<Mission2Constraints />} />} />
+          <Route path="/mission-2/line-of-sight" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<LineOfSight />} />} />
+          <Route path="/mission-2/plan" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<GeneratedPlan />} />} />
+          <Route path="/mission-2/analytics" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<SeatAnalytics />} />} />
+
+
 
           <Route path="/mission-3" element={<AIWorkspace />} />
           <Route path="/mission-3/input" element={<SyllabusInput />} />
