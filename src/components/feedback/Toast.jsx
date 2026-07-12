@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, XCircle, X } from 'lucide-react';
 import { cx } from '../../utils/index.js';
@@ -14,12 +14,27 @@ const icons = {
 
 export function ToastProvider({ children }) {
   const [items, setItems] = useState([]);
-  const dismiss = useCallback((id) => setItems((xs) => xs.filter((t) => t.id !== id)), []);
+  const timers = useRef(new Map());
+
+  const dismiss = useCallback((id) => {
+    const t = timers.current.get(id);
+    if (t) { clearTimeout(t); timers.current.delete(id); }
+    setItems((xs) => xs.filter((t) => t.id !== id));
+  }, []);
+
   const push = useCallback((toast) => {
     const id = Date.now() + Math.random();
     setItems((xs) => [...xs, { id, tone: 'info', ...toast }]);
-    setTimeout(() => dismiss(id), toast.duration ?? 3200);
+    const handle = setTimeout(() => dismiss(id), toast.duration ?? 3200);
+    timers.current.set(id, handle);
   }, [dismiss]);
+
+  // Clear all outstanding timers when the provider unmounts.
+  useEffect(() => () => {
+    for (const h of timers.current.values()) clearTimeout(h);
+    timers.current.clear();
+  }, []);
+
   const value = useMemo(() => ({ push, dismiss }), [push, dismiss]);
   return (
     <ToastCtx.Provider value={value}>
