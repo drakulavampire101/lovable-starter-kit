@@ -12,7 +12,7 @@ import CandidateVoteCard from '../../components/mission9/CandidateVoteCard.jsx';
 import { CANDIDATES } from '../../mocks/data/mission9.js';
 import { cx } from '../../utils/index.js';
 
-const DEPTS = ['All', 'CSE','EEE','CE','ME','TE'];
+const CLASSES = ['All', '6', '7', '8', '9', '10'];
 const SORTS = [
   { value: 'overall',    label: 'Overall score' },
   { value: 'leadership', label: 'Leadership' },
