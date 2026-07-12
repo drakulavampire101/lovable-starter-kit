@@ -4,6 +4,9 @@ import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import LoadingPage from '../pages/LoadingPage.jsx';
 import { RequireAuth, RoleGuard } from './guards.jsx';
 import ViewOnlyGate from './ViewOnlyGate.jsx';
+import RoleSwitch from './RoleSwitch.jsx';
+import StudentSeatView from '../pages/mission2/StudentSeatView.jsx';
+
 
 
 // Eagerly loaded — always needed on first paint
