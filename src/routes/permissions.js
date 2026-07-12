@@ -39,9 +39,9 @@ export const ROLE_ACCESS = {
     '/mission-5/notifications', '/mission-5/history', '/mission-5/incidents',
     // M7 — leaderboard + analytics + roster
     '/mission-7/leaderboard', '/mission-7/analytics', '/mission-7/students',
-    // M8 — full engine surfaces
-    '/mission-8', '/mission-8/rankings', '/mission-8/leaderboard', '/mission-8/compare',
-    '/mission-8/candidates', '/mission-8/analytics', '/mission-8/history', '/mission-8/rounds',
+    // M8 — captain engine is teacher-only
+    // (removed from captain access)
+
     // M9 — read
     '/mission-9/results', '/mission-9/candidates',
     // M10 — own trust score
