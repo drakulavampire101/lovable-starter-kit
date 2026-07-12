@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Card from '../common/Card.jsx';
 import Badge from '../ui/Badge.jsx';
 import HeightBadge from './HeightBadge.jsx';
@@ -5,7 +6,7 @@ import ConstraintBadge from './ConstraintBadge.jsx';
 import Button from '../common/Button.jsx';
 import { Pencil, Trash2, User } from 'lucide-react';
 
-export default function StudentCard({ student, onEdit, onDelete, compact = false }) {
+function StudentCard({ student, onEdit, onDelete, compact = false }) {
   const s = student;
   const priorityTags = [
     s.vision !== 'None' && 'vision',
@@ -49,3 +50,5 @@ export default function StudentCard({ student, onEdit, onDelete, compact = false
     </Card>
   );
 }
+
+export default memo(StudentCard);

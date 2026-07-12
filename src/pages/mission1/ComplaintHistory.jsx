@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
 import Mission1SubNav from '../../components/mission1/Mission1SubNav.jsx';
@@ -70,7 +70,7 @@ export default function ComplaintHistory() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageRows = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
-  const handleDecide = ({ decision, notes }) => {
+  const handleDecide = useCallback(({ decision, notes }) => {
     if (!reviewing) return;
     const nextStatus = decision === 'resolved' ? 'resolved'
       : decision === 'rejected' ? 'rejected'
@@ -84,9 +84,9 @@ export default function ComplaintHistory() {
       message: `Marked as ${nextStatus.replace('_', ' ')}.`,
     });
     setReviewing(null);
-  };
+  }, [reviewing, toast]);
 
-  const columns = [
+  const columns = useMemo(() => [
     { key: 'id', label: 'Anonymous ID', render: (r) => <span className="font-mono text-xs">{r.id}</span> },
     { key: 'category', label: 'Category', render: (r) => <CategoryBadge category={r.category} /> },
     { key: 'submittedAt', label: 'Submitted', render: (r) => new Date(r.submittedAt).toLocaleDateString() },
@@ -102,7 +102,7 @@ export default function ComplaintHistory() {
         <Button size="sm" variant="ghost" leftIcon={<Eye size={12} />}>View</Button>
       ),
     },
-  ];
+  ], [isReviewer]);
 
   return (
     <PageContainer>

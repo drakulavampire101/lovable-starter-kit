@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import { cx } from '../../utils/index.js';
 import ConstraintBadge from './ConstraintBadge.jsx';
 import { UserRound, Plus } from 'lucide-react';
 
-export default function SeatCard({
+function SeatCard({
   seat,
   onClick,
   selected = false,
@@ -58,3 +59,5 @@ export default function SeatCard({
     </button>
   );
 }
+
+export default memo(SeatCard);
