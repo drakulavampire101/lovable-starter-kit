@@ -1,55 +1,71 @@
-import api, { setToken, clearToken, getToken } from './api.js';
+// Auth service — Lovable Cloud (Supabase)
+// Frontend uses roll numbers; we convert to a synthetic email so Supabase Auth is happy.
+import { supabase } from '@/integrations/supabase/client';
 
-const REFRESH_KEY = 'refreshToken';
-const getRefresh = () => { try { return localStorage.getItem(REFRESH_KEY); } catch { return null; } };
-const setRefresh = (t) => { try { t ? localStorage.setItem(REFRESH_KEY, t) : localStorage.removeItem(REFRESH_KEY); } catch {} };
+const EMAIL_DOMAIN = 'baiust.local';
 
-function persistTokens(data) {
-  if (data?.token) setToken(data.token);
-  if (data?.refreshToken) setRefresh(data.refreshToken);
+export function rollToEmail(rollNumber) {
+  const slug = String(rollNumber || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  return `${slug}@${EMAIL_DOMAIN}`;
 }
 
 export async function register({ rollNumber, name, password, role, className, section, height, dob, vision, hearing }) {
-  // Backend accepts `class` or `className`, `dob` or `dateOfBirth`, and vision/hearing strings.
-  const res = await api.post('/auth/register', {
-    rollNumber, name, password, role: role ? String(role).toUpperCase() : undefined,
-    className, section, height, dob, vision, hearing,
+  const email = rollToEmail(rollNumber);
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: `${window.location.origin}/`,
+      data: {
+        roll_number: rollNumber,
+        name: name || rollNumber,
+        role: role ? String(role).toUpperCase() : 'STUDENT',
+        class_name: className || null,
+        section: section || null,
+        height: height ?? null,
+        dob: dob || null,
+        vision: vision || null,
+        hearing: hearing || null,
+      },
+    },
   });
-  persistTokens(res?.data);
-  return res.data; // { user, token, refreshToken? }
+  if (error) throw error;
+  return { user: data.user, session: data.session };
 }
 
 export async function login({ rollNumber, password }) {
-  const res = await api.post('/auth/login', { rollNumber, password });
-  persistTokens(res?.data);
-  return res.data;
-}
-
-export async function refresh() {
-  const refreshToken = getRefresh();
-  if (!refreshToken) throw new Error('No refresh token');
-  const res = await api.post('/auth/refresh', { refreshToken });
-  persistTokens(res?.data);
-  return res.data;
-}
-
-export async function me() {
-  const res = await api.get('/auth/me');
-  return res.data;
-}
-
-export async function getProfile(id) {
-  const res = await api.get(`/auth/profile/${id}`);
-  return res.data;
-}
-
-export async function updateProfile(id, patch) {
-  const res = await api.put(`/auth/profile/${id}`, patch);
-  return res.data;
+  const email = rollToEmail(rollNumber);
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return { user: data.user, session: data.session };
 }
 
 export async function logout() {
-  try { if (getToken()) await api.post('/auth/logout'); } catch { /* ignore */ }
-  clearToken();
-  setRefresh(null);
+  await supabase.auth.signOut();
+}
+
+export async function me() {
+  const { data: sessionData } = await supabase.auth.getSession();
+  if (!sessionData?.session) return null;
+  return sessionData.session.user;
+}
+
+export async function getProfile(id) {
+  const { data, error } = await supabase.from('profiles').select('*').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateProfile(id, patch) {
+  const clean = { ...patch };
+  delete clean.id;
+  const { data, error } = await supabase.from('profiles').update(clean).eq('id', id).select().maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function getRoles(userId) {
+  const { data, error } = await supabase.from('user_roles').select('role').eq('user_id', userId);
+  if (error) return [];
+  return (data || []).map((r) => r.role);
 }
