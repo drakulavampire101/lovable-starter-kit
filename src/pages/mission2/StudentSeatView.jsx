@@ -28,8 +28,9 @@ export default function StudentSeatView() {
       <PageHeader
         eyebrow="File 02 · Seat Planner"
         title="My seat"
-        description="Your assigned seat in the current plan. View-only — the planner is managed by your captain and teachers."
+        subtitle="Your assigned seat in the current plan. View-only — the planner is managed by your captain and teachers."
       />
+
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
         <Card eyebrow="Classroom · 6 × 6" ref={mySeat ? `SEAT ${mySeat.label}` : 'UNASSIGNED'}>
