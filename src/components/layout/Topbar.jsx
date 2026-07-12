@@ -41,12 +41,12 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
   const { theme, toggle } = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { signOut, user } = useAuth();
+  const { signOut, user, role } = useAuth();
   const base = '/' + (pathname.split('/')[1] || '');
   const title = TITLES[base] || 'Console';
   const code = CODES[base] || 'OFFICE';
   const [sosOpen, setSosOpen] = useState(false);
-  const isStudent = user?.role === 'student';
+  const isStudent = role === 'student' || user?.role === 'student' || user?.roles?.includes('student');
 
   const handleSignOut = () => {
     signOut();
