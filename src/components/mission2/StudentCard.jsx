@@ -50,3 +50,5 @@ function StudentCard({ student, onEdit, onDelete, compact = false }) {
     </Card>
   );
 }
+
+export default memo(StudentCard);
