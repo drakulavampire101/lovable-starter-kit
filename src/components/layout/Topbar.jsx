@@ -105,17 +105,24 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
 
           <button
             onClick={toggle}
-            aria-label={
-              theme === 'light' ? 'Switch to dark mode' :
-              theme === 'dark'  ? 'Switch to colorblind mode' :
-                                  'Switch to light mode'
-            }
-            title={`Theme: ${theme}`}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             className="h-9 w-9 border border-[rgb(var(--chrome-fg))]/30 text-[rgb(var(--chrome-fg))]/90 hover:text-[rgb(var(--chrome-fg))] hover:bg-[rgb(var(--chrome-fg))]/8 flex items-center justify-center rounded-sm"
           >
-            {theme === 'light' && <Moon size={15} />}
-            {theme === 'dark' && <Eye size={15} />}
-            {theme === 'colorblind' && <Sun size={15} />}
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
+
+          <button
+            onClick={toggleColorblind}
+            aria-label={colorblind ? 'Disable colorblind mode' : 'Enable colorblind mode'}
+            aria-pressed={colorblind}
+            title={colorblind ? 'Colorblind mode: on' : 'Colorblind mode: off'}
+            className={
+              colorblind
+                ? 'h-9 w-9 border border-white bg-white/20 text-white flex items-center justify-center rounded-sm'
+                : 'h-9 w-9 border border-[rgb(var(--chrome-fg))]/30 text-[rgb(var(--chrome-fg))]/90 hover:text-[rgb(var(--chrome-fg))] hover:bg-[rgb(var(--chrome-fg))]/8 flex items-center justify-center rounded-sm'
+            }
+          >
+            <Eye size={15} />
           </button>
 
           {isStudent && (
