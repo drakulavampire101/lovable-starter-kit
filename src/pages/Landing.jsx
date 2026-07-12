@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext.jsx';
 import {
   ArrowRight,
