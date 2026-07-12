@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  ResponsiveContainer, LineChart, Line, AreaChart, Area, BarChart, Bar,
-  PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-} from 'recharts';
 import { Coins, Plus, Wallet, ArrowUpRight, ArrowDownRight, Receipt, PieChart as PieIcon, Download, BarChart3, FileText, Utensils } from 'lucide-react';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
@@ -17,15 +13,8 @@ import BudgetProgress from '../../components/mission4/BudgetProgress.jsx';
 import TransactionRow from '../../components/mission4/TransactionRow.jsx';
 import TransactionDrawer from '../../components/mission4/TransactionDrawer.jsx';
 import TransactionModal from '../../components/mission4/TransactionModal.jsx';
-import ChartContainer from '../../components/mission4/ChartContainer.jsx';
-import {
-  SUMMARY, TRANSACTIONS, MONTHLY_TREND, CATEGORY_BREAKDOWN, WEEKLY_SPEND, BALANCE_TREND, CASHFLOW, formatBDT,
-} from '../../mocks/data/mission4.js';
+import { SUMMARY, TRANSACTIONS, formatBDT } from '../../mocks/data/mission4.js';
 
-const COLORS = ['#FF8F00', '#FBC02D', '#C62828', '#4C8C2B', '#8B5CF6', '#0891B2', '#EC4899', '#F97316', '#84CC16', '#EF4444'];
-
-const axisStyle = { fontSize: 11, fill: 'rgb(var(--muted))' };
-const gridStyle = { stroke: 'rgb(var(--border))', strokeDasharray: '3 3' };
 
 export default function Mission4Overview() {
   const [drawerTx, setDrawerTx] = useState(null);
