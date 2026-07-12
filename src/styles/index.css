@@ -34,14 +34,14 @@
 
   .dark {
     /* Body bg = old header text color (deep green); text = old header bg (mint) */
-    --bg: 8 24 16;
-    --surface: 12 32 22;
-    --elevated: 18 44 30;
-    --border: 40 80 58;
-    --rule: 178 232 200;
-    --fg: 178 232 200;
-    --muted: 150 200 175;
-    --subtle: 110 160 135;
+    --bg: 4 8 6;
+    --surface: 8 14 10;
+    --elevated: 14 22 16;
+    --border: 40 60 48;
+    --rule: 235 250 240;
+    --fg: 235 250 240;
+    --muted: 190 220 200;
+    --subtle: 140 170 150;
     --brand: 178 232 200;
     --brand-fg: 20 60 40;
     --brand-soft: 30 90 60;
@@ -51,9 +51,9 @@
     --warning: 240 200 90;
     --danger: 230 110 110;
     /* Header themed to match — deeper green bg, mint text */
-    --sidebar-bg: 5 18 12;
-    --sidebar-bg-strong: 3 12 8;
-    --chrome-fg: 178 232 200;
+    --sidebar-bg: 2 6 4;
+    --sidebar-bg-strong: 0 3 2;
+    --chrome-fg: 235 250 240;
   }
 
   /* Colorblind mode — pure black & white high-contrast system.
