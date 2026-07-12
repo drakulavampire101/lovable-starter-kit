@@ -119,11 +119,4 @@ function QuickBtn({ icon, label, onClick }) {
     </button>
   );
 }
-
-const tooltipStyle = {
-  background: 'rgb(var(--elevated))',
-  border: '1px solid rgb(var(--border))',
-  borderRadius: 8,
-  fontSize: 12,
-  color: 'rgb(var(--fg))',
 };
