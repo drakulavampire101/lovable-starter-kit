@@ -100,7 +100,7 @@ export default function Landing() {
             </span>
             <h1 className="mt-5 text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05]">
               The operating system for
-              <span className="text-brand"> honest classrooms.</span>
+              <span style={{ color: '#2f7a55' }}> honest classrooms.</span>
             </h1>
             <p className="mt-5 text-lg text-muted max-w-2xl">
               Ten missions — from anonymous complaints and SOS to elections and a
