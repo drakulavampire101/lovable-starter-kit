@@ -84,17 +84,10 @@ export default function Settings() {
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card className="p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-fg">Appearance</h3>
-          <Switch label="Dark mode" checked={theme === 'dark'} onChange={toggle} />
-        </Card>
-        <Card className="p-5 space-y-4">
-          <h3 className="text-sm font-semibold text-fg">Workspace</h3>
-          <Input label="Organization" defaultValue="BAIUST CSE" />
-          <Input label="Support email" defaultValue="team@sunnologic.dev" />
-        </Card>
-      </div>
+      <Card className="p-5 space-y-4">
+        <h3 className="text-sm font-semibold text-fg">Appearance</h3>
+        <Switch label="Dark mode" checked={theme === 'dark'} onChange={toggle} />
+      </Card>
     </PageContainer>
   );
 }
