@@ -14,6 +14,7 @@ import RuleCard from '../../components/mission6/RuleCard.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import { verifyClaim, isTrueVerdict, isFalseVerdict } from '../../services/factCheckService.js';
 import { AkpApiError } from '../../services/aiApi.js';
+import { useToast } from '../../components/feedback/Toast.jsx';
 
 // Normalize a verify() response into what the existing UI expects.
 // Contract notes:
@@ -54,6 +55,7 @@ export default function FactCheckResult() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // { message, fieldErrors }
   const [result, setResult] = useState(null);
+  const toast = useToast();
 
   useEffect(() => {
     if (!query) return;
@@ -63,11 +65,16 @@ export default function FactCheckResult() {
     verifyClaim(query, { signal: ac.signal })
       .then((raw) => setResult(normalizeVerify(raw)))
       .catch((e) => {
-        if (e?.name === 'AbortError') return;
+        if (e?.name === 'AbortError' || ac.signal.aborted) return;
         if (e instanceof AkpApiError) {
           setError({ message: e.message, fieldErrors: e.fieldErrors || {} });
+          if (e.code !== 'validation') {
+            toast.push({ tone: 'error', title: 'Fact check failed', message: e.toUserMessage() });
+          }
         } else {
-          setError({ message: e?.message || 'Something went wrong.', fieldErrors: {} });
+          const msg = e?.message || 'Something went wrong.';
+          setError({ message: msg, fieldErrors: {} });
+          toast.push({ tone: 'error', title: 'Fact check failed', message: msg });
         }
       })
       .finally(() => setLoading(false));
