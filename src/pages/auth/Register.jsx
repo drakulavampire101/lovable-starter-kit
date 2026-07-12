@@ -36,7 +36,7 @@ export default function Register() {
     e.preventDefault();
     if (!canSubmit) return;
     setLoading(true);
-    const composedRoll = role === 'office' ? rollNumber.trim() : `${className}${section}-${rollNumber.trim()}`;
+    const composedRoll = `${className}${section}-${rollNumber.trim()}`;
     const res = await signUp({
       rollNumber: composedRoll,
       name: name.trim(),
