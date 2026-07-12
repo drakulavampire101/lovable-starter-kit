@@ -40,10 +40,10 @@ export default function AssignCaptain() {
     setCaptain(student.id, next);
     toast.push?.({
       title: next ? 'Captain assigned' : 'Captain removed',
-      description: next
+      message: next
         ? `${student.name} is now captain of Class ${student.className}-${student.section}.`
         : `${student.name} is no longer a captain.`,
-      tone: next ? 'success' : 'default',
+      tone: next ? 'success' : 'info',
     });
   };
 
