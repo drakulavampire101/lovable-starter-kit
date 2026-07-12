@@ -14,6 +14,34 @@ import { ProgressBar } from '../../components/ui/Progress.jsx';
 import { BookOpen, Copy, Download, RefreshCw, ChevronDown, Check, X, Target, ArrowRight } from 'lucide-react';
 import { MOCK_SUMMARY } from '../../mocks/data/mission3.js';
 import { cx } from '../../utils/index.js';
+import { getLastRun } from '../../services/aiResultStore.js';
+
+// Best-effort mapper. Real API field names may vary; fall back to mock so
+// existing UI keeps working while wiring stabilizes.
+function normalizeSummary(raw) {
+  if (!raw || typeof raw !== 'object') return MOCK_SUMMARY;
+  const pick = (...keys) => {
+    for (const k of keys) if (raw[k] != null) return raw[k];
+    return undefined;
+  };
+  const important = pick('important_topics', 'importantTopics', 'important', 'topics') ?? [];
+  const removed = pick('removed_topics', 'removedTopics', 'removed', 'non_examinable') ?? [];
+  const exam = pick('exam_topics', 'examTopics', 'suggested_exam_topics') ?? [];
+  return {
+    courseTitle: pick('course_title', 'courseTitle', 'title') || MOCK_SUMMARY.courseTitle,
+    overview: pick('overview', 'summary', 'description') || '',
+    importantTopics: important.map((t) => (typeof t === 'string' ? t : t?.name || t?.title || '')).filter(Boolean),
+    removedTopics: removed.map((t) => (typeof t === 'string' ? t : t?.name || t?.title || '')).filter(Boolean),
+    examTopics: exam.map((e) =>
+      typeof e === 'string'
+        ? { name: e, probability: 70 }
+        : { name: e?.name || e?.title || 'Topic', probability: Number(e?.probability ?? e?.score ?? 70) }
+    ),
+    difficulty: pick('difficulty') || 'medium',
+    priority: pick('priority') || 'normal',
+    estimatedHours: Number(pick('estimated_hours', 'estimatedHours', 'hours') || 0) || MOCK_SUMMARY.estimatedHours,
+  };
+}
 
 function Section({ title, defaultOpen = true, children, count }) {
   const [open, setOpen] = useState(defaultOpen);
@@ -36,7 +64,10 @@ function Section({ title, defaultOpen = true, children, count }) {
 }
 
 export default function AISummary() {
-  const s = MOCK_SUMMARY;
+  const lastRun = getLastRun();
+  const isLive = lastRun?.kind === 'summary';
+  const s = isLive ? normalizeSummary(lastRun.result) : MOCK_SUMMARY;
+
   return (
     <PageContainer>
       <PageHeader
@@ -47,15 +78,21 @@ export default function AISummary() {
           <div className="flex gap-2">
             <Button variant="secondary" size="sm" leftIcon={<Copy size={14} />}>Copy</Button>
             <Button variant="secondary" size="sm" leftIcon={<Download size={14} />}>Download</Button>
-            <Button variant="secondary" size="sm" leftIcon={<RefreshCw size={14} />}>Regenerate</Button>
+            <Link to="/mission-3/input"><Button variant="secondary" size="sm" leftIcon={<RefreshCw size={14} />}>New</Button></Link>
           </div>
         }
       />
       <Mission3SubNav />
 
+      {!isLive && (
+        <div className="mb-4 rounded-md border border-border bg-elevated/60 p-3 text-xs text-muted">
+          Showing example summary. Paste a syllabus in <Link to="/mission-3/input" className="text-brand hover:underline">New</Link> to run the live AI service.
+        </div>
+      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2 space-y-4">
-          <AIResponseCard title="Course overview" subtitle="Generated from your pasted syllabus">
+          <AIResponseCard title="Course overview" subtitle={isLive ? 'From your syllabus' : 'Example response'}>
             <p>{s.overview}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               <DifficultyBadge value={s.difficulty} />
@@ -65,39 +102,45 @@ export default function AISummary() {
             </div>
           </AIResponseCard>
 
-          <Section title="Important topics" count={s.importantTopics.length}>
-            <div className="flex flex-wrap gap-2">
-              {s.importantTopics.map((t) => (
-                <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft text-brand px-3 py-1 text-xs font-medium">
-                  <Check size={12} /> {t}
-                </span>
-              ))}
-            </div>
-          </Section>
+          {s.importantTopics.length > 0 && (
+            <Section title="Important topics" count={s.importantTopics.length}>
+              <div className="flex flex-wrap gap-2">
+                {s.importantTopics.map((t) => (
+                  <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft text-brand px-3 py-1 text-xs font-medium">
+                    <Check size={12} /> {t}
+                  </span>
+                ))}
+              </div>
+            </Section>
+          )}
 
-          <Section title="Removed topics (non-examinable)" count={s.removedTopics.length} defaultOpen={false}>
-            <ul className="space-y-2">
-              {s.removedTopics.map((t) => (
-                <li key={t} className="flex items-center gap-2 text-sm text-muted line-through">
-                  <X size={14} className="text-danger" /> {t}
-                </li>
-              ))}
-            </ul>
-          </Section>
+          {s.removedTopics.length > 0 && (
+            <Section title="Removed topics (non-examinable)" count={s.removedTopics.length} defaultOpen={false}>
+              <ul className="space-y-2">
+                {s.removedTopics.map((t) => (
+                  <li key={t} className="flex items-center gap-2 text-sm text-muted line-through">
+                    <X size={14} className="text-danger" /> {t}
+                  </li>
+                ))}
+              </ul>
+            </Section>
+          )}
 
-          <Section title="Suggested exam topics" count={s.examTopics.length}>
-            <ul className="space-y-3">
-              {s.examTopics.map((e) => (
-                <li key={e.name}>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="text-fg font-medium">{e.name}</span>
-                    <span className="text-xs font-mono text-muted">{e.probability}%</span>
-                  </div>
-                  <ProgressBar value={e.probability} tone={e.probability > 80 ? 'danger' : e.probability > 65 ? 'warning' : 'brand'} />
-                </li>
-              ))}
-            </ul>
-          </Section>
+          {s.examTopics.length > 0 && (
+            <Section title="Suggested exam topics" count={s.examTopics.length}>
+              <ul className="space-y-3">
+                {s.examTopics.map((e) => (
+                  <li key={e.name}>
+                    <div className="flex items-center justify-between text-sm mb-1">
+                      <span className="text-fg font-medium">{e.name}</span>
+                      <span className="text-xs font-mono text-muted">{e.probability}%</span>
+                    </div>
+                    <ProgressBar value={e.probability} tone={e.probability > 80 ? 'danger' : e.probability > 65 ? 'warning' : 'brand'} />
+                  </li>
+                ))}
+              </ul>
+            </Section>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -117,9 +160,6 @@ export default function AISummary() {
           <Card className="p-5">
             <SectionHeader title="Study priority" />
             <PriorityBadge value={s.priority} />
-            <p className="mt-3 text-xs text-muted">
-              Two large units (Trees, Graphs) drive the recommendation. Start there.
-            </p>
           </Card>
 
           <Card className="p-5">
