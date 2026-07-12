@@ -7,19 +7,46 @@ import Card from '../../components/common/Card.jsx';
 import Button from '../../components/common/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import SectionHeader from '../../components/ui/SectionHeader.jsx';
-import { BookOpen, Sparkles, Upload, FileText, Timer, Lightbulb, Type, Hash } from 'lucide-react';
+import { BookOpen, Sparkles, Timer, Lightbulb, Type, Hash, AlertTriangle } from 'lucide-react';
 import { EXAMPLE_SYLLABUS } from '../../mocks/data/mission3.js';
+import { summarizeSyllabus } from '../../services/syllabusService.js';
+import { setLastRun } from '../../services/aiResultStore.js';
+import { AkpApiError } from '../../services/aiApi.js';
 
+const MIN_CHARS = 20;
 const readingTime = (words) => Math.max(1, Math.round(words / 220));
 
 export default function SyllabusInput() {
   const [text, setText] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(null); // { message, fieldErrors }
   const navigate = useNavigate();
 
   const { chars, words, minutes } = useMemo(() => {
     const w = text.trim() ? text.trim().split(/\s+/).length : 0;
     return { chars: text.length, words: w, minutes: readingTime(w) };
   }, [text]);
+
+  const canSubmit = chars >= MIN_CHARS && !submitting;
+  const fieldError = error?.fieldErrors?.syllabus_text || error?.fieldErrors?.input;
+
+  const handleSubmit = async () => {
+    setError(null);
+    setSubmitting(true);
+    try {
+      const result = await summarizeSyllabus(text);
+      setLastRun({ kind: 'summary', syllabusText: text, result, createdAt: Date.now() });
+      navigate('/mission-3/summary');
+    } catch (e) {
+      if (e instanceof AkpApiError) {
+        setError({ message: e.message, fieldErrors: e.fieldErrors || {} });
+      } else {
+        setError({ message: e?.message || 'Something went wrong.', fieldErrors: {} });
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <PageContainer>
@@ -35,7 +62,7 @@ export default function SyllabusInput() {
           <Card className="p-5">
             <SectionHeader
               title="Syllabus editor"
-              description="Paste text below. Formatting is preserved."
+              description={`Text only — minimum ${MIN_CHARS} characters.`}
               action={
                 <button
                   type="button"
@@ -54,6 +81,8 @@ export default function SyllabusInput() {
               placeholder="Paste the complete syllabus here..."
               rows={16}
               className="w-full resize-y rounded-lg border border-border bg-bg px-4 py-3 text-sm text-fg placeholder:text-subtle font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand/40"
+              aria-invalid={fieldError ? 'true' : 'false'}
+              aria-describedby={fieldError ? 'syllabus-error' : undefined}
             />
             <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted">
               <span className="inline-flex items-center gap-1"><Hash size={12} /> {chars.toLocaleString()} chars</span>
@@ -61,42 +90,33 @@ export default function SyllabusInput() {
               <span className="inline-flex items-center gap-1"><Timer size={12} /> ~{minutes} min read</span>
             </div>
 
-            <div className="mt-5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+            {fieldError && (
+              <p id="syllabus-error" className="mt-2 text-xs text-danger flex items-center gap-1.5">
+                <AlertTriangle size={12} /> {fieldError}
+              </p>
+            )}
+
+            <div className="mt-5">
               <Button
                 size="lg"
-                className="flex-1"
+                className="w-full sm:w-auto"
                 leftIcon={<Sparkles size={16} />}
-                disabled={words < 10}
-                onClick={() => navigate('/mission-3/processing')}
+                disabled={!canSubmit}
+                onClick={handleSubmit}
               >
-                Generate Summary
-              </Button>
-              <Button variant="secondary" size="lg" leftIcon={<Upload size={16} />}>
-                Upload file
+                {submitting ? 'Analyzing…' : 'Generate Summary'}
               </Button>
             </div>
-            {words < 10 && (
-              <p className="mt-2 text-xs text-subtle">Paste at least a full week outline to enable analysis.</p>
+            {chars < MIN_CHARS && (
+              <p className="mt-2 text-xs text-subtle">Paste at least {MIN_CHARS} characters to enable analysis.</p>
             )}
-          </Card>
 
-          <Card className="p-5">
-            <SectionHeader title="Supported formats" description="Upload UI only — no backend attached." />
-            <div className="grid grid-cols-3 gap-3">
-              {[
-                { ext: 'PDF', hint: 'Course booklets, scans' },
-                { ext: 'DOCX', hint: 'Word documents' },
-                { ext: 'TXT', hint: 'Plain text outlines' },
-              ].map((f) => (
-                <div key={f.ext} className="rounded-lg border border-border bg-elevated/50 p-4 text-center">
-                  <div className="mx-auto mb-2 h-9 w-9 rounded-lg bg-brand-soft text-brand flex items-center justify-center">
-                    <FileText size={16} />
-                  </div>
-                  <p className="text-sm font-semibold text-fg">{f.ext}</p>
-                  <p className="text-xs text-muted mt-0.5">{f.hint}</p>
-                </div>
-              ))}
-            </div>
+            {error && !fieldError && (
+              <div className="mt-4 rounded-md border border-danger/30 bg-danger/5 p-3 text-xs text-danger flex items-start gap-2">
+                <AlertTriangle size={14} className="shrink-0 mt-0.5" />
+                <span>{error.message}</span>
+              </div>
+            )}
           </Card>
         </div>
 
@@ -138,7 +158,7 @@ export default function SyllabusInput() {
           <div>
             <Badge tone="brand">AI</Badge>
             <p className="mt-2 text-xs text-muted">
-              This build uses realistic mock responses. No syllabus content leaves your browser.
+              Live AI service. Your syllabus text is sent to the AKP AI endpoint for analysis.
             </p>
           </div>
         </div>
