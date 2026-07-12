@@ -67,13 +67,6 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
       {/* Row 1 — utility rail */}
       <div className="h-9 px-4 sm:px-6 flex items-center gap-3 border-b border-[rgb(var(--chrome-fg))]/15 text-[rgb(var(--chrome-fg))]/80">
 
-        <button
-          onClick={onOpenSidebar}
-          aria-label="Open navigation"
-          className="lg:hidden -ml-1 h-8 w-8 flex items-center justify-center text-[rgb(var(--chrome-fg))]/90 hover:text-[rgb(var(--chrome-fg))]"
-        >
-          <Menu size={17} />
-        </button>
         <div className="flex-1" />
         {liveCount > 0 && (
           <span className="inline-flex items-center gap-1.5 font-mono text-[10px] tracking-widest uppercase text-[rgb(var(--chrome-fg))]">

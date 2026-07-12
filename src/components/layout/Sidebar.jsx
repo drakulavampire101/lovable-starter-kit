@@ -10,20 +10,15 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
   const navRole = role === 'teacher' ? 'office' : role;
   const NAV = NAV_BY_ROLE[navRole] || NAV_BY_ROLE.student;
   return (
-    <>
-      {mobileOpen && (
-        <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={onCloseMobile} />
+    <aside
+      style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
+      className={cx(
+        'hidden lg:flex sticky top-0 z-40 h-dvh shrink-0',
+        'border-r border-[rgb(var(--chrome-fg))]/15',
+        'flex-col transition-[width] duration-200',
+        collapsed ? 'lg:w-16' : 'lg:w-64'
       )}
-      <aside
-        style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
-        className={cx(
-          'fixed lg:sticky top-0 z-40 h-dvh shrink-0',
-          'border-r border-[rgb(var(--chrome-fg))]/15',
-          'flex flex-col transition-[width,transform] duration-200',
-          collapsed ? 'lg:w-16' : 'lg:w-64',
-          mobileOpen ? 'w-72 translate-x-0' : '-translate-x-full lg:translate-x-0'
-        )}
-      >
+    >
         {/* Header — official stamp */}
         <div className="border-b border-[rgb(var(--chrome-fg))]/15 px-4 py-4">
           <div className="flex items-center gap-3">
@@ -91,6 +86,5 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
           </button>
         </div>
       </aside>
-    </>
   );
 }
