@@ -52,10 +52,9 @@ export const NAV_BY_ROLE = {
     { section: 'Register', code: '00', items: [
       { to: '/office', label: 'Office desk', code: '00', icon: LayoutDashboard, end: true },
     ]},
-    { section: 'Administration', code: '10–13', items: [
+    { section: 'Administration', code: '10–11', items: [
       { to: '/analytics', label: 'Analytics', code: '10', icon: BarChart3 },
       { to: '/mission-1/archive', label: 'Case archive', code: '11', icon: ClipboardList },
-      { to: '/mission-9', label: 'Election admin', code: '13', icon: Gavel },
     ]},
     { section: 'Oversight', code: '14–19', items: [
       { to: '/mission-2', label: 'Seat planner', code: '14', icon: Grid3X3 },
@@ -66,6 +65,7 @@ export const NAV_BY_ROLE = {
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-8', label: 'Candidate review', code: 'R1', icon: Users },
+      { to: '/mission-9', label: 'Election admin', code: 'R2', icon: Gavel },
     ]},
     ACCOUNT_TAIL,
   ],
