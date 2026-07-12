@@ -70,11 +70,6 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
                       }
                       title={collapsed ? item.label : undefined}
                     >
-                      {!collapsed && (
-                        <span className="font-mono text-[10px] tracking-wider text-[rgb(var(--chrome-fg))]/60 w-5 shrink-0">
-                          {item.code}
-                        </span>
-                      )}
                       <item.icon size={16} className="shrink-0" />
                       {!collapsed && <span className="truncate">{item.label}</span>}
                     </NavLink>
