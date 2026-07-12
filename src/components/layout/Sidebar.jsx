@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cx } from '../../utils/index.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { NAV_BY_ROLE } from '../../routes/navigation.js';
+import { prefetchRoute } from '../../routes/prefetch.js';
 
 export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   const { role } = useAuth();
