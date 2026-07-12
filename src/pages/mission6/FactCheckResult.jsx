@@ -32,7 +32,10 @@ function normalizeVerify(raw) {
   return {
     verdict,
     status, // keep raw for display
-    confidence: Math.round((Number(raw.confidence_score ?? raw.confidence ?? raw.score ?? 0) || 0) * (Number(raw.confidence_score ?? 0) <= 1 ? 100 : 1)),
+    confidence: (() => {
+      const n = Number(raw.confidence_score ?? raw.confidence ?? raw.score ?? 0) || 0;
+      return Math.round(n <= 1 ? n * 100 : n);
+    })(),
     exactQuote: raw.exact_quote || '',
     summary: raw.summary || raw.explanation || raw.reason || '',
     detailed: raw.detailed || raw.analysis || '',
