@@ -200,6 +200,7 @@ export default function AppRoutes() {
           <Route path="/mission-7/analytics" element={<AnalyticsPage />} />
           <Route path="/mission-7/moderation" element={<ModerationPage />} />
           <Route path="/mission-8" element={<RecommendationDashboard />} />
+          <Route path="/mission-8/assign" element={<AssignCaptain />} />
           <Route path="/mission-8/rankings" element={<CandidateRankings />} />
           <Route path="/mission-8/leaderboard" element={<M8Leaderboard />} />
           <Route path="/mission-8/compare" element={<CandidateCompare />} />
