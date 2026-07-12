@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import Card from '../common/Card.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import CategoryBadge from './CategoryBadge.jsx';
 import { Paperclip, ChevronRight } from 'lucide-react';
 
-export default function ComplaintCard({ complaint, onClick, action }) {
+function ComplaintCard({ complaint, onClick, action }) {
   return (
     <Card className="p-4 hover:border-brand/40 transition-colors">
       <div className="flex items-start justify-between gap-3">
