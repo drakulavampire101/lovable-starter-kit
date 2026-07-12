@@ -46,28 +46,33 @@ export default function StudentSeatView() {
               {seats.map((seat) => {
                 const mine = seat.student?.id === me.id;
                 const filled = !!seat.student;
+                const firstName = seat.student?.name.split(' ')[0] || '';
                 return (
                   <div
                     key={seat.id}
                     className={cx(
-                      'aspect-square rounded-sm border flex items-center justify-center text-[10px] font-mono',
+                      'aspect-square rounded-sm border flex flex-col items-center justify-center text-[9px] font-mono px-1 text-center leading-tight overflow-hidden',
                       mine
                         ? 'bg-brand text-brand-fg border-brand ring-2 ring-brand/40 font-bold'
                         : filled
-                        ? 'bg-surface border-border text-subtle'
+                        ? 'bg-surface border-border text-fg'
                         : 'bg-transparent border-dashed border-border text-subtle/60'
                     )}
-                    aria-label={mine ? `Your seat ${seat.label}` : filled ? 'Occupied seat' : 'Empty seat'}
-                    title={mine ? `Your seat: ${seat.label}` : ''}
+                    aria-label={mine ? `Your seat ${seat.label}` : filled ? `${seat.student.name} at ${seat.label}` : 'Empty seat'}
+                    title={mine ? `Your seat: ${seat.label}` : filled ? `${seat.student.name} · ${seat.label}` : `Empty · ${seat.label}`}
                   >
-                    {mine ? 'YOU' : filled ? '·' : ''}
+                    <span className={cx('text-[8px]', mine ? 'opacity-90' : 'text-subtle')}>{seat.label}</span>
+                    <span className="truncate w-full">
+                      {mine ? 'YOU' : filled ? firstName : ''}
+                    </span>
                   </div>
                 );
               })}
             </div>
             <p className="mt-4 text-xs text-muted">
-              Other students' identities are hidden. Only your seat is shown.
+              Your seat is highlighted. Names are shown for reference only — the plan is view-only.
             </p>
+
           </div>
         </Card>
 
