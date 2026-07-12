@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext.jsx';
 import {
   ArrowRight,
@@ -95,12 +94,7 @@ export default function Landing() {
           }}
         />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-24 pb-14 sm:pb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl"
-          >
+          <div className="max-w-3xl animate-fade-in-up">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-2.5 py-1 text-xs text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-success" /> University Governance Console · v1.0
             </span>
@@ -133,7 +127,7 @@ export default function Landing() {
               <Stat k="Anonymous" v="100%" />
               <Stat k="Realtime" v="SOS" />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -152,13 +146,10 @@ export default function Landing() {
           {MISSIONS.map((m, i) => {
             const Icon = m.icon;
             return (
-              <motion.div
+              <div
                 key={m.n}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.35, delay: (i % 6) * 0.04 }}
-                className="group relative rounded-2xl border border-border bg-elevated p-5 hover:border-brand/60 transition"
+                className="group relative rounded-2xl border border-border bg-elevated p-5 hover:border-brand/60 transition animate-fade-in-up"
+                style={{ animationDelay: `${(i % 6) * 40}ms` }}
               >
                 <div className="flex items-center justify-between">
                   <div className="h-10 w-10 rounded-xl bg-brand/20 text-brand-fg grid place-items-center">
@@ -168,7 +159,7 @@ export default function Landing() {
                 </div>
                 <h3 className="mt-4 font-semibold text-fg">{m.title}</h3>
                 <p className="mt-1.5 text-sm text-muted leading-relaxed">{m.desc}</p>
-              </motion.div>
+              </div>
             );
           })}
         </div>
