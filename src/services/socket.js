@@ -1,38 +1,67 @@
-import { io } from 'socket.io-client';
+// Realtime shim — same subscribe API as the old Socket.IO wrapper,
+// backed by Supabase Realtime (Postgres CDC + broadcast).
+import { supabase } from '@/integrations/supabase/client';
 
-const WS_URL =
-  import.meta.env.VITE_WS_URL ||
-  (import.meta.env.VITE_API_URL || '').replace(/\/api\/v1\/?$/, '') ||
-  'http://localhost:5000';
+const channels = new Map();
 
-let socket = null;
+function getChannel(name) {
+  if (!channels.has(name)) {
+    const ch = supabase.channel(name);
+    channels.set(name, { ch, subs: 0, ready: false });
+  }
+  return channels.get(name);
+}
+
+function subscribeTable({ table, event = '*', name, filter }, handler) {
+  const entry = getChannel(name);
+  const cfg = { event, schema: 'public', table };
+  if (filter) cfg.filter = filter;
+  entry.ch.on('postgres_changes', cfg, handler);
+  if (!entry.ready) {
+    entry.ch.subscribe();
+    entry.ready = true;
+  }
+  entry.subs += 1;
+  return () => {
+    entry.subs -= 1;
+    if (entry.subs <= 0) {
+      supabase.removeChannel(entry.ch);
+      channels.delete(name);
+    }
+  };
+}
 
 export function getSocket() {
-  if (!socket) {
-    socket = io(WS_URL, { autoConnect: true, transports: ['websocket', 'polling'] });
-  }
-  return socket;
+  return { connected: true };
 }
 
 export function disconnectSocket() {
-  if (socket) {
-    socket.disconnect();
-    socket = null;
-  }
+  channels.forEach(({ ch }) => supabase.removeChannel(ch));
+  channels.clear();
 }
 
 export function joinAdminRoom() {
-  getSocket().emit('join:admin');
+  /* no-op: Realtime is channel-based */
 }
 
-// Convenience subscribers. Return an `off()` unsubscribe.
-function subscribe(event, handler) {
-  const s = getSocket();
-  s.on(event, handler);
-  return () => s.off(event, handler);
-}
+export const onSosNew = (fn) =>
+  subscribeTable({ table: 'sos_alerts', event: 'INSERT', name: 'sos-new' }, (p) => fn(p.new));
 
-export const onSosNew = (fn) => subscribe('sos:new', fn);
-export const onSosResolved = (fn) => subscribe('sos:resolved', fn);
-export const onSosClaimed = (fn) => subscribe('sos:claimed', fn);
-export const onNotification = (fn) => subscribe('notification', fn);
+export const onSosResolved = (fn) =>
+  subscribeTable({ table: 'sos_alerts', event: 'UPDATE', name: 'sos-updates' }, (p) => {
+    if (p.new?.status === 'RESOLVED') fn(p.new);
+  });
+
+export const onSosClaimed = (fn) =>
+  subscribeTable({ table: 'sos_alerts', event: 'UPDATE', name: 'sos-updates' }, (p) => {
+    if (p.new?.status === 'CLAIMED') fn(p.new);
+  });
+
+export const onNotification = (fn) =>
+  subscribeTable({ table: 'notifications', event: 'INSERT', name: 'notifications' }, (p) => fn(p.new));
+
+export const onVoteCast = (electionId, fn) =>
+  subscribeTable(
+    { table: 'votes', event: 'INSERT', name: `election-${electionId}`, filter: `election_id=eq.${electionId}` },
+    (p) => fn(p.new),
+  );
