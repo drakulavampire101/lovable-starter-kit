@@ -9,18 +9,20 @@ import StudentSeatView from '../pages/mission2/StudentSeatView.jsx';
 
 
 
-// Eagerly loaded — always needed on first paint
+// Route-level code splitting — everything below is lazy.
 const Dashboard = lazy(() => import('../pages/Dashboard.jsx'));
-import Welcome from '../pages/auth/Welcome.jsx';
-import RollLogin from '../pages/auth/RollLogin.jsx';
-import Register from '../pages/auth/Register.jsx';
-import RoleSelect from '../pages/auth/RoleSelect.jsx';
-import AuthLoading from '../pages/auth/AuthLoading.jsx';
-import AccessDenied from '../pages/auth/AccessDenied.jsx';
-import SessionExpired from '../pages/auth/SessionExpired.jsx';
-import AuthNotFound from '../pages/auth/AuthNotFound.jsx';
-import NotFoundPage from '../pages/NotFoundPage.jsx';
-import ErrorPage from '../pages/ErrorPage.jsx';
+
+// Auth flow (only hit once, keep out of main bundle)
+const Welcome = lazy(() => import('../pages/auth/Welcome.jsx'));
+const RollLogin = lazy(() => import('../pages/auth/RollLogin.jsx'));
+const Register = lazy(() => import('../pages/auth/Register.jsx'));
+const RoleSelect = lazy(() => import('../pages/auth/RoleSelect.jsx'));
+const AuthLoading = lazy(() => import('../pages/auth/AuthLoading.jsx'));
+const AccessDenied = lazy(() => import('../pages/auth/AccessDenied.jsx'));
+const SessionExpired = lazy(() => import('../pages/auth/SessionExpired.jsx'));
+const AuthNotFound = lazy(() => import('../pages/auth/AuthNotFound.jsx'));
+const NotFoundPage = lazy(() => import('../pages/NotFoundPage.jsx'));
+const ErrorPage = lazy(() => import('../pages/ErrorPage.jsx'));
 
 // Common shell pages
 const MissionPage = lazy(() => import('../pages/MissionPage.jsx'));

@@ -7,7 +7,7 @@ import Button from '../../components/common/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import SectionHeader from '../../components/ui/SectionHeader.jsx';
 import SearchBar from '../../components/mission3/SearchBar.jsx';
-import EmptyState from '../../components/mission3/EmptyState.jsx';
+import EmptyState from '../../components/feedback/EmptyState.jsx';
 import { History, MoreHorizontal, ArrowRight, BookOpen } from 'lucide-react';
 import { RECENT_SESSIONS } from '../../mocks/data/mission3.js';
 import { Link } from 'react-router-dom';
@@ -45,7 +45,7 @@ export default function AIHistory() {
       <Card className="p-5">
         <SectionHeader
           title={`${filtered.length} analyses`}
-          description="Search or filter across your past sessions."
+          message="Search or filter across your past sessions."
           action={
             <div className="flex flex-wrap items-center gap-2">
               <SearchBar value={q} onChange={(v) => { setQ(v); setPage(1); }} placeholder="Search title or course..." className="w-full sm:w-64" />
@@ -68,7 +68,7 @@ export default function AIHistory() {
         />
 
         {pageItems.length === 0 ? (
-          <EmptyState title="No analyses found" description="Try clearing your filters or starting a new analysis." />
+          <EmptyState title="No analyses found" message="Try clearing your filters or starting a new analysis." />
         ) : (
           <>
             {/* Desktop table */}

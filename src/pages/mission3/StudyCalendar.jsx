@@ -6,7 +6,7 @@ import Card from '../../components/common/Card.jsx';
 import SectionHeader from '../../components/ui/SectionHeader.jsx';
 import { StatCard } from '../../components/common/Cards.jsx';
 import CalendarGrid from '../../components/mission3/CalendarGrid.jsx';
-import EmptyState from '../../components/mission3/EmptyState.jsx';
+import EmptyState from '../../components/feedback/EmptyState.jsx';
 import { ProgressBar } from '../../components/ui/Progress.jsx';
 import Badge from '../../components/ui/Badge.jsx';
 import Button from '../../components/common/Button.jsx';
@@ -81,10 +81,10 @@ export default function StudyCalendar() {
           <Card className="p-5">
             <SectionHeader
               title={selected === todayKey ? "Today's tasks" : 'Selected day'}
-              description={new Date(selected).toDateString()}
+              message={new Date(selected).toDateString()}
             />
             {dayTasks.length === 0 ? (
-              <EmptyState title="Nothing scheduled" description="Pick another day or add a session from your plan." />
+              <EmptyState title="Nothing scheduled" message="Pick another day or add a session from your plan." />
             ) : (
               <ul className="space-y-2">
                 {dayTasks.map((t, i) => (
@@ -116,9 +116,9 @@ export default function StudyCalendar() {
           </Card>
 
           <Card className="p-5">
-            <SectionHeader title="Upcoming" description="Next few study sessions" />
+            <SectionHeader title="Upcoming" message="Next few study sessions" />
             {upcoming.length === 0 ? (
-              <EmptyState title="Nothing upcoming" description="You're all caught up for now." />
+              <EmptyState title="Nothing upcoming" message="You're all caught up for now." />
             ) : (
               <ul className="space-y-2">
                 {upcoming.map(([date, tasks]) => (
