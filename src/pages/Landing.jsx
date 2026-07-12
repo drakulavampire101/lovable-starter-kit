@@ -146,13 +146,10 @@ export default function Landing() {
           {MISSIONS.map((m, i) => {
             const Icon = m.icon;
             return (
-              <motion.div
+              <div
                 key={m.n}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.35, delay: (i % 6) * 0.04 }}
-                className="group relative rounded-2xl border border-border bg-elevated p-5 hover:border-brand/60 transition"
+                className="group relative rounded-2xl border border-border bg-elevated p-5 hover:border-brand/60 transition animate-fade-in-up"
+                style={{ animationDelay: `${(i % 6) * 40}ms` }}
               >
                 <div className="flex items-center justify-between">
                   <div className="h-10 w-10 rounded-xl bg-brand/20 text-brand-fg grid place-items-center">
@@ -162,7 +159,7 @@ export default function Landing() {
                 </div>
                 <h3 className="mt-4 font-semibold text-fg">{m.title}</h3>
                 <p className="mt-1.5 text-sm text-muted leading-relaxed">{m.desc}</p>
-              </motion.div>
+              </div>
             );
           })}
         </div>
