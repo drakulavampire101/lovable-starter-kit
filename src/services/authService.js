@@ -1,7 +1,10 @@
 import api, { setToken, clearToken } from './api.js';
 
-export async function register({ rollNumber, name, password, role, className, section }) {
-  const res = await api.post('/auth/register', { rollNumber, name, password, role, className, section });
+export async function register({ rollNumber, name, password, role, className, section, height, dob, vision, hearing }) {
+  const res = await api.post('/auth/register', {
+    rollNumber, name, password, role, className, section,
+    height, dob, vision, hearing,
+  });
   if (res?.data?.token) setToken(res.data.token);
   return res.data; // { user, token }
 }
