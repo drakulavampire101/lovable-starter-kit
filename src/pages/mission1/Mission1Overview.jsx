@@ -41,23 +41,25 @@ export default function Mission1Overview() {
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-6">
-        <div className="xl:col-span-2">
+        <div className={canSubmit ? 'xl:col-span-2' : 'xl:col-span-3'}>
           <StrikeDashboard strikes={s.strikesIssued} />
         </div>
-        <Card className="p-5">
-          <SectionHeader
-            title="Quick Submit"
-            description="Report anonymously in under 30 seconds."
-          />
-          <ul className="space-y-2 text-sm text-muted">
-            <li className="flex gap-2"><span className="text-brand">1.</span> Pick a category</li>
-            <li className="flex gap-2"><span className="text-brand">2.</span> Describe what happened</li>
-            <li className="flex gap-2"><span className="text-brand">3.</span> Attach evidence (optional)</li>
-          </ul>
-          <Link to="/mission-1/submit" className="block mt-4">
-            <Button className="w-full" rightIcon={<ArrowRight size={14} />}>Start a Complaint</Button>
-          </Link>
-        </Card>
+        {canSubmit && (
+          <Card className="p-5">
+            <SectionHeader
+              title="Quick Submit"
+              description="Report anonymously in under 30 seconds."
+            />
+            <ul className="space-y-2 text-sm text-muted">
+              <li className="flex gap-2"><span className="text-brand">1.</span> Pick a category</li>
+              <li className="flex gap-2"><span className="text-brand">2.</span> Describe what happened</li>
+              <li className="flex gap-2"><span className="text-brand">3.</span> Attach evidence (optional)</li>
+            </ul>
+            <Link to="/mission-1/submit" className="block mt-4">
+              <Button className="w-full" rightIcon={<ArrowRight size={14} />}>Start a Complaint</Button>
+            </Link>
+          </Card>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
