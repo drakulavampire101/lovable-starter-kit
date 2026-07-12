@@ -62,6 +62,13 @@ export default function Landing() {
             <a href="#trust" className="hover:text-fg transition">Trust & safety</a>
           </nav>
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggle}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="h-9 w-9 grid place-items-center rounded-md text-fg hover:bg-elevated border border-transparent hover:border-border transition"
+            >
+              {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
             <Link
               to="/auth/login"
               className="hidden sm:inline-flex items-center h-9 px-3 rounded-md text-sm text-fg hover:bg-elevated border border-transparent hover:border-border transition"
