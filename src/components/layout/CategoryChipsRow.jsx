@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { cx } from '../../utils/index.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { NAV_BY_ROLE } from '../../routes/navigation.js';
+import { prefetchRoute } from '../../routes/prefetch.js';
 
 // Mobile quick-nav: minimal chips, active one pinned to the front.
 export default function CategoryChipsRow() {
