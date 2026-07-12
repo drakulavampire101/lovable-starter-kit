@@ -50,9 +50,13 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
   };
 
   return (
-    <header className="sticky top-0 z-20 bg-paper/95 backdrop-blur border-b rule-ink">
+    <header
+      style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
+      className="sticky top-0 z-20 border-b border-white/15 text-white"
+    >
       {/* Row 1 — utility rail */}
-      <div className="h-9 px-4 sm:px-6 flex items-center gap-3 border-b border-ink/10 text-ink/70">
+      <div className="h-9 px-4 sm:px-6 flex items-center gap-3 border-b border-white/15 text-white/80">
+
         <button
           onClick={onOpenSidebar}
           aria-label="Open navigation"
