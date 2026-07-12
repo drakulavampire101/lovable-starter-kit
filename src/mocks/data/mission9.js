@@ -2,7 +2,7 @@
 
 const FIRST = ['Abdus','Sadia','Ishtiak','Hrithik','Rafiq','Nafisa','Tanvir','Mahira','Sabbir','Fariha','Rashed','Nadia'];
 const LAST  = ['Salam','Rashid','Ahmed','Bhowmik','Chowdhury','Khan','Islam','Hasan','Karim','Sultana','Reza','Haque'];
-const DEPTS = ['CSE','EEE','CE','ME','TE'];
+const CLASSES = ['6','7','8','9','10'];
 
 function rnd(seed) { const x = Math.sin(seed) * 10000; return x - Math.floor(x); }
 
@@ -44,16 +44,17 @@ export const CANDIDATES = Array.from({ length: 8 }, (_, i) => {
   return {
     id: `cand-${i + 1}`,
     name: `${first} ${last}`,
-    roll: `2201${String(101 + i).padStart(3, '0')}`,
-    department: DEPTS[i % DEPTS.length],
+    roll: String(101 + i).padStart(4, '0'),
+    className: CLASSES[i % CLASSES.length],
+    department: `Class ${CLASSES[i % CLASSES.length]}`,
     section: ['A','B','C'][i % 3],
     year: 3,
     manifesto: MANIFESTOS[i % MANIFESTOS.length],
-    biography: `${first} is a third-year ${DEPTS[i % DEPTS.length]} student known for calm leadership under pressure. Has served in student clubs and volunteered across multiple department events.`,
+    biography: `${first} is a Class ${CLASSES[i % CLASSES.length]} student known for calm leadership. Has helped organize class events and is active in school clubs.`,
     experience: [
-      'Class Representative — 2 semesters',
-      'IEEE Volunteer Team Lead',
-      'Debate Society — Vice President',
+      'Class Monitor — 2 terms',
+      'Science Club Helper',
+      'Debate Team Member',
     ].slice(0, 1 + (i % 3)),
     achievements: [
       i % 2 === 0 && 'Debate Winner 2025',
@@ -103,8 +104,8 @@ export const TURNOUT_TREND = ['Feb 01','Feb 05','Feb 09','Feb 13','Feb 17','Feb 
   cumulative: Math.round((30 + i * 90) * (i + 1) / 2),
 }));
 
-export const DEPT_TURNOUT = DEPTS.map((d, i) => ({
-  name: d,
+export const DEPT_TURNOUT = CLASSES.map((d, i) => ({
+  name: `Class ${d}`,
   turnout: 55 + Math.floor(rnd(i + 21) * 40),
   eligible: 40 + Math.floor(rnd(i + 22) * 20),
 }));
