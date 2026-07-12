@@ -28,6 +28,7 @@ export default function CategoryChipsRow() {
     <div className="border-b border-border bg-bg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <nav
+          ref={scrollerRef}
           aria-label="Quick navigation"
           className="flex gap-2 overflow-x-auto py-3 no-scrollbar"
         >
@@ -47,12 +48,17 @@ export default function CategoryChipsRow() {
                     : 'bg-surface text-fg border-border hover:bg-elevated'
                 )
               }
-            >
-              <Icon size={14} />
-              {label}
-            </NavLink>
+              data-active={undefined}
+              children={({ isActive }) => (
+                <span data-active={isActive ? 'true' : 'false'} className="inline-flex items-center gap-2">
+                  <Icon size={14} />
+                  {label}
+                </span>
+              )}
+            />
           ))}
         </nav>
+
       </div>
     </div>
   );
