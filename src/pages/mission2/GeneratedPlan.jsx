@@ -30,10 +30,9 @@ export default function GeneratedPlan() {
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" leftIcon={<Printer size={14} />} onClick={() => window.print()}>Print</Button>
             <Button variant="secondary" leftIcon={<Download size={14} />} onClick={() => toast.push({ tone: 'info', title: 'Exported (mock)' })}>Export</Button>
-            <Button variant="secondary" leftIcon={<Save size={14} />} onClick={() => toast.push({ tone: 'success', title: 'Plan saved (mock)' })}>Save Layout</Button>
-            <Button leftIcon={<Sparkles size={14} />} onClick={() => { setSeed((s) => s + 1); toast.push({ tone: 'info', title: 'Regenerated (mock)' }); }}>Generate Again</Button>
           </div>
         }
+
       />
       <Mission2SubNav />
 

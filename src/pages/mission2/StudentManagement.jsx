@@ -71,18 +71,12 @@ export default function StudentManagement() {
   return (
     <PageContainer>
       <PageHeader
-        title="Student Management"
-        subtitle="Maintain the roster that drives the seating algorithm."
+        title="Student Roster"
+        subtitle="Read-only roster used by the automated seating engine."
         icon={<Users size={18} />}
-        actions={
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" leftIcon={<Upload size={14} />} onClick={() => toast.push({ tone: 'info', title: 'Import (mock)', message: 'CSV import coming soon.' })}>Import</Button>
-            <Button variant="secondary" leftIcon={<Download size={14} />} onClick={() => toast.push({ tone: 'info', title: 'Export (mock)', message: 'CSV export queued.' })}>Export</Button>
-            <Button leftIcon={<Plus size={14} />} onClick={() => setEditing(null)}>Add Student</Button>
-          </div>
-        }
       />
       <Mission2SubNav />
+
 
       <Card className="p-4 mb-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
@@ -116,8 +110,8 @@ export default function StudentManagement() {
                 <th className="px-4 py-3">Height</th>
                 <th className="px-4 py-3">Gender</th>
                 <th className="px-4 py-3">Priorities</th>
-                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
+
             </thead>
             <tbody>
               {view.map((s) => (
@@ -136,12 +130,8 @@ export default function StudentManagement() {
                       {s.vision === 'None' && s.hearing === 'None' && <span className="text-xs text-subtle">—</span>}
                     </div>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex justify-end gap-2">
-                      <Button size="sm" variant="secondary" onClick={() => setEditing(s)}>Edit</Button>
-                      <Button size="sm" variant="ghost" onClick={() => setDeleteTarget(s)}>Delete</Button>
-                    </div>
-                  </td>
+
+
                 </tr>
               ))}
             </tbody>
@@ -156,8 +146,9 @@ export default function StudentManagement() {
 
       <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
         {view.map((s) => (
-          <StudentCard key={s.id} student={s} onEdit={setEditing} onDelete={setDeleteTarget} />
+          <StudentCard key={s.id} student={s} />
         ))}
+
         {view.length === 0 && (
           <div className="sm:col-span-2"><EmptyState title="No students match" /></div>
         )}
