@@ -1,9 +1,11 @@
-import { Menu, Search, Bell, Sun, Moon } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, Search, Bell, Sun, Moon, Siren } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import Avatar from '../ui/Avatar.jsx';
 import { Dropdown, Popover } from '../ui/Overlays.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
+import SosReportModal from '../mission5/SosReportModal.jsx';
 
 const TITLES = {
   '/': 'Daily Bulletin',
