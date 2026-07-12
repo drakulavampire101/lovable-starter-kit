@@ -1,9 +1,8 @@
 import MissionSubNav from '../mission-common/MissionSubNav.jsx';
 
 const links = [
-  { to: '/mission-6', end: true, label: 'Fact Checker' },
+  { to: '/mission-6', end: true, label: 'Checker' },
   { to: '/mission-6/rules', label: 'Rulebook' },
-  { to: '/mission-6/history', label: 'History' },
   { to: '/mission-6/trending', label: 'Trending' },
 ];
 
