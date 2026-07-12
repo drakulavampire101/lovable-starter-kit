@@ -71,18 +71,12 @@ export default function StudentManagement() {
   return (
     <PageContainer>
       <PageHeader
-        title="Student Management"
-        subtitle="Maintain the roster that drives the seating algorithm."
+        title="Student Roster"
+        subtitle="Read-only roster used by the automated seating engine."
         icon={<Users size={18} />}
-        actions={
-          <div className="flex flex-wrap gap-2">
-            <Button variant="secondary" leftIcon={<Upload size={14} />} onClick={() => toast.push({ tone: 'info', title: 'Import (mock)', message: 'CSV import coming soon.' })}>Import</Button>
-            <Button variant="secondary" leftIcon={<Download size={14} />} onClick={() => toast.push({ tone: 'info', title: 'Export (mock)', message: 'CSV export queued.' })}>Export</Button>
-            <Button leftIcon={<Plus size={14} />} onClick={() => setEditing(null)}>Add Student</Button>
-          </div>
-        }
       />
       <Mission2SubNav />
+
 
       <Card className="p-4 mb-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
