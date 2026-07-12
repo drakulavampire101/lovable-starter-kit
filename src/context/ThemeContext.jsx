@@ -2,29 +2,38 @@ import { createContext, useContext, useEffect, useState, useMemo, useCallback } 
 
 const ThemeContext = createContext(null);
 
-// Three-way theme: light → dark → colorblind (Okabe–Ito CVD-safe palette).
-const MODES = ['light', 'dark', 'colorblind'];
-
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light';
     const stored = localStorage.getItem('theme');
-    if (MODES.includes(stored)) return stored;
+    if (stored === 'light' || stored === 'dark') return stored;
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
+
+  const [colorblind, setColorblind] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('colorblind') === '1';
   });
 
   useEffect(() => {
     const root = document.documentElement;
     root.classList.toggle('dark', theme === 'dark');
-    root.classList.toggle('colorblind', theme === 'colorblind');
     localStorage.setItem('theme', theme);
   }, [theme]);
 
-  const toggle = useCallback(() => {
-    setTheme((t) => MODES[(MODES.indexOf(t) + 1) % MODES.length]);
-  }, []);
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('colorblind', colorblind);
+    localStorage.setItem('colorblind', colorblind ? '1' : '0');
+  }, [colorblind]);
 
-  const value = useMemo(() => ({ theme, setTheme, toggle, modes: MODES }), [theme, toggle]);
+  const toggle = useCallback(() => setTheme((t) => (t === 'dark' ? 'light' : 'dark')), []);
+  const toggleColorblind = useCallback(() => setColorblind((v) => !v), []);
+
+  const value = useMemo(
+    () => ({ theme, setTheme, toggle, colorblind, setColorblind, toggleColorblind }),
+    [theme, toggle, colorblind, toggleColorblind]
+  );
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 
