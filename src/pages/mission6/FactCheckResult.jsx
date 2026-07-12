@@ -38,9 +38,11 @@ function normalizeVerify(raw) {
     recommendations: Array.isArray(raw.recommendations) ? raw.recommendations : [],
     matchedRules: matched.map((r, i) => ({
       id: r?.id ?? `rule-${i}`,
-      chapter: r?.chapter ?? '',
+      number: r?.chapter != null ? `Chapter ${r.chapter}` : (r?.number ?? ''),
+      chapter: r?.chapter ?? null,
+      category: r?.category ?? 'general',
       title: r?.title ?? r?.rule ?? `Rule ${i + 1}`,
-      body: r?.body ?? r?.text ?? r?.content ?? '',
+      summary: r?.body ?? r?.text ?? r?.content ?? r?.summary ?? '',
     })),
   };
 }
