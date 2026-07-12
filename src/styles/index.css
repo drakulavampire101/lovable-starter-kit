@@ -51,8 +51,8 @@
     --warning: 240 200 90;
     --danger: 230 110 110;
     /* Header themed to match — deeper green bg, mint text */
-    --sidebar-bg: 14 44 30;
-    --sidebar-bg-strong: 10 34 22;
+    --sidebar-bg: 5 18 12;
+    --sidebar-bg-strong: 3 12 8;
     --chrome-fg: 178 232 200;
   }
 
