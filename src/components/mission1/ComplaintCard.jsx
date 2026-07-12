@@ -36,3 +36,5 @@ function ComplaintCard({ complaint, onClick, action }) {
     </Card>
   );
 }
+
+export default memo(ComplaintCard);
