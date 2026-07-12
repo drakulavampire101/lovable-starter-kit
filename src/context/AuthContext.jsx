@@ -64,17 +64,29 @@ export function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    // Register listener FIRST, then check existing session
+    // ⚠️ Auth temporarily disabled for demo — inject a demo user with all roles.
+    const demoUser = {
+      id: 'demo-user',
+      email: 'demo@baiust.local',
+      rollNumber: 'DEMO-001',
+      name: 'Demo User',
+      className: '9',
+      section: 'C',
+      height: null, dob: null, vision: null, hearing: null,
+      avatarColor: 'brand',
+      roles: ['student', 'captain', 'teacher', 'office'],
+      role: 'office',
+    };
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Defer supabase calls to avoid deadlock
       if (session?.user) {
         setTimeout(() => { hydrate(session); }, 0);
       } else {
-        setUser(null);
+        setUser(demoUser);
       }
     });
     supabase.auth.getSession().then(async ({ data }) => {
-      await hydrate(data.session);
+      if (data.session) await hydrate(data.session);
+      else setUser(demoUser);
       setLoading(false);
     });
     return () => { sub.subscription.unsubscribe(); };
