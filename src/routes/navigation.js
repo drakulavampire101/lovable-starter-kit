@@ -24,10 +24,10 @@ export const NAV_BY_ROLE = {
       { to: '/mission-3', label: 'Syllabus AI', code: '03', icon: BookOpen },
       { to: '/mission-4/tiffin', label: 'Tiffin report', code: '04', icon: Coins },
       { to: '/mission-6', label: 'Fact checker', code: '06', icon: SearchCheck },
-      { to: '/mission-9', label: 'Captain voting', code: '09', icon: Vote },
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-7', label: 'Peer rating', code: 'R1', icon: Star },
+      { to: '/mission-9', label: 'Captain voting', code: 'R2', icon: Vote },
     ]},
     ACCOUNT_TAIL,
   ],
@@ -35,16 +35,16 @@ export const NAV_BY_ROLE = {
     { section: 'Register', code: '00', items: [
       { to: '/captain', label: 'Captain desk', code: '00', icon: LayoutDashboard, end: true },
     ]},
-    { section: 'Captain tools', code: '01–09', items: [
+    { section: 'Captain tools', code: '01–05', items: [
       { to: '/mission-1/captain', label: 'Complaint queue', code: '01', icon: ShieldAlert },
       { to: '/mission-2', label: 'Seat planner', code: '02', icon: Grid3X3 },
       { to: '/mission-4', label: 'Tiffin ledger', code: '04', icon: Coins },
       { to: '/mission-5/captain', label: 'SOS console', code: '05', icon: Siren },
-      { to: '/mission-9/results', label: 'Vote results', code: '09', icon: Vote },
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-7/leaderboard', label: 'Peer leaderboard', code: 'R1', icon: Star },
       { to: '/mission-8', label: 'Captain engine', code: 'R2', icon: Award },
+      { to: '/mission-9/results', label: 'Vote results', code: 'R3', icon: Vote },
     ]},
     ACCOUNT_TAIL,
   ],
@@ -52,10 +52,9 @@ export const NAV_BY_ROLE = {
     { section: 'Register', code: '00', items: [
       { to: '/office', label: 'Office desk', code: '00', icon: LayoutDashboard, end: true },
     ]},
-    { section: 'Administration', code: '10–13', items: [
+    { section: 'Administration', code: '10–11', items: [
       { to: '/analytics', label: 'Analytics', code: '10', icon: BarChart3 },
       { to: '/mission-1/archive', label: 'Case archive', code: '11', icon: ClipboardList },
-      { to: '/mission-9', label: 'Election admin', code: '13', icon: Gavel },
     ]},
     { section: 'Oversight', code: '14–19', items: [
       { to: '/mission-2', label: 'Seat planner', code: '14', icon: Grid3X3 },
@@ -66,6 +65,7 @@ export const NAV_BY_ROLE = {
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-8', label: 'Candidate review', code: 'R1', icon: Users },
+      { to: '/mission-9', label: 'Election admin', code: 'R2', icon: Gavel },
     ]},
     ACCOUNT_TAIL,
   ],
