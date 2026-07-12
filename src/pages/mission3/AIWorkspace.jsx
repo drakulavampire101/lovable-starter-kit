@@ -28,9 +28,7 @@ const tokenize = (text) =>
 
 export default function AIWorkspace() {
   const [given, setGiven] = useState('');
-  const [givenFile, setGivenFile] = useState(null);
   const [result, setResult] = useState(null);
-  const inputRef = useRef(null);
 
   const canCompare = given.trim().length > 0;
 
@@ -51,7 +49,6 @@ export default function AIWorkspace() {
 
   const reset = () => {
     setGiven('');
-    setGivenFile(null);
     setResult(null);
   };
 
