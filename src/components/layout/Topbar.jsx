@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, Search, Bell, Sun, Moon, Siren } from 'lucide-react';
+import { Menu, Search, Bell, Sun, Moon, Eye, Siren } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import Avatar from '../ui/Avatar.jsx';
