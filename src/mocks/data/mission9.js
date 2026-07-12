@@ -46,6 +46,7 @@ export const CANDIDATES = Array.from({ length: 8 }, (_, i) => {
     name: `${first} ${last}`,
     roll: String(101 + i).padStart(4, '0'),
     className: CLASSES[i % CLASSES.length],
+    department: `Class ${CLASSES[i % CLASSES.length]}`,
     section: ['A','B','C'][i % 3],
     year: 3,
     manifesto: MANIFESTOS[i % MANIFESTOS.length],
