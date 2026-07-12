@@ -64,9 +64,14 @@ export default {
           '0%': { opacity: '0', transform: 'translateX(2rem)' },
           '100%': { opacity: '1', transform: 'translateX(0)' },
         },
+        'fade-in-up': {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
       },
       animation: {
         'toast-in': 'toast-in 200ms ease-out',
+        'fade-in-up': 'fade-in-up 400ms ease-out both',
       },
     },
   },
