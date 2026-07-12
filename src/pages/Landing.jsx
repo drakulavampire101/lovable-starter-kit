@@ -46,7 +46,7 @@ export default function Landing() {
       {/* Nav */}
       <header className="sticky top-0 z-30 backdrop-blur bg-bg/80 border-b border-border">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 h-14 flex items-center justify-between">
-          <Link to="/landing" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-brand text-brand-fg grid place-items-center">
               <ShieldCheck size={16} />
             </div>
