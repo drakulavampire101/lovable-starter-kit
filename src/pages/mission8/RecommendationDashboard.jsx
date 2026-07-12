@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Award, Users, TrendingUp, ShieldCheck, Sparkles, ArrowRight, BarChart3, ListOrdered, User } from 'lucide-react';
+import { Award, Users, TrendingUp, ShieldCheck, Sparkles, ArrowRight, BarChart3, ListOrdered, User, UserCheck } from 'lucide-react';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
 import Card from '../../components/common/Card.jsx';
