@@ -51,6 +51,37 @@
     --danger: 220 80 80;
   }
 
+  /* Colorblind mode — Okabe & Ito (2008) CVD-safe palette.
+     Distinguishable for protanopia, deuteranopia, and tritanopia.
+     Reference: https://jfly.uni-koeln.de/color/ */
+  .colorblind {
+    --bg: 255 255 255;
+    --surface: 245 245 245;
+    --elevated: 255 255 255;
+    --border: 200 200 200;
+    --rule: 0 0 0;
+    --fg: 0 0 0;
+    --muted: 90 90 90;
+    --subtle: 140 140 140;
+    /* Blue (safe primary) */
+    --brand: 0 114 178;
+    --brand-fg: 255 255 255;
+    --brand-soft: 210 230 245;
+    /* Reddish purple (safe accent, distinct from brand) */
+    --accent: 204 121 167;
+    --accent-fg: 255 255 255;
+    /* Bluish green — safest "success" hue for protan/deutan */
+    --success: 0 158 115;
+    /* Orange — distinct from success and danger */
+    --warning: 230 159 0;
+    /* Vermillion — distinguishable from green for red-green CVD */
+    --danger: 213 94 0;
+    /* Chrome uses sky-blue tint so sidebar is legible without red-green cues */
+    --sidebar-bg: 86 180 233;
+    --sidebar-bg-strong: 0 114 178;
+    --chrome-fg: 0 0 0;
+  }
+
   html, body, #root { height: 100%; }
   body {
     margin: 0;
