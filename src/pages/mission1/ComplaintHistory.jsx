@@ -158,6 +158,13 @@ export default function ComplaintHistory() {
           </div>
         </>
       )}
+
+      <ModerationModal
+        complaint={reviewing}
+        open={!!reviewing}
+        onClose={() => setReviewing(null)}
+        onDecide={handleDecide}
+      />
     </PageContainer>
   );
 }
