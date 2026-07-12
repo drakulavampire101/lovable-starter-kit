@@ -34,10 +34,10 @@
 
   .dark {
     /* Body bg = old header text color (deep green); text = old header bg (mint) */
-    --bg: 20 60 40;
-    --surface: 26 72 50;
-    --elevated: 32 84 58;
-    --border: 60 120 90;
+    --bg: 8 24 16;
+    --surface: 12 32 22;
+    --elevated: 18 44 30;
+    --border: 40 80 58;
     --rule: 178 232 200;
     --fg: 178 232 200;
     --muted: 150 200 175;
@@ -51,8 +51,8 @@
     --warning: 240 200 90;
     --danger: 230 110 110;
     /* Header themed to match — deeper green bg, mint text */
-    --sidebar-bg: 14 44 30;
-    --sidebar-bg-strong: 10 34 22;
+    --sidebar-bg: 5 18 12;
+    --sidebar-bg-strong: 3 12 8;
     --chrome-fg: 178 232 200;
   }
 
