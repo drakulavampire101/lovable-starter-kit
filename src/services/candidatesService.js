@@ -1,38 +1,140 @@
-// Mission 8 — Captain recommendation engine
-import api from './api.js';
+// Mission 8 — Captain recommendation engine (Lovable Cloud)
+import { supabase } from '@/integrations/supabase/client';
 
-// Roster
-export const getCandidateRoster = () => api.get('/candidates/roster').then((r) => r.data);
-export const getStudentCaptainStatus = (id) =>
-  api.get(`/candidates/roster/${id}/captain`).then((r) => r.data);
-export const getCaptainRoster = () => api.get('/candidates/captains').then((r) => r.data);
+const uid = async () => (await supabase.auth.getUser()).data.user?.id;
 
-// Rounds
-export const listRounds = () => api.get('/candidates/rounds').then((r) => r.data);
-export const createRound = (payload) => api.post('/candidates/rounds', payload).then((r) => r.data);
-export const getRound = (id) => api.get(`/candidates/rounds/${id}`).then((r) => r.data);
-export const updateWeights = (id, weights) =>
-  api.patch(`/candidates/rounds/${id}/weights`, weights).then((r) => r.data);
+export async function getCandidateRoster() {
+  const { data, error } = await supabase.from('profiles').select('*');
+  if (error) throw error;
+  return data || [];
+}
 
-// Candidates within a round
-export const getRankedCandidates = (roundId) =>
-  api.get(`/candidates/rounds/${roundId}/candidates`).then((r) => r.data);
-export const compareCandidates = (roundId, ids) =>
-  api
-    .get(`/candidates/rounds/${roundId}/candidates/compare`, {
-      headers: {},
+export async function getStudentCaptainStatus(id) {
+  const { data } = await supabase.from('user_roles').select('role').eq('user_id', id);
+  return { is_captain: (data || []).some((r) => r.role === 'CAPTAIN') };
+}
+
+export async function getCaptainRoster() {
+  const { data } = await supabase.from('user_roles').select('user_id').eq('role', 'CAPTAIN');
+  const ids = (data || []).map((r) => r.user_id);
+  if (!ids.length) return [];
+  const { data: profs } = await supabase.from('profiles').select('*').in('id', ids);
+  return profs || [];
+}
+
+export async function listRounds() {
+  const { data, error } = await supabase
+    .from('recommendation_rounds')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data || [];
+}
+
+export async function createRound(payload) {
+  const created_by = await uid();
+  const { data, error } = await supabase
+    .from('recommendation_rounds')
+    .insert({ ...payload, created_by })
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function getRound(id) {
+  const { data, error } = await supabase.from('recommendation_rounds').select('*').eq('id', id).maybeSingle();
+  if (error) throw error;
+  return data;
+}
+
+export async function updateWeights(id, weights) {
+  const { data, error } = await supabase
+    .from('recommendation_rounds')
+    .update({ weights })
+    .eq('id', id)
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function getRankedCandidates(roundId) {
+  const { data, error } = await supabase
+    .from('candidate_profiles')
+    .select('*')
+    .eq('round_id', roundId)
+    .order('overall_score', { ascending: false });
+  if (error) throw error;
+  const ids = (data || []).map((c) => c.user_id);
+  if (!ids.length) return [];
+  const { data: profs } = await supabase.from('profiles').select('*').in('id', ids);
+  const byId = Object.fromEntries((profs || []).map((p) => [p.id, p]));
+  return (data || []).map((c, i) => ({ ...c, rank: i + 1, profile: byId[c.user_id] }));
+}
+
+export async function compareCandidates(roundId /* , ids */) {
+  return getRankedCandidates(roundId);
+}
+
+export async function getRoundAnalytics(roundId) {
+  const rows = await getRankedCandidates(roundId);
+  const total = rows.length;
+  const avg = total ? rows.reduce((a, r) => a + Number(r.overall_score || 0), 0) / total : 0;
+  return { total, avg: Number(avg.toFixed(2)), top: rows.slice(0, 5) };
+}
+
+export async function getCandidateProfile(roundId, userId) {
+  const { data, error } = await supabase
+    .from('candidate_profiles')
+    .select('*')
+    .eq('round_id', roundId)
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (error) throw error;
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+  return { ...data, profile };
+}
+
+export async function upsertCandidateProfile(roundId, userId, payload) {
+  const { data, error } = await supabase
+    .from('candidate_profiles')
+    .upsert(
+      { round_id: roundId, user_id: userId, ...payload },
+      { onConflict: 'round_id,user_id' },
+    )
+    .select()
+    .single();
+  if (error) throw error;
+  return data;
+}
+
+export async function submitOverride(roundId, userId, payload) {
+  const actor_id = await uid();
+  const { data, error } = await supabase
+    .from('candidate_profiles')
+    .update({
+      override_reason: payload.reason,
+      overridden_by: actor_id,
+      overall_score: payload.overall_score ?? undefined,
     })
-    .then((r) => r.data);
-export const getRoundAnalytics = (roundId) =>
-  api.get(`/candidates/rounds/${roundId}/analytics`).then((r) => r.data);
-export const getCandidateProfile = (roundId, userId) =>
-  api.get(`/candidates/rounds/${roundId}/candidates/${userId}`).then((r) => r.data);
-export const upsertCandidateProfile = (roundId, userId, payload) =>
-  api.put(`/candidates/rounds/${roundId}/candidates/${userId}`, payload).then((r) => r.data);
-export const submitOverride = (roundId, userId, payload) =>
-  api
-    .post(`/candidates/rounds/${roundId}/candidates/${userId}/override`, payload)
-    .then((r) => r.data);
+    .eq('round_id', roundId)
+    .eq('user_id', userId)
+    .select()
+    .single();
+  if (error) throw error;
+  await supabase
+    .from('recommendation_history')
+    .insert({ round_id: roundId, user_id: userId, actor_id, action: 'OVERRIDE', notes: payload.reason });
+  return data;
+}
 
-// History
-export const getCandidateHistory = () => api.get('/candidates/history').then((r) => r.data);
+export async function getCandidateHistory() {
+  const { data, error } = await supabase
+    .from('recommendation_history')
+    .select('*')
+    .order('created_at', { ascending: false })
+    .limit(100);
+  if (error) throw error;
+  return data || [];
+}
