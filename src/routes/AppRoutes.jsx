@@ -11,6 +11,7 @@ import StudentSeatView from '../pages/mission2/StudentSeatView.jsx';
 
 // Route-level code splitting — everything below is lazy.
 const Dashboard = lazy(() => import('../pages/Dashboard.jsx'));
+const Landing = lazy(() => import('../pages/Landing.jsx'));
 
 // Auth flow (only hit once, keep out of main bundle)
 const Welcome = lazy(() => import('../pages/auth/Welcome.jsx'));
