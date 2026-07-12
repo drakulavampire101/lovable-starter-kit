@@ -1,10 +1,10 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
 import Card from '../../components/common/Card.jsx';
 import Button from '../../components/common/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
-import { GitCompare, Check, X, AlertTriangle, RotateCcw, Upload, FileText, ClipboardCheck } from 'lucide-react';
+import { GitCompare, Check, X, AlertTriangle, RotateCcw, FileText, ClipboardCheck } from 'lucide-react';
 
 // Reference syllabus lives server-side. This is a mock stand-in for the UI
 // until the /api/mission3/reference endpoint is wired.
@@ -28,9 +28,7 @@ const tokenize = (text) =>
 
 export default function AIWorkspace() {
   const [given, setGiven] = useState('');
-  const [givenFile, setGivenFile] = useState(null);
   const [result, setResult] = useState(null);
-  const inputRef = useRef(null);
 
   const canCompare = given.trim().length > 0;
 
@@ -51,7 +49,6 @@ export default function AIWorkspace() {
 
   const reset = () => {
     setGiven('');
-    setGivenFile(null);
     setResult(null);
   };
 
@@ -62,26 +59,15 @@ export default function AIWorkspace() {
     return { tone: 'live', label: 'Does not make sense' };
   }, [result]);
 
-  const handleFiles = async (fileList) => {
-    const arr = Array.from(fileList || []);
-    if (!arr.length) return;
-    const f = arr[0];
-    const text = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result || ''));
-      reader.onerror = () => resolve('');
-      reader.readAsText(f);
-    });
-    setGivenFile(f);
-    setGiven(text);
-  };
+
+
 
   return (
     <PageContainer>
       <PageHeader
         eyebrow="File 03 · Syllabus comparator"
         title="Does the given syllabus make sense?"
-        subtitle="Paste or upload the syllabus Kuddus handed out. It's compared against the official reference held on the server."
+        subtitle="Paste the syllabus Kuddus handed out. It's compared against the official reference held on the server."
       />
 
 
@@ -94,34 +80,6 @@ export default function AIWorkspace() {
           <p className="eyebrow">What Kuddus handed to students</p>
         </div>
 
-        <div
-          className="px-4 py-3 border-b border-ink/10 flex items-center justify-between gap-3 bg-paper/40"
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => {
-            e.preventDefault();
-            handleFiles(e.dataTransfer.files);
-          }}
-        >
-          <div className="min-w-0 flex-1">
-            {givenFile ? (
-              <p className="text-xs text-ink/80 truncate font-mono">
-                {givenFile.name} <span className="text-ink/40">· {(givenFile.size / 1024).toFixed(1)} KB</span>
-              </p>
-            ) : (
-              <p className="text-xs text-muted">Drop a .txt file or click upload — or paste below.</p>
-            )}
-          </div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".txt,.md,.csv,text/*"
-            className="hidden"
-            onChange={(e) => handleFiles(e.target.files)}
-          />
-          <Button variant="ghost" size="sm" leftIcon={<Upload size={13} />} onClick={() => inputRef.current?.click()}>
-            Upload
-          </Button>
-        </div>
 
         <textarea
           value={given}
