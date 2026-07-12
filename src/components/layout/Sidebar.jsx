@@ -92,3 +92,5 @@ function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
       </aside>
   );
 }
+
+export default memo(Sidebar);
