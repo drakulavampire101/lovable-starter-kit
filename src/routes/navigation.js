@@ -52,15 +52,16 @@ export const NAV_BY_ROLE = {
     ]},
     { section: 'Administration', code: '10–13', items: [
       { to: '/analytics', label: 'Analytics', code: '10', icon: BarChart3 },
-      { to: '/mission-1/history', label: 'Case archive', code: '11', icon: ClipboardList },
+      { to: '/mission-1/archive', label: 'Case archive', code: '11', icon: ClipboardList },
       { to: '/mission-8', label: 'Candidate review', code: '12', icon: Users },
       { to: '/mission-9', label: 'Election admin', code: '13', icon: Gavel },
     ]},
     { section: 'Oversight', code: '14–19', items: [
       { to: '/mission-2', label: 'Seat planner', code: '14', icon: Grid3X3 },
       { to: '/mission-4', label: 'Tiffin ledger', code: '15', icon: Coins },
-      { to: '/mission-5', label: 'SOS overview', code: '16', icon: Siren },
+      { to: '/mission-5/incidents', label: 'SOS overview', code: '16', icon: Siren },
       { to: '/mission-6', label: 'Fact checker', code: '17', icon: SearchCheck },
+      { to: '/mission-10', label: 'Trust graph', code: '18', icon: Network },
     ]},
     ACCOUNT_TAIL,
   ],
