@@ -4,7 +4,7 @@ import PageHeader from '../../components/layout/PageHeader.jsx';
 import Card from '../../components/common/Card.jsx';
 import Button from '../../components/common/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
-import { GitCompare, Check, X, AlertTriangle, RotateCcw, Upload, FileText, ClipboardCheck, Database } from 'lucide-react';
+import { GitCompare, Check, X, AlertTriangle, RotateCcw, Upload, FileText, ClipboardCheck } from 'lucide-react';
 
 // Reference syllabus lives server-side. This is a mock stand-in for the UI
 // until the /api/mission3/reference endpoint is wired.
@@ -84,18 +84,6 @@ export default function AIWorkspace() {
         subtitle="Paste or upload the syllabus Kuddus handed out. It's compared against the official reference held on the server."
       />
 
-      <Card eyebrow="Reference source" ref="REF //" className="mb-4">
-        <div className="px-5 py-4 flex items-center gap-3">
-          <Database size={16} className="text-ochre shrink-0" />
-          <div className="min-w-0 flex-1">
-            <p className="font-display text-sm text-ink">Official syllabus loaded from backend</p>
-            <p className="text-xs text-muted mt-0.5">
-              Derived from prior question papers · syllabus · textbook · {tokenize(REFERENCE_SYLLABUS).length} topics indexed
-            </p>
-          </div>
-          <Badge tone="neutral">Server-side</Badge>
-        </div>
-      </Card>
 
       <Card className="p-0 overflow-hidden">
         <div className="px-4 py-3 border-b border-ink/10 flex items-baseline justify-between gap-3">
