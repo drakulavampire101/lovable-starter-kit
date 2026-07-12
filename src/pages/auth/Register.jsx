@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Hash, ArrowRight, Loader2, Lock, User, GraduationCap, Users, Info } from 'lucide-react';
+import { Hash, ArrowRight, Loader2, Lock, User, GraduationCap, Users, Info, Ruler, Eye, Ear } from 'lucide-react';
 import AuthShell from '../../components/auth/AuthShell.jsx';
 import LoginCard from '../../components/auth/LoginCard.jsx';
 import FormField from '../../components/forms/FormField.jsx';
@@ -9,6 +9,11 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 const CLASSES = ['6', '7', '8', '9', '10'];
 const SECTIONS = ['A', 'B', 'C', 'D'];
+const IMPAIRMENT = [
+  { value: 'None', label: 'None' },
+  { value: 'Mild', label: 'Mild' },
+  { value: 'Severe', label: 'Severe' },
+];
 
 export default function Register() {
   const nav = useNavigate();
