@@ -110,8 +110,8 @@ export default function StudentManagement() {
                 <th className="px-4 py-3">Height</th>
                 <th className="px-4 py-3">Gender</th>
                 <th className="px-4 py-3">Priorities</th>
-                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
+
             </thead>
             <tbody>
               {view.map((s) => (
