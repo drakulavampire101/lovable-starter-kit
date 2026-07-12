@@ -13,8 +13,7 @@ const CHIPS = [
   { to: '/mission-2',  label: 'Seat Planner',  icon: Grid3X3,                 chip: 'bg-[#4285F4] text-white' },
   { to: '/mission-3',  label: 'Syllabus AI',   icon: BookOpen,                chip: 'bg-[#AB47BC] text-white' },
   { to: '/mission-4',  label: 'Tiffin Ledger', icon: Coins,                   chip: 'bg-[#FBBC04] text-black' },
-  { to: '/mission-5',  label: 'SOS Rescue',    icon: Siren,                   chip: 'bg-[#F4511E] text-white' },
-  { to: '/mission-6',  label: 'Fact Checker',  icon: SearchCheck,             chip: 'bg-[#00ACC1] text-white' },
+  { to: '/mission-6', label: 'Fact Checker',  icon: SearchCheck,             chip: 'bg-[#00ACC1] text-white' },
 ];
 
 export default function CategoryChipsRow() {
