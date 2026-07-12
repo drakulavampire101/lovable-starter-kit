@@ -10,6 +10,7 @@ import Spinner from '../../components/ui/Spinner.jsx';
 import { cx } from '../../utils/index.js';
 import { searchRules } from '../../services/factCheckService.js';
 import { AkpApiError } from '../../services/aiApi.js';
+import { useToast } from '../../components/feedback/Toast.jsx';
 
 // Server-side contract: single free-text `query`, no filter fields.
 // Response items expose `chapter` — filter by chapter on the client only.
