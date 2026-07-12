@@ -130,12 +130,8 @@ export default function StudentManagement() {
                       {s.vision === 'None' && s.hearing === 'None' && <span className="text-xs text-subtle">—</span>}
                     </div>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex justify-end gap-2">
-                      <Button size="sm" variant="secondary" onClick={() => setEditing(s)}>Edit</Button>
-                      <Button size="sm" variant="ghost" onClick={() => setDeleteTarget(s)}>Delete</Button>
-                    </div>
-                  </td>
+
+
                 </tr>
               ))}
             </tbody>
