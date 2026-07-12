@@ -43,8 +43,23 @@ export const NAV_BY_ROLE = {
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-7/leaderboard', label: 'Peer leaderboard', code: 'R1', icon: Star },
-      { to: '/mission-8', label: 'Captain engine', code: 'R2', icon: Award },
-      { to: '/mission-9/results', label: 'Vote results', code: 'R3', icon: Vote },
+      { to: '/mission-9/results', label: 'Vote results', code: 'R2', icon: Vote },
+    ]},
+    ACCOUNT_TAIL,
+  ],
+  teacher: [
+    { section: 'Register', code: '00', items: [
+      { to: '/teacher', label: 'Teacher desk', code: '00', icon: LayoutDashboard, end: true },
+    ]},
+    { section: 'Moderation', code: '01–05', items: [
+      { to: '/mission-1/moderation', label: 'Complaint review', code: '01', icon: Gavel },
+      { to: '/mission-2/classroom', label: 'Classroom layouts', code: '02', icon: Grid3X3 },
+      { to: '/mission-4', label: 'Tiffin ledger', code: '04', icon: Coins },
+      { to: '/mission-5/incidents', label: 'SOS console', code: '05', icon: Siren },
+    ]},
+    { section: 'Reviews', code: 'R', items: [
+      { to: '/mission-8', label: 'Captain engine', code: 'R1', icon: Award },
+      { to: '/mission-9/admin', label: 'Election admin', code: 'R2', icon: Gavel },
     ]},
     ACCOUNT_TAIL,
   ],
@@ -64,8 +79,7 @@ export const NAV_BY_ROLE = {
       { to: '/mission-10', label: 'Trust graph', code: '18', icon: Network },
     ]},
     { section: 'Reviews', code: 'R', items: [
-      { to: '/mission-8', label: 'Candidate review', code: 'R1', icon: Users },
-      { to: '/mission-9', label: 'Election admin', code: 'R2', icon: Gavel },
+      { to: '/mission-9/results', label: 'Election results', code: 'R1', icon: Vote },
     ]},
     ACCOUNT_TAIL,
   ],
