@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { NavLink } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cx } from '../../utils/index.js';
@@ -5,7 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { NAV_BY_ROLE } from '../../routes/navigation.js';
 import { prefetchRoute } from '../../routes/prefetch.js';
 
-export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
+function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   const { role } = useAuth();
   // Teacher and Office share the same navigation (grouped together).
   const navRole = role === 'teacher' ? 'office' : role;
@@ -91,3 +92,5 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
       </aside>
   );
 }
+
+export default memo(Sidebar);
