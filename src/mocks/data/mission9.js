@@ -2,7 +2,7 @@
 
 const FIRST = ['Abdus','Sadia','Ishtiak','Hrithik','Rafiq','Nafisa','Tanvir','Mahira','Sabbir','Fariha','Rashed','Nadia'];
 const LAST  = ['Salam','Rashid','Ahmed','Bhowmik','Chowdhury','Khan','Islam','Hasan','Karim','Sultana','Reza','Haque'];
-const DEPTS = ['CSE','EEE','CE','ME','TE'];
+const CLASSES = ['6','7','8','9','10'];
 
 function rnd(seed) { const x = Math.sin(seed) * 10000; return x - Math.floor(x); }
 
