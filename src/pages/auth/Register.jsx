@@ -53,8 +53,8 @@ export default function Register() {
   return (
     <AuthShell centered>
       <LoginCard
-        title="Create account"
-        description="Register with your class, section and roll number."
+        title="Create student account"
+        description="Only students can self-register. Class captains are promoted by teachers."
         footer={
           <span>
             Already registered?{' '}
@@ -63,13 +63,10 @@ export default function Register() {
         }
       >
         <form onSubmit={submit} className="space-y-4" noValidate>
-          <SelectField
-            label="Register as"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            icon={<Shield size={14} />}
-            options={ROLES}
-          />
+          <div className="flex items-start gap-2 rounded-md border border-border bg-elevated/60 px-3 py-2 text-xs text-muted">
+            <Info size={14} className="mt-0.5 text-brand" />
+            <span>Teacher & office accounts are provisioned by the school and cannot be created here.</span>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <SelectField
               label="Class"
