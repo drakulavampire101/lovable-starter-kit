@@ -27,7 +27,7 @@ export default function CandidateVoteCard({ candidate: c, variant = 'grid', sele
         <Avatar name={c.name} size={isList ? 44 : 52} />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-fg truncate">{c.name}</p>
-          <p className="text-xs text-muted truncate">{c.roll} · {c.department} · Sec {c.section}</p>
+          <p className="text-xs text-muted truncate">Class {c.className} · Sec {c.section} · Roll {c.roll}</p>
           <div className="mt-1.5 flex flex-wrap gap-1.5">
             <Badge tone={rec.tone}>{rec.label}</Badge>
             {selected && <Badge tone="success"><CheckCircle2 size={10} className="mr-1" />Selected</Badge>}
