@@ -32,7 +32,8 @@ function normalizeVerify(raw) {
   return {
     verdict,
     status, // keep raw for display
-    confidence: Number(raw.confidence ?? raw.score ?? 0) || 0,
+    confidence: Math.round((Number(raw.confidence_score ?? raw.confidence ?? raw.score ?? 0) || 0) * (Number(raw.confidence_score ?? 0) <= 1 ? 100 : 1)),
+    exactQuote: raw.exact_quote || '',
     summary: raw.summary || raw.explanation || raw.reason || '',
     detailed: raw.detailed || raw.analysis || '',
     reasoning: Array.isArray(raw.reasoning) ? raw.reasoning : [],
