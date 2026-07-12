@@ -26,15 +26,24 @@ export default function Register() {
   const [rollNumber, setRoll] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [height, setHeight] = useState('');
+  const [vision, setVision] = useState('None');
+  const [hearing, setHearing] = useState('None');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => { setError(''); }, [rollNumber, name, password, className, section]);
+  useEffect(() => { setError(''); }, [rollNumber, name, password, className, section, height, vision, hearing]);
+
+  const heightNum = Number(height);
+  const heightValid = height !== '' && Number.isFinite(heightNum) && heightNum >= 80 && heightNum <= 250;
 
   const canSubmit =
     rollNumber.trim().length >= 1 &&
     name.trim().length >= 1 &&
     password.length >= 6 &&
+    heightValid &&
+    !!vision &&
+    !!hearing &&
     !loading;
 
   const submit = async (e) => {
@@ -49,6 +58,9 @@ export default function Register() {
       role,
       className,
       section,
+      height: heightNum,
+      vision,
+      hearing,
     });
     setLoading(false);
     if (!res.success) { setError(res.error || 'Registration failed'); return; }
