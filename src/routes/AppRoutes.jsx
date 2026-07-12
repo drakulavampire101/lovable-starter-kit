@@ -229,6 +229,7 @@ export default function AppRoutes() {
           <Route path="/office" element={<OfficeDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
         </Route>
+        <Route path="/landing" element={<Landing />} />
         <Route path="/auth/welcome" element={<Welcome />} />
         <Route path="/auth/login" element={<RollLogin />} />
         <Route path="/auth/register" element={<Register />} />
