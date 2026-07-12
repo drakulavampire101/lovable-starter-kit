@@ -54,6 +54,8 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
                       to={item.to}
                       end={item.end}
                       onClick={onCloseMobile}
+                      onMouseEnter={() => prefetchRoute(item.to)}
+                      onFocus={() => prefetchRoute(item.to)}
                       className={({ isActive }) =>
                         cx(
                           'relative flex items-center gap-3 py-2.5 pl-4 pr-3 text-sm font-medium transition-colors',
