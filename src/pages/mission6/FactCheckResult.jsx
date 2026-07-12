@@ -14,6 +14,7 @@ import RuleCard from '../../components/mission6/RuleCard.jsx';
 import Spinner from '../../components/ui/Spinner.jsx';
 import { verifyClaim, isTrueVerdict, isFalseVerdict } from '../../services/factCheckService.js';
 import { AkpApiError } from '../../services/aiApi.js';
+import { useToast } from '../../components/feedback/Toast.jsx';
 
 // Normalize a verify() response into what the existing UI expects.
 // Contract notes:
