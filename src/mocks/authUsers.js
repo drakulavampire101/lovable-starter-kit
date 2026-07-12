@@ -1,9 +1,17 @@
 // Mock authentication data — display-only, no real logic.
+// Teachers are pre-seeded (no self-serve registration). Students register
+// themselves; captains are promoted by teachers from the Captain Engine.
 export const MOCK_USERS = {
+  // Students
   '220101': { name: 'John Doe', roll: '220101', roles: ['student'], batch: '2022', dept: 'CSE' },
-  '220001': { name: 'Jane Smith', roll: '220001', roles: ['student', 'captain'], batch: '2022', dept: 'CSE' },
-  T001: { name: 'Dr. Ahmed', roll: 'T001', roles: ['teacher'], batch: 'Faculty', dept: 'CSE' },
-  O001: { name: 'Office Desk', roll: 'O001', roles: ['office'], batch: 'Faculty', dept: 'Admin' },
+  '220001': { name: 'Jane Smith', roll: '220001', roles: ['student'], batch: '2022', dept: 'CSE' },
+
+  // Seeded teacher / office accounts (login only; password mocked)
+  T001: { name: 'Dr. Ahmed Karim',  roll: 'T001', roles: ['office'], subject: 'Mathematics',  staffRole: 'Teacher' },
+  T002: { name: 'Ms. Nafisa Rahman', roll: 'T002', roles: ['office'], subject: 'English',      staffRole: 'Teacher' },
+  T003: { name: 'Mr. Ishtiak Reza',  roll: 'T003', roles: ['office'], subject: 'Physics',      staffRole: 'Teacher' },
+  T004: { name: 'Mrs. Sadia Islam',  roll: 'T004', roles: ['office'], subject: 'Chemistry',    staffRole: 'Teacher' },
+  O001: { name: 'Office Desk',       roll: 'O001', roles: ['office'], subject: '—',            staffRole: 'Office Admin' },
 };
 
 export const VALID_ROLLS = Object.keys(MOCK_USERS);
