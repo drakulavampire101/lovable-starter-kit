@@ -53,12 +53,14 @@ function parseValidationError(payload) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Merge caller AbortSignal with our internal timeout signal.
+// Merge caller AbortSignal with our internal (per-attempt) controller.
+// Returns an unlink function so we don't leak listeners across retries.
 function linkSignals(external, internal) {
-  if (!external) return;
-  if (external.aborted) { internal.abort(external.reason); return; }
+  if (!external) return () => {};
+  if (external.aborted) { internal.abort(external.reason); return () => {}; }
   const onAbort = () => internal.abort(external.reason);
-  external.addEventListener('abort', onAbort, { once: true });
+  external.addEventListener('abort', onAbort);
+  return () => external.removeEventListener('abort', onAbort);
 }
 
 export async function akpFetch(
