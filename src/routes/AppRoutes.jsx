@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import LoadingPage from '../pages/LoadingPage.jsx';
@@ -137,7 +137,7 @@ export default function AppRoutes() {
     <Suspense fallback={<LoadingPage />}>
       <Routes>
         <Route element={<RequireAuth><RoleGuard><DashboardLayout /></RoleGuard></RequireAuth>}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/app" element={<Dashboard />} />
           <Route path="/mission-1" element={<Mission1Overview />} />
           <Route path="/mission-1/submit" element={<ComplaintSubmit />} />
           <Route path="/mission-1/submitted" element={<ComplaintSubmitted />} />
@@ -229,7 +229,8 @@ export default function AppRoutes() {
           <Route path="/office" element={<OfficeDashboard />} />
           <Route path="/teacher" element={<TeacherDashboard />} />
         </Route>
-        <Route path="/landing" element={<Landing />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/landing" element={<Navigate to="/" replace />} />
         <Route path="/auth/welcome" element={<Welcome />} />
         <Route path="/auth/login" element={<RollLogin />} />
         <Route path="/auth/register" element={<Register />} />

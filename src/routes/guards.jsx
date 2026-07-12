@@ -6,7 +6,7 @@ export function RequireAuth({ children }) {
   const { user, loading } = useAuth();
   const loc = useLocation();
   if (loading) return null;
-  if (!user) return <Navigate to="/landing" replace state={{ from: loc.pathname }} />;
+  if (!user) return <Navigate to="/" replace state={{ from: loc.pathname }} />;
   return children ?? <Outlet />;
 }
 
@@ -14,9 +14,10 @@ export function RoleGuard({ children }) {
   const { user, role, loading } = useAuth();
   const loc = useLocation();
   if (loading) return null;
-  if (!user) return <Navigate to="/auth/welcome" replace />;
+  if (!user) return <Navigate to="/" replace />;
   const active = role || user.roles?.[0] || 'student';
-  if (loc.pathname === '/') {
+  // /app is the authenticated entry point — send users to their role home.
+  if (loc.pathname === '/app') {
     return <Navigate to={ROLE_HOME[active] || '/student'} replace />;
   }
   if (!canAccess(active, loc.pathname)) {
