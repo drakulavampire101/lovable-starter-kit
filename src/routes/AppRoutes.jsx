@@ -3,6 +3,8 @@ import { lazy, Suspense } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import LoadingPage from '../pages/LoadingPage.jsx';
 import { RequireAuth, RoleGuard } from './guards.jsx';
+import ViewOnlyGate from './ViewOnlyGate.jsx';
+
 
 // Eagerly loaded — always needed on first paint
 const Dashboard = lazy(() => import('../pages/Dashboard.jsx'));
