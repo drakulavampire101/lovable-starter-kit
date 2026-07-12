@@ -49,11 +49,11 @@ export const ROLE_ACCESS = {
     ...COMMON,
   ],
   office: ['*'],
+  teacher: ['*'],
 };
 
 export function canAccess(role, pathname) {
-  // Teacher shares Office permissions (grouped together).
-  const effective = role === 'teacher' ? 'office' : role;
+  const effective = role || 'student';
   const allow = ROLE_ACCESS[effective] || ROLE_ACCESS.student;
   if (allow.includes('*')) return true;
   return allow.some((p) => pathname === p || pathname.startsWith(p + '/'));
@@ -63,5 +63,5 @@ export const ROLE_HOME = {
   student: '/student',
   captain: '/captain',
   office: '/office',
-  teacher: '/office',
+  teacher: '/teacher',
 };
