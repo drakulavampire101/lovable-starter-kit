@@ -66,7 +66,7 @@ export default function AdminDashboard() {
                 <tr className="text-left text-xs uppercase text-muted">
                   <th className="px-3 py-2 font-medium">#</th>
                   <th className="px-3 py-2 font-medium">Candidate</th>
-                  <th className="px-3 py-2 font-medium">Dept</th>
+                  <th className="px-3 py-2 font-medium">Class</th>
                   <th className="px-3 py-2 font-medium text-right">Votes</th>
                   <th className="px-3 py-2 font-medium text-right">Share</th>
                 </tr>
