@@ -44,16 +44,16 @@ export const CANDIDATES = Array.from({ length: 8 }, (_, i) => {
   return {
     id: `cand-${i + 1}`,
     name: `${first} ${last}`,
-    roll: `2201${String(101 + i).padStart(3, '0')}`,
-    department: DEPTS[i % DEPTS.length],
+    roll: String(101 + i).padStart(4, '0'),
+    className: CLASSES[i % CLASSES.length],
     section: ['A','B','C'][i % 3],
     year: 3,
     manifesto: MANIFESTOS[i % MANIFESTOS.length],
-    biography: `${first} is a third-year ${DEPTS[i % DEPTS.length]} student known for calm leadership under pressure. Has served in student clubs and volunteered across multiple department events.`,
+    biography: `${first} is a Class ${CLASSES[i % CLASSES.length]} student known for calm leadership. Has helped organize class events and is active in school clubs.`,
     experience: [
-      'Class Representative — 2 semesters',
-      'IEEE Volunteer Team Lead',
-      'Debate Society — Vice President',
+      'Class Monitor — 2 terms',
+      'Science Club Helper',
+      'Debate Team Member',
     ].slice(0, 1 + (i % 3)),
     achievements: [
       i % 2 === 0 && 'Debate Winner 2025',
