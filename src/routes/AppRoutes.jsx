@@ -125,6 +125,10 @@ const ElectionResults = lazy(() => import('../pages/mission9/ElectionResults.jsx
 const ElectionAdmin = lazy(() => import('../pages/mission9/AdminDashboard.jsx'));
 const ElectionHistory = lazy(() => import('../pages/mission9/ElectionHistory.jsx'));
 
+// Mission 10 (Trust Graph)
+const TrustDashboard = lazy(() => import('../pages/mission10/TrustDashboard.jsx'));
+const TrustFlags = lazy(() => import('../pages/mission10/TrustFlags.jsx'));
+
 export default function AppRoutes() {
   return (
     <Suspense fallback={<LoadingPage />}>
@@ -135,6 +139,7 @@ export default function AppRoutes() {
           <Route path="/mission-1/submit" element={<ComplaintSubmit />} />
           <Route path="/mission-1/submitted" element={<ComplaintSubmitted />} />
           <Route path="/mission-1/history" element={<ComplaintHistory />} />
+          <Route path="/mission-1/archive" element={<ComplaintHistory />} />
           <Route path="/mission-1/strikes" element={<StrikeCounter />} />
           <Route path="/mission-1/evidence" element={<EvidenceManager />} />
           <Route path="/mission-1/captain" element={<M1CaptainDashboard />} />
@@ -170,6 +175,7 @@ export default function AppRoutes() {
           <Route path="/mission-5/report" element={<SosReport />} />
           <Route path="/mission-5/success" element={<SosSuccess />} />
           <Route path="/mission-5/history" element={<SosHistory />} />
+          <Route path="/mission-5/incidents" element={<SosHistory />} />
           <Route path="/mission-5/captain" element={<Mission5Captain />} />
           <Route path="/mission-5/map" element={<EmergencyMap />} />
           <Route path="/mission-5/analytics" element={<EmergencyAnalytics />} />
