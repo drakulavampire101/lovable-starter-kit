@@ -98,17 +98,24 @@ export function AuthProvider({ children }) {
     if (user.roles.length && (!active || !user.roles.includes(active))) setRole(user.roles[0]);
   }, [user, role]);
 
-  const signIn = useCallback(async ({ rollNumber, password, role: chosenRole }) => {
+  const signIn = useCallback(async ({ rollNumber, role: chosenRole }) => {
+    // ⚠️ Auth temporarily disabled for demo — accept any credentials.
     setError(null);
-    try {
-      await authService.login({ rollNumber, password });
-      // onAuthStateChange will hydrate. Best-effort role choice:
-      if (chosenRole) setRole(chosenRole);
-      return { success: true };
-    } catch (e) {
-      setError(e.message);
-      return { success: false, error: e.message };
-    }
+    const roleName = chosenRole || 'student';
+    const demoUser = {
+      id: 'demo-user',
+      email: `${(rollNumber || 'demo').toLowerCase()}@baiust.local`,
+      rollNumber: rollNumber || 'DEMO-001',
+      name: rollNumber ? `Demo ${rollNumber}` : 'Demo User',
+      className: '9', section: 'C',
+      height: null, dob: null, vision: null, hearing: null,
+      avatarColor: 'brand',
+      roles: ['student', 'captain', 'teacher', 'office'],
+      role: roleName,
+    };
+    setUser(demoUser);
+    setRole(roleName);
+    return { success: true };
   }, []);
 
   const signUp = useCallback(async ({ rollNumber, name, password, role: chosenRole, className, section, height, dob, vision, hearing }) => {
