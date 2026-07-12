@@ -12,11 +12,13 @@ import { EXAMPLE_SYLLABUS } from '../../mocks/data/mission3.js';
 import { summarizeSyllabus } from '../../services/syllabusService.js';
 import { setLastRun } from '../../services/aiResultStore.js';
 import { AkpApiError } from '../../services/aiApi.js';
+import { useToast } from '../../components/feedback/Toast.jsx';
 
 const MIN_CHARS = 20;
 const readingTime = (words) => Math.max(1, Math.round(words / 220));
 
 export default function SyllabusInput() {
+  const toast = useToast();
   const [text, setText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null); // { message, fieldErrors }
