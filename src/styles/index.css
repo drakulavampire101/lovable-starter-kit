@@ -4,26 +4,29 @@
 
 @layer base {
   :root {
-    /* Cream / Yellow / Orange / Red palette */
-    --bg: 253 230 205;         /* lightly saturated orange */
-    --surface: 238 236 210;
+    /* Clean white app + orange theme chrome */
+    --bg: 255 255 255;         /* pure white page background */
+    --surface: 249 250 251;    /* subtle gray for muted surfaces */
     --elevated: 255 255 255;
-    --border: 210 200 160;
-    --rule: 44 30 20;
-    --fg: 44 30 20;
-    --muted: 90 70 55;
-    --subtle: 140 120 100;
+    --border: 229 231 235;     /* neutral hairline */
+    --rule: 17 24 39;          /* near-black ink */
+    --fg: 17 24 39;
+    --muted: 75 85 99;
+    --subtle: 156 163 175;
     --brand: 255 143 0;        /* orange #FF8F00 */
     --brand-fg: 255 255 255;
     --brand-soft: 255 224 178;
-    --accent: 251 192 45;      /* yellow #FBC02D */
+    --accent: 251 192 45;
     --accent-fg: 44 30 20;
-    --success: 40 120 70;
+    --success: 22 128 66;
     --warning: 251 192 45;
-    --danger: 198 40 40;       /* red #C62828 */
-    --sidebar-bg: 255 213 170; /* light orange */
-    --sidebar-bg-strong: 255 171 87; /* stronger light orange */
+    --danger: 198 40 40;
+    /* Chrome (sidebar + topbar) share the same theme color */
+    --sidebar-bg: 255 143 0;
+    --sidebar-bg-strong: 230 124 0;
+    --chrome-fg: 255 255 255;  /* high-contrast text on chrome */
   }
+
 
 
   .dark {
