@@ -76,9 +76,9 @@ export default function ModerationModal({ complaint, open, onClose, onDecide }) 
         </div>
 
         <Textarea
-          label="Teacher notes (private)"
+          label="Teacher remark"
           rows={3}
-          placeholder="Add reasoning — visible only to teachers."
+          placeholder="Add your remark — recorded with the decision."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
