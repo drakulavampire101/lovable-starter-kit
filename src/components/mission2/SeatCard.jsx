@@ -59,3 +59,5 @@ function SeatCard({
     </button>
   );
 }
+
+export default memo(SeatCard);
