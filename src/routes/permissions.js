@@ -13,8 +13,8 @@ export const ROLE_ACCESS = {
     '/mission-2',
     // M3
     '/mission-3',
-    // M4 — own tiffin row + menu
-    '/mission-4/tiffin', '/mission-4/menu',
+    // M4 — full tiffin ledger view
+    '/mission-4',
     // M5 — trigger + own history
     '/mission-5', '/mission-5/report', '/mission-5/success', '/mission-5/history',
     // M6
