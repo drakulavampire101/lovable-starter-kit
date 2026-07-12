@@ -12,7 +12,7 @@ import CandidateVoteCard from '../../components/mission9/CandidateVoteCard.jsx';
 import { CANDIDATES } from '../../mocks/data/mission9.js';
 import { cx } from '../../utils/index.js';
 
-const DEPTS = ['All', 'CSE','EEE','CE','ME','TE'];
+const CLASSES = ['All', '6', '7', '8', '9', '10'];
 const SORTS = [
   { value: 'overall',    label: 'Overall score' },
   { value: 'leadership', label: 'Leadership' },
@@ -23,14 +23,14 @@ const PER_PAGE = 6;
 
 export default function CandidateGallery() {
   const [q, setQ] = useState('');
-  const [dept, setDept] = useState('All');
+  const [cls, setCls] = useState('All');
   const [sort, setSort] = useState('overall');
   const [view, setView] = useState('grid');
   const [page, setPage] = useState(1);
 
   const filtered = useMemo(() => {
     let arr = CANDIDATES.filter((c) => {
-      if (dept !== 'All' && c.department !== dept) return false;
+      if (cls !== 'All' && c.className !== cls) return false;
       if (q) {
         const s = q.toLowerCase();
         return c.name.toLowerCase().includes(s) || c.roll.includes(s) || c.manifesto.toLowerCase().includes(s);
@@ -44,7 +44,7 @@ export default function CandidateGallery() {
       return b.overallScore - a.overallScore;
     });
     return arr;
-  }, [q, dept, sort]);
+  }, [q, cls, sort]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const p = Math.min(page, pages);
@@ -59,8 +59,8 @@ export default function CandidateGallery() {
         <div className="sm:col-span-2">
           <SearchInput value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} placeholder="Search name, roll, or manifesto…" />
         </div>
-        <Select value={dept} onChange={(e) => { setDept(e.target.value); setPage(1); }}>
-          {DEPTS.map((d) => <option key={d} value={d}>{d === 'All' ? 'All departments' : d}</option>)}
+        <Select value={cls} onChange={(e) => { setCls(e.target.value); setPage(1); }}>
+          {CLASSES.map((d) => <option key={d} value={d}>{d === 'All' ? 'All classes' : `Class ${d}`}</option>)}
         </Select>
         <Select value={sort} onChange={(e) => setSort(e.target.value)}>
           {SORTS.map((s) => <option key={s.value} value={s.value}>Sort · {s.label}</option>)}

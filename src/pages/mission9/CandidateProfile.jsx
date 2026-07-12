@@ -19,7 +19,7 @@ export default function CandidateProfile() {
     <PageContainer>
       <PageHeader
         title={c.name}
-        subtitle={`${c.roll} · ${c.department} · Section ${c.section}`}
+        subtitle={`Class ${c.className} · Section ${c.section} · Roll ${c.roll}`}
         icon={<Avatar name={c.name} size={40} />}
         actions={
           <div className="flex flex-wrap gap-2">
