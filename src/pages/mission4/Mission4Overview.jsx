@@ -119,4 +119,4 @@ function QuickBtn({ icon, label, onClick }) {
     </button>
   );
 }
-};
+
