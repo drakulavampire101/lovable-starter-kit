@@ -32,9 +32,8 @@ export default function ModerationModal({ complaint, open, onClose, onDecide }) 
       footer={
         <div className="flex flex-wrap justify-end gap-2">
           <Button variant="ghost"   leftIcon={<MessageSquareWarning size={14} />} onClick={() => send('under_review')}>Request Review</Button>
-          <Button variant="outline" leftIcon={<Plus size={14} />}                 onClick={() => send('add_strike')}>Add Strike</Button>
           <Button variant="danger"  leftIcon={<XCircle size={14} />}              onClick={() => send('rejected')}>Reject</Button>
-          <Button variant="success" leftIcon={<CheckCircle2 size={14} />}         onClick={() => send('resolved')}>Approve</Button>
+          <Button variant="success" leftIcon={<CheckCircle2 size={14} />}         onClick={() => send('resolved')}>Mark Resolved</Button>
         </div>
       }
     >
