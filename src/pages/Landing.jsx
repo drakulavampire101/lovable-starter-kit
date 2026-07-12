@@ -94,12 +94,7 @@ export default function Landing() {
           }}
         />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-24 pb-14 sm:pb-20">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="max-w-3xl"
-          >
+          <div className="max-w-3xl animate-fade-in-up">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-elevated px-2.5 py-1 text-xs text-muted">
               <span className="h-1.5 w-1.5 rounded-full bg-success" /> University Governance Console · v1.0
             </span>
@@ -132,7 +127,7 @@ export default function Landing() {
               <Stat k="Anonymous" v="100%" />
               <Stat k="Realtime" v="SOS" />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
