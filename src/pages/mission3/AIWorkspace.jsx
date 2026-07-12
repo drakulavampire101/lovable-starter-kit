@@ -78,7 +78,7 @@ export default function AIWorkspace() {
       <PageHeader
         eyebrow="File 03 · Syllabus comparator"
         title="Does the given syllabus make sense?"
-        subtitle="Paste or upload the syllabus Kuddus handed out. It's compared against the official reference held on the server."
+        subtitle="Paste the syllabus Kuddus handed out. It's compared against the official reference held on the server."
       />
 
 
@@ -91,34 +91,6 @@ export default function AIWorkspace() {
           <p className="eyebrow">What Kuddus handed to students</p>
         </div>
 
-        <div
-          className="px-4 py-3 border-b border-ink/10 flex items-center justify-between gap-3 bg-paper/40"
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => {
-            e.preventDefault();
-            handleFiles(e.dataTransfer.files);
-          }}
-        >
-          <div className="min-w-0 flex-1">
-            {givenFile ? (
-              <p className="text-xs text-ink/80 truncate font-mono">
-                {givenFile.name} <span className="text-ink/40">· {(givenFile.size / 1024).toFixed(1)} KB</span>
-              </p>
-            ) : (
-              <p className="text-xs text-muted">Drop a .txt file or click upload — or paste below.</p>
-            )}
-          </div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".txt,.md,.csv,text/*"
-            className="hidden"
-            onChange={(e) => handleFiles(e.target.files)}
-          />
-          <Button variant="ghost" size="sm" leftIcon={<Upload size={13} />} onClick={() => inputRef.current?.click()}>
-            Upload
-          </Button>
-        </div>
 
         <textarea
           value={given}
