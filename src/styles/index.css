@@ -13,19 +13,20 @@
     --fg: 17 24 39;
     --muted: 75 85 99;
     --subtle: 156 163 175;
-    --brand: 255 143 0;        /* orange #FF8F00 */
+    --brand: 194 133 82;       /* desaturated warm ochre */
     --brand-fg: 255 255 255;
-    --brand-soft: 255 224 178;
-    --accent: 251 192 45;
+    --brand-soft: 232 214 196;
+    --accent: 201 168 92;
     --accent-fg: 44 30 20;
     --success: 22 128 66;
-    --warning: 251 192 45;
-    --danger: 198 40 40;
+    --warning: 201 168 92;
+    --danger: 176 68 68;
     /* Chrome (sidebar + topbar) share the same theme color */
-    --sidebar-bg: 255 143 0;
-    --sidebar-bg-strong: 230 124 0;
+    --sidebar-bg: 194 133 82;
+    --sidebar-bg-strong: 168 112 68;
     --chrome-fg: 255 255 255;  /* high-contrast text on chrome */
   }
+
 
 
 
