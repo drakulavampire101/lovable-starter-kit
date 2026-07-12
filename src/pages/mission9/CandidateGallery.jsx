@@ -23,7 +23,7 @@ const PER_PAGE = 6;
 
 export default function CandidateGallery() {
   const [q, setQ] = useState('');
-  const [dept, setDept] = useState('All');
+  const [cls, setCls] = useState('All');
   const [sort, setSort] = useState('overall');
   const [view, setView] = useState('grid');
   const [page, setPage] = useState(1);
