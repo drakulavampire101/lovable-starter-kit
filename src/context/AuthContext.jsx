@@ -15,8 +15,13 @@ function normalizeRole(r) {
   return v;
 }
 
+function isTeacherStaff(user) {
+  return String(user?.staffRole || '').toLowerCase() === 'teacher';
+}
+
 function deriveRoles(user) {
   if (!user) return [];
+  if (isTeacherStaff(user)) return ['teacher'];
   if (Array.isArray(user.roles) && user.roles.length) return user.roles.map(normalizeRole);
   if (user.role) return [normalizeRole(user.role)];
   return ['student'];
@@ -55,6 +60,13 @@ export function AuthProvider({ children }) {
       .finally(() => alive && setLoading(false));
     return () => { alive = false; };
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    const roles = deriveRoles(user);
+    const active = normalizeRole(role);
+    if (roles.length && (!active || !roles.includes(active))) setRole(roles[0]);
+  }, [user, role]);
 
   const applyAuthResult = (u, chosenRole) => {
     persistUser(u);
