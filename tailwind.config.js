@@ -59,6 +59,15 @@ export default {
         lg: '0 2px 0 0 rgb(var(--rule) / 0.10)',
       },
       transitionDuration: { 250: '250ms' },
+      keyframes: {
+        'toast-in': {
+          '0%': { opacity: '0', transform: 'translateX(2rem)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+      },
+      animation: {
+        'toast-in': 'toast-in 200ms ease-out',
+      },
     },
   },
   plugins: [],
