@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { cx } from '../../utils/index.js';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { NAV_BY_ROLE } from '../../routes/navigation.js';
+import { prefetchRoute } from '../../routes/prefetch.js';
 
 // Mobile quick-nav: minimal chips, active one pinned to the front.
 export default function CategoryChipsRow() {
@@ -39,6 +40,9 @@ export default function CategoryChipsRow() {
               key={to}
               to={to}
               end={end}
+              onMouseEnter={() => prefetchRoute(to)}
+              onTouchStart={() => prefetchRoute(to)}
+              onFocus={() => prefetchRoute(to)}
               className={({ isActive }) =>
                 cx(
                   'inline-flex items-center gap-2 rounded-full px-3.5 h-9 text-sm font-medium whitespace-nowrap shrink-0 transition-colors border',
