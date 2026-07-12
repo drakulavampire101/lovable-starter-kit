@@ -12,22 +12,26 @@ import { StatCard } from '../../components/common/Cards.jsx';
 import Timeline from '../../components/mission1/Timeline.jsx';
 import { ShieldAlert, FileText, ClipboardList, Plus, ArrowRight } from 'lucide-react';
 import { currentStudent } from '../../mocks/data/complaints.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function Mission1Overview() {
   const s = currentStudent;
+  const { role } = useAuth();
+  const canSubmit = role !== 'teacher' && role !== 'office';
   return (
     <PageContainer>
       <PageHeader
         title="Anonymous Whistleblower"
         subtitle="File, track and moderate anonymous complaints — with a strike-based accountability meter."
         icon={<ShieldAlert size={18} />}
-        actions={
+        actions={canSubmit ? (
           <Link to="/mission-1/submit">
             <Button leftIcon={<Plus size={14} />}>File Complaint</Button>
           </Link>
-        }
+        ) : null}
       />
       <Mission1SubNav />
+
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <StatCard icon={<FileText size={16} />} label="Total Submitted" value={s.totalSubmitted} hint="Your lifetime submissions" />
