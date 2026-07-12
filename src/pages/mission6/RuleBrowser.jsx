@@ -33,6 +33,8 @@ export default function RuleBrowser() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const toast = useToast();
+
   useEffect(() => {
     if (!submitted) { setRules([]); return; }
     const ac = new AbortController();
@@ -45,10 +47,12 @@ export default function RuleBrowser() {
         setRules(items.map(normalizeRule));
       })
       .catch((e) => {
-        if (e?.name === 'AbortError') return;
+        if (e?.name === 'AbortError' || ac.signal.aborted) return;
         setRules([]);
-        if (e instanceof AkpApiError) setError(e.message);
-        else setError(e?.message || 'Search failed.');
+        const isApi = e instanceof AkpApiError;
+        const msg = isApi ? e.toUserMessage() : (e?.message || 'Search failed.');
+        setError(msg);
+        toast.push({ tone: 'error', title: 'Search failed', message: msg });
       })
       .finally(() => setLoading(false));
     return () => ac.abort();
