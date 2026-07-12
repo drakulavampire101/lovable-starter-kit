@@ -45,10 +45,17 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
   const base = '/' + (pathname.split('/')[1] || '');
   const title = TITLES[base] || 'Console';
   const code = CODES[base] || 'OFFICE';
+  const [sosOpen, setSosOpen] = useState(false);
+  const isStudent = user?.role === 'student';
 
   const handleSignOut = () => {
     signOut();
     navigate('/auth/welcome', { replace: true });
+  };
+
+  const handleSosSubmit = (payload) => {
+    setSosOpen(false);
+    navigate('/mission-5/success', { state: payload });
   };
 
   return (
