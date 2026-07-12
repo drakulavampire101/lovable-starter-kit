@@ -20,7 +20,9 @@ export const NAV_BY_ROLE = {
     ]},
     { section: 'Student tools', code: '01–09', items: [
       { to: '/mission-1', label: 'Whistleblower', code: '01', icon: ShieldAlert },
+      { to: '/mission-2', label: 'Seat planner', code: '02', icon: Grid3X3 },
       { to: '/mission-3', label: 'Syllabus AI', code: '03', icon: BookOpen },
+
       { to: '/mission-4/tiffin', label: 'Tiffin report', code: '04', icon: Coins },
       { to: '/mission-5', label: 'SOS rescue', code: '05', icon: Siren },
       { to: '/mission-6', label: 'Fact checker', code: '06', icon: SearchCheck },
