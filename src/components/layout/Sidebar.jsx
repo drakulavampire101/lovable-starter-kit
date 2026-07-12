@@ -8,9 +8,7 @@ import { prefetchRoute } from '../../routes/prefetch.js';
 
 function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   const { role } = useAuth();
-  // Teacher and Office share the same navigation (grouped together).
-  const navRole = role === 'teacher' ? 'office' : role;
-  const NAV = NAV_BY_ROLE[navRole] || NAV_BY_ROLE.student;
+  const NAV = NAV_BY_ROLE[role] || NAV_BY_ROLE.student;
   return (
     <aside
       style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
