@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext.jsx';
  * links within (via pointer-events + inert-style attributes).
  * Presentation-only: does not alter routing or business logic.
  */
-export default function ViewOnlyGate({ children, readOnlyRoles = ['*'], label = 'Automated plan — view only' }) {
+export default function ViewOnlyGate({ children, readOnlyRoles = ['student'], label = 'Automated plan — view only' }) {
   const { role } = useAuth();
   const readOnly = readOnlyRoles.includes('*') || readOnlyRoles.includes(role);
   if (!readOnly) return children;
