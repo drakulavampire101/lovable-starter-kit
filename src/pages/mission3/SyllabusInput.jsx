@@ -38,12 +38,19 @@ export default function SyllabusInput() {
     try {
       const result = await summarizeSyllabus(text);
       setLastRun({ kind: 'summary', syllabusText: text, result, createdAt: Date.now() });
+      toast.push({ tone: 'success', title: 'Summary ready', message: 'AI finished analyzing the syllabus.' });
       navigate('/mission-3/summary');
     } catch (e) {
+      if (e?.name === 'AbortError') return;
       if (e instanceof AkpApiError) {
         setError({ message: e.message, fieldErrors: e.fieldErrors || {} });
+        if (e.code !== 'validation') {
+          toast.push({ tone: 'error', title: 'Analysis failed', message: e.toUserMessage() });
+        }
       } else {
-        setError({ message: e?.message || 'Something went wrong.', fieldErrors: {} });
+        const msg = e?.message || 'Something went wrong.';
+        setError({ message: msg, fieldErrors: {} });
+        toast.push({ tone: 'error', title: 'Analysis failed', message: msg });
       }
     } finally {
       setSubmitting(false);
