@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Hash, ArrowRight, Loader2, Lock, User, GraduationCap, Users, Shield } from 'lucide-react';
+import { Hash, ArrowRight, Loader2, Lock, User, GraduationCap, Users, Info } from 'lucide-react';
 import AuthShell from '../../components/auth/AuthShell.jsx';
 import LoginCard from '../../components/auth/LoginCard.jsx';
 import FormField from '../../components/forms/FormField.jsx';
@@ -9,18 +9,15 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 const CLASSES = ['6', '7', '8', '9', '10'];
 const SECTIONS = ['A', 'B', 'C', 'D'];
-const ROLES = [
-  { value: 'student', label: 'Student' },
-  { value: 'captain', label: 'Class Captain' },
-  { value: 'office', label: 'Office / Teacher' },
-];
 
 export default function Register() {
   const nav = useNavigate();
   const { signUp } = useAuth();
   const [className, setClassName] = useState('9');
   const [section, setSection] = useState('C');
-  const [role, setRole] = useState('student');
+  // Students are the only self-serve role. Captains are promoted by teachers,
+  // and teacher/office accounts are pre-seeded.
+  const role = 'student';
   const [rollNumber, setRoll] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -39,7 +36,7 @@ export default function Register() {
     e.preventDefault();
     if (!canSubmit) return;
     setLoading(true);
-    const composedRoll = role === 'office' ? rollNumber.trim() : `${className}${section}-${rollNumber.trim()}`;
+    const composedRoll = `${className}${section}-${rollNumber.trim()}`;
     const res = await signUp({
       rollNumber: composedRoll,
       name: name.trim(),
@@ -56,8 +53,8 @@ export default function Register() {
   return (
     <AuthShell centered>
       <LoginCard
-        title="Create account"
-        description="Register with your class, section and roll number."
+        title="Create student account"
+        description="Only students can self-register. Class captains are promoted by teachers."
         footer={
           <span>
             Already registered?{' '}
@@ -66,13 +63,10 @@ export default function Register() {
         }
       >
         <form onSubmit={submit} className="space-y-4" noValidate>
-          <SelectField
-            label="Register as"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            icon={<Shield size={14} />}
-            options={ROLES}
-          />
+          <div className="flex items-start gap-2 rounded-md border border-border bg-elevated/60 px-3 py-2 text-xs text-muted">
+            <Info size={14} className="mt-0.5 text-brand" />
+            <span>Teacher & office accounts are provisioned by the school and cannot be created here.</span>
+          </div>
           <div className="grid grid-cols-2 gap-3">
             <SelectField
               label="Class"

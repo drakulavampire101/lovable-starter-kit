@@ -116,6 +116,7 @@ const RecommendationAnalytics = lazy(() => import('../pages/mission8/Recommendat
 const TeacherReview = lazy(() => import('../pages/mission8/TeacherReview.jsx'));
 const RecommendationHistory = lazy(() => import('../pages/mission8/RecommendationHistory.jsx'));
 const M8Leaderboard = lazy(() => import('../pages/mission8/LeaderboardPage.jsx'));
+const AssignCaptain = lazy(() => import('../pages/mission8/AssignCaptain.jsx'));
 
 // Mission 9
 const VotingDashboard = lazy(() => import('../pages/mission9/VotingDashboard.jsx'));
@@ -199,6 +200,7 @@ export default function AppRoutes() {
           <Route path="/mission-7/analytics" element={<AnalyticsPage />} />
           <Route path="/mission-7/moderation" element={<ModerationPage />} />
           <Route path="/mission-8" element={<RecommendationDashboard />} />
+          <Route path="/mission-8/assign" element={<AssignCaptain />} />
           <Route path="/mission-8/rankings" element={<CandidateRankings />} />
           <Route path="/mission-8/leaderboard" element={<M8Leaderboard />} />
           <Route path="/mission-8/compare" element={<CandidateCompare />} />
