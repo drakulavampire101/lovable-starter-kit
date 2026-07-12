@@ -44,6 +44,7 @@ function Stat({ k, v }) {
 }
 
 export default function Landing() {
+  const { theme, toggle } = useTheme();
   return (
     <div className="min-h-dvh bg-bg text-fg">
       {/* Nav */}
