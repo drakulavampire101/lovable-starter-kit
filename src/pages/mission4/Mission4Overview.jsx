@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {
-  ResponsiveContainer, LineChart, Line, AreaChart, Area, BarChart, Bar,
-  PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-} from 'recharts';
 import { Coins, Plus, Wallet, ArrowUpRight, ArrowDownRight, Receipt, PieChart as PieIcon, Download, BarChart3, FileText, Utensils } from 'lucide-react';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
@@ -17,15 +13,8 @@ import BudgetProgress from '../../components/mission4/BudgetProgress.jsx';
 import TransactionRow from '../../components/mission4/TransactionRow.jsx';
 import TransactionDrawer from '../../components/mission4/TransactionDrawer.jsx';
 import TransactionModal from '../../components/mission4/TransactionModal.jsx';
-import ChartContainer from '../../components/mission4/ChartContainer.jsx';
-import {
-  SUMMARY, TRANSACTIONS, MONTHLY_TREND, CATEGORY_BREAKDOWN, WEEKLY_SPEND, BALANCE_TREND, CASHFLOW, formatBDT,
-} from '../../mocks/data/mission4.js';
+import { SUMMARY, TRANSACTIONS, formatBDT } from '../../mocks/data/mission4.js';
 
-const COLORS = ['#FF8F00', '#FBC02D', '#C62828', '#4C8C2B', '#8B5CF6', '#0891B2', '#EC4899', '#F97316', '#84CC16', '#EF4444'];
-
-const axisStyle = { fontSize: 11, fill: 'rgb(var(--muted))' };
-const gridStyle = { stroke: 'rgb(var(--border))', strokeDasharray: '3 3' };
 
 export default function Mission4Overview() {
   const [drawerTx, setDrawerTx] = useState(null);
@@ -85,78 +74,8 @@ export default function Mission4Overview() {
         </Card>
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-        <ChartContainer title="Monthly Income vs Expense" description="Last 6 months">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={MONTHLY_TREND}>
-              <CartesianGrid {...gridStyle} />
-              <XAxis dataKey="month" tick={axisStyle} />
-              <YAxis tick={axisStyle} />
-              <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 12 }} />
-              <Bar dataKey="income" fill="#4C8C2B" radius={[4,4,0,0]} />
-              <Bar dataKey="expense" fill="#C62828" radius={[4,4,0,0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+      {/* Recent transactions moved up — charts live on the Analytics tab */}
 
-        <ChartContainer title="Balance Trend" description="Rolling balance">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={BALANCE_TREND}>
-              <defs>
-                <linearGradient id="bal" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#FF8F00" stopOpacity={0.6} />
-                  <stop offset="100%" stopColor="#FF8F00" stopOpacity={0} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid {...gridStyle} />
-              <XAxis dataKey="month" tick={axisStyle} />
-              <YAxis tick={axisStyle} />
-              <Tooltip contentStyle={tooltipStyle} />
-              <Area type="monotone" dataKey="balance" stroke="#FF8F00" strokeWidth={2} fill="url(#bal)" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-
-        <ChartContainer title="Expense Categories" description="Where money went">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie data={CATEGORY_BREAKDOWN} dataKey="value" nameKey="name" innerRadius={55} outerRadius={90} paddingAngle={2}>
-                {CATEGORY_BREAKDOWN.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-              </Pie>
-              <Tooltip contentStyle={tooltipStyle} />
-              <Legend wrapperStyle={{ fontSize: 11 }} />
-            </PieChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-
-        <ChartContainer title="Weekly Spending" description="This week">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={WEEKLY_SPEND}>
-              <CartesianGrid {...gridStyle} />
-              <XAxis dataKey="day" tick={axisStyle} />
-              <YAxis tick={axisStyle} />
-              <Tooltip contentStyle={tooltipStyle} />
-              <Bar dataKey="amount" fill="#FBC02D" radius={[4,4,0,0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-      </div>
-
-      <div className="mt-4">
-        <ChartContainer title="Cash Flow" description="Net monthly (income − expense)">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={CASHFLOW}>
-              <CartesianGrid {...gridStyle} />
-              <XAxis dataKey="month" tick={axisStyle} />
-              <YAxis tick={axisStyle} />
-              <Tooltip contentStyle={tooltipStyle} />
-              <Line type="monotone" dataKey="net" stroke="#FF8F00" strokeWidth={2.5} dot={{ r: 4 }} />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartContainer>
-      </div>
 
       {/* Recent transactions */}
       <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -201,10 +120,3 @@ function QuickBtn({ icon, label, onClick }) {
   );
 }
 
-const tooltipStyle = {
-  background: 'rgb(var(--elevated))',
-  border: '1px solid rgb(var(--border))',
-  borderRadius: 8,
-  fontSize: 12,
-  color: 'rgb(var(--fg))',
-};
