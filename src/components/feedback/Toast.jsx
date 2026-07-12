@@ -1,7 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, XCircle, X } from 'lucide-react';
 import { cx } from '../../utils/index.js';
+
+// CSS-only slide-in/out — avoids pulling framer-motion into the critical path.
+// Exit animation is driven by a two-phase state: `leaving` triggers the exit
+// class, then the item is removed after EXIT_MS.
+const EXIT_MS = 180;
 
 const ToastCtx = createContext(null);
 
@@ -14,24 +18,35 @@ const icons = {
 
 export function ToastProvider({ children }) {
   const [items, setItems] = useState([]);
-  const timers = useRef(new Map());
+  const timers = useRef(new Map()); // id -> { auto, exit }
+
+  const remove = useCallback((id) => {
+    setItems((xs) => xs.filter((t) => t.id !== id));
+    timers.current.delete(id);
+  }, []);
 
   const dismiss = useCallback((id) => {
-    const t = timers.current.get(id);
-    if (t) { clearTimeout(t); timers.current.delete(id); }
-    setItems((xs) => xs.filter((t) => t.id !== id));
-  }, []);
+    const entry = timers.current.get(id);
+    if (entry?.auto) clearTimeout(entry.auto);
+    if (entry?.exit) return; // already leaving
+    setItems((xs) => xs.map((t) => (t.id === id ? { ...t, leaving: true } : t)));
+    const exit = setTimeout(() => remove(id), EXIT_MS);
+    timers.current.set(id, { ...(entry || {}), auto: null, exit });
+  }, [remove]);
 
   const push = useCallback((toast) => {
     const id = Date.now() + Math.random();
-    setItems((xs) => [...xs, { id, tone: 'info', ...toast }]);
-    const handle = setTimeout(() => dismiss(id), toast.duration ?? 3200);
-    timers.current.set(id, handle);
+    setItems((xs) => [...xs, { id, tone: 'info', leaving: false, ...toast }]);
+    const auto = setTimeout(() => dismiss(id), toast.duration ?? 3200);
+    timers.current.set(id, { auto, exit: null });
   }, [dismiss]);
 
   // Clear all outstanding timers when the provider unmounts.
   useEffect(() => () => {
-    for (const h of timers.current.values()) clearTimeout(h);
+    for (const { auto, exit } of timers.current.values()) {
+      if (auto) clearTimeout(auto);
+      if (exit) clearTimeout(exit);
+    }
     timers.current.clear();
   }, []);
 
@@ -39,33 +54,30 @@ export function ToastProvider({ children }) {
   return (
     <ToastCtx.Provider value={value}>
       {children}
-      <div className="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 w-80">
-        <AnimatePresence>
-          {items.map((t) => (
-            <motion.div
-              key={t.id}
-              initial={{ opacity: 0, x: 40 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 40 }}
-              className={cx(
-                'flex items-start gap-3 rounded-lg border border-border bg-elevated shadow-md px-3.5 py-3'
-              )}
+      <div className="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 w-80 pointer-events-none">
+        {items.map((t) => (
+          <div
+            key={t.id}
+            className={cx(
+              'pointer-events-auto flex items-start gap-3 rounded-lg border border-border bg-elevated shadow-md px-3.5 py-3',
+              'transition-all duration-200 ease-out will-change-transform',
+              t.leaving ? 'opacity-0 translate-x-8' : 'opacity-100 translate-x-0 animate-toast-in'
+            )}
+          >
+            <span className="mt-0.5">{icons[t.tone] || icons.info}</span>
+            <div className="flex-1 min-w-0">
+              {t.title && <p className="text-sm font-medium text-fg">{t.title}</p>}
+              {t.message && <p className="text-xs text-muted mt-0.5">{t.message}</p>}
+            </div>
+            <button
+              onClick={() => dismiss(t.id)}
+              aria-label="Dismiss notification"
+              className="text-muted hover:text-fg"
             >
-              <span className="mt-0.5">{icons[t.tone] || icons.info}</span>
-              <div className="flex-1 min-w-0">
-                {t.title && <p className="text-sm font-medium text-fg">{t.title}</p>}
-                {t.message && <p className="text-xs text-muted mt-0.5">{t.message}</p>}
-              </div>
-              <button
-                onClick={() => dismiss(t.id)}
-                aria-label="Dismiss notification"
-                className="text-muted hover:text-fg"
-              >
-                <X size={14} />
-              </button>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+              <X size={14} />
+            </button>
+          </div>
+        ))}
       </div>
     </ToastCtx.Provider>
   );
