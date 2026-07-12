@@ -137,7 +137,7 @@ export default function AppRoutes() {
     <Suspense fallback={<LoadingPage />}>
       <Routes>
         <Route element={<RequireAuth><RoleGuard><DashboardLayout /></RoleGuard></RequireAuth>}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/app" element={<Dashboard />} />
           <Route path="/mission-1" element={<Mission1Overview />} />
           <Route path="/mission-1/submit" element={<ComplaintSubmit />} />
           <Route path="/mission-1/submitted" element={<ComplaintSubmitted />} />
