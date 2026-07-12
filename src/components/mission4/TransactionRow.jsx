@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import CategoryBadge from './CategoryBadge.jsx';
 import StatusPill from './StatusPill.jsx';
 import { formatBDT } from '../../mocks/data/mission4.js';
 import { MoreHorizontal, ArrowUpRight, ArrowDownRight } from 'lucide-react';
 
-export default function TransactionRow({ tx, onClick }) {
+function TransactionRow({ tx, onClick }) {
   return (
     <tr onClick={() => onClick?.(tx)} className="border-t border-border hover:bg-surface/60 cursor-pointer transition-colors">
       <td className="px-4 py-3 text-xs text-muted whitespace-nowrap">{new Date(tx.date).toLocaleDateString()}</td>
@@ -31,3 +32,5 @@ export default function TransactionRow({ tx, onClick }) {
     </tr>
   );
 }
+
+export default memo(TransactionRow);

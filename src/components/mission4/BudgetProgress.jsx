@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import { cx } from '../../utils/index.js';
 import { formatBDT } from '../../mocks/data/mission4.js';
 
-export default function BudgetProgress({ label, spent, budget, tone = 'brand' }) {
+function BudgetProgress({ label, spent, budget, tone = 'brand' }) {
   const pct = Math.min(100, Math.round((spent / budget) * 100));
   const overshoot = pct >= 90;
   return (
@@ -26,3 +27,5 @@ export default function BudgetProgress({ label, spent, budget, tone = 'brand' })
     </div>
   );
 }
+
+export default memo(BudgetProgress);

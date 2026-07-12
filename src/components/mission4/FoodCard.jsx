@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Card from '../common/Card.jsx';
 import Badge from '../ui/Badge.jsx';
 import { formatBDT } from '../../mocks/data/mission4.js';
@@ -5,7 +6,7 @@ import { formatBDT } from '../../mocks/data/mission4.js';
 const popTone = { top: 'brand', high: 'success', medium: 'warning', low: 'neutral' };
 const popLabel = { top: '🔥 Top', high: 'Popular', medium: 'Medium', low: 'Low demand' };
 
-export default function FoodCard({ item, students = 40 }) {
+function FoodCard({ item, students = 40 }) {
   const totalCost = item.qty * item.price;
   const perStudent = Math.round((totalCost / students) * 10) / 10;
   return (
@@ -33,3 +34,5 @@ export default function FoodCard({ item, students = 40 }) {
     </Card>
   );
 }
+
+export default memo(FoodCard);
