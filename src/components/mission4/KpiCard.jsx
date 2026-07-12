@@ -1,8 +1,9 @@
+import { memo } from 'react';
 import Card from '../common/Card.jsx';
 import { cx } from '../../utils/index.js';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-export default function KpiCard({ icon, label, value, delta, hint, tone = 'brand' }) {
+function KpiCard({ icon, label, value, delta, hint, tone = 'brand' }) {
   const positive = (delta ?? 0) >= 0;
   const toneCls = tone === 'danger' ? 'bg-danger/10 text-danger'
     : tone === 'success' ? 'bg-success/10 text-success'
@@ -25,3 +26,5 @@ export default function KpiCard({ icon, label, value, delta, hint, tone = 'brand
     </Card>
   );
 }
+
+export default memo(KpiCard);

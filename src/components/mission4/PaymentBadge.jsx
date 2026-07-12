@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import Badge from '../ui/Badge.jsx';
 import { findPayment } from '../../mocks/data/mission4.js';
 
-export default function PaymentBadge({ method }) {
+function PaymentBadge({ method }) {
   const p = findPayment(method);
   return (
     <Badge tone="neutral">
@@ -10,3 +11,5 @@ export default function PaymentBadge({ method }) {
     </Badge>
   );
 }
+
+export default memo(PaymentBadge);

@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import Badge from '../ui/Badge.jsx';
 import { findCategory } from '../../mocks/data/mission4.js';
 
-export default function CategoryBadge({ category }) {
+function CategoryBadge({ category }) {
   const c = findCategory(category);
   if (!c) return null;
   return (
@@ -11,3 +12,5 @@ export default function CategoryBadge({ category }) {
     </Badge>
   );
 }
+
+export default memo(CategoryBadge);
