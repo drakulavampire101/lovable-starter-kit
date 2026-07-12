@@ -16,23 +16,23 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
         style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
         className={cx(
           'fixed lg:sticky top-0 z-40 h-dvh shrink-0',
-          'border-r border-white/15',
+          'border-r border-[rgb(var(--chrome-fg))]/15',
           'flex flex-col transition-[width,transform] duration-200',
           collapsed ? 'lg:w-16' : 'lg:w-64',
           mobileOpen ? 'w-72 translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
       >
         {/* Header — official stamp */}
-        <div className="border-b border-white/15 px-4 py-4">
+        <div className="border-b border-[rgb(var(--chrome-fg))]/15 px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="relative h-10 w-10 shrink-0 border border-white/40 bg-white/15 text-white flex items-center justify-center font-display text-xl">
+            <div className="relative h-10 w-10 shrink-0 border border-[rgb(var(--chrome-fg))]/40 bg-[rgb(var(--chrome-fg))]/10 text-[rgb(var(--chrome-fg))] flex items-center justify-center font-display text-xl">
               K
-              <span aria-hidden className="absolute -bottom-1 -right-1 h-3 w-3 bg-white border border-white/60" />
+              <span aria-hidden className="absolute -bottom-1 -right-1 h-3 w-3 bg-white border border-[rgb(var(--chrome-fg))]/60" />
             </div>
             {!collapsed && (
               <div className="min-w-0 leading-tight">
-                <p className="font-display text-[15px] uppercase tracking-wide truncate text-white">Anti Kuddus Protocol</p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-white/80 mt-0.5">
+                <p className="font-display text-[15px] uppercase tracking-wide truncate text-[rgb(var(--chrome-fg))]">Anti Kuddus Protocol</p>
+                <p className="font-mono text-[10px] uppercase tracking-widest text-[rgb(var(--chrome-fg))]/80 mt-0.5">
                   Class 9C · Reg. 2026
                 </p>
               </div>
@@ -46,8 +46,8 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
             <div key={group.section} className="mb-5">
               {!collapsed && (
                 <div className="flex items-baseline justify-between px-4 mb-2">
-                  <p className="font-mono text-[10px] font-medium tracking-[0.18em] uppercase text-white/75">{group.section}</p>
-                  <p className="font-mono text-[9px] tracking-widest text-white/50">{group.code}</p>
+                  <p className="font-mono text-[10px] font-medium tracking-[0.18em] uppercase text-[rgb(var(--chrome-fg))]/75">{group.section}</p>
+                  <p className="font-mono text-[9px] tracking-widest text-[rgb(var(--chrome-fg))]/50">{group.code}</p>
                 </div>
               )}
               <ul>
@@ -62,15 +62,15 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
                           'relative flex items-center gap-3 py-2.5 pl-4 pr-3 text-sm font-medium transition-colors',
                           'border-l-[3px]',
                           isActive
-                            ? 'border-white bg-white/20 text-white'
-                            : 'border-transparent text-white/85 hover:text-white hover:bg-white/10',
+                            ? 'border-white bg-[rgb(var(--chrome-fg))]/15 text-[rgb(var(--chrome-fg))]'
+                            : 'border-transparent text-[rgb(var(--chrome-fg))]/90 hover:text-[rgb(var(--chrome-fg))] hover:bg-[rgb(var(--chrome-fg))]/8',
                           collapsed && 'justify-center px-2'
                         )
                       }
                       title={collapsed ? item.label : undefined}
                     >
                       {!collapsed && (
-                        <span className="font-mono text-[10px] tracking-wider text-white/60 w-5 shrink-0">
+                        <span className="font-mono text-[10px] tracking-wider text-[rgb(var(--chrome-fg))]/60 w-5 shrink-0">
                           {item.code}
                         </span>
                       )}
@@ -85,10 +85,10 @@ export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile
         </nav>
 
         {/* Footer */}
-        <div className="border-t border-white/15 p-3 hidden lg:block">
+        <div className="border-t border-[rgb(var(--chrome-fg))]/15 p-3 hidden lg:block">
           <button
             onClick={onToggle}
-            className="w-full flex items-center justify-center gap-2 h-8 text-[11px] font-mono uppercase tracking-widest text-white/80 hover:text-white transition-colors"
+            className="w-full flex items-center justify-center gap-2 h-8 text-[11px] font-mono uppercase tracking-widest text-[rgb(var(--chrome-fg))]/80 hover:text-[rgb(var(--chrome-fg))] transition-colors"
             aria-label={collapsed ? 'Expand navigation' : 'Collapse navigation'}
           >
             {collapsed ? <ChevronRight size={14} /> : (<><ChevronLeft size={14} /> Collapse</>)}
