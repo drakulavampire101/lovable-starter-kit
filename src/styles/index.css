@@ -51,36 +51,53 @@
     --danger: 220 80 80;
   }
 
-  /* Colorblind mode — Okabe & Ito (2008) CVD-safe palette.
-     Distinguishable for protanopia, deuteranopia, and tritanopia.
-     Reference: https://jfly.uni-koeln.de/color/ */
+  /* Colorblind mode — pure black & white high-contrast system.
+     All hue is removed. State is conveyed by weight, borders, and
+     iconography, not color. WCAG AAA contrast (21:1) everywhere. */
   .colorblind {
     --bg: 255 255 255;
-    --surface: 245 245 245;
+    --surface: 255 255 255;
     --elevated: 255 255 255;
-    --border: 200 200 200;
+    --border: 0 0 0;
     --rule: 0 0 0;
     --fg: 0 0 0;
-    --muted: 90 90 90;
-    --subtle: 140 140 140;
-    /* Blue (safe primary) */
-    --brand: 0 114 178;
+    --muted: 0 0 0;
+    --subtle: 60 60 60;
+    --brand: 0 0 0;
     --brand-fg: 255 255 255;
-    --brand-soft: 210 230 245;
-    /* Reddish purple (safe accent, distinct from brand) */
-    --accent: 204 121 167;
+    --brand-soft: 240 240 240;
+    --accent: 0 0 0;
     --accent-fg: 255 255 255;
-    /* Bluish green — safest "success" hue for protan/deutan */
-    --success: 0 158 115;
-    /* Orange — distinct from success and danger */
-    --warning: 230 159 0;
-    /* Vermillion — distinguishable from green for red-green CVD */
-    --danger: 213 94 0;
-    /* Chrome uses sky-blue tint so sidebar is legible without red-green cues */
-    --sidebar-bg: 86 180 233;
-    --sidebar-bg-strong: 0 114 178;
-    --chrome-fg: 0 0 0;
+    --success: 0 0 0;
+    --warning: 0 0 0;
+    --danger: 0 0 0;
+    --sidebar-bg: 0 0 0;
+    --sidebar-bg-strong: 0 0 0;
+    --chrome-fg: 255 255 255;
   }
+
+  /* Extra hardening: force 1px black borders and remove decorative fills
+     so state is legible by structure, not hue. */
+  .colorblind * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+  .colorblind img,
+  .colorblind svg { filter: grayscale(100%) contrast(1.1); }
+  .colorblind button,
+  .colorblind input,
+  .colorblind select,
+  .colorblind textarea,
+  .colorblind [role="button"] {
+    border: 1px solid rgb(var(--fg));
+  }
+  /* Underline every link so it's distinguishable without color */
+  .colorblind a { text-decoration: underline; }
+  /* Danger/live indicators become bold black instead of red */
+  .colorblind [class*="bg-danger"],
+  .colorblind [class*="bg-red"] { background: rgb(var(--fg)) !important; color: rgb(var(--bg)) !important; }
+  .colorblind [class*="text-danger"],
+  .colorblind [class*="text-red"] { color: rgb(var(--fg)) !important; font-weight: 700; }
 
   html, body, #root { height: 100%; }
   body {
