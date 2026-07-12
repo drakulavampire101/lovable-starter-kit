@@ -68,10 +68,9 @@ export default function InteractiveSeating() {
           cols={size.cols}
           selectedId={selected?.id}
           onSeatClick={setSelected}
-          draggable
-          onSeatDragStart={onDragStart}
-          onSeatDrop={onDrop}
+          draggable={false}
         />
+
         <ClassroomLegend />
       </div>
     </PageContainer>
