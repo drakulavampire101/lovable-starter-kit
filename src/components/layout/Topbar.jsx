@@ -148,5 +148,9 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
       </div>
 
     </header>
+    {isStudent && (
+      <SosReportModal open={sosOpen} onClose={() => setSosOpen(false)} onSubmit={handleSosSubmit} />
+    )}
+    </>
   );
 }
