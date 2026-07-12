@@ -2,7 +2,7 @@
 // Keep in sync with routes/permissions.js — nav links MUST be reachable.
 import {
   LayoutDashboard, ShieldAlert, Grid3X3, BookOpen, Coins, Siren, SearchCheck,
-  Star, Award, Vote, BarChart3, Bell, Settings, User, Gavel, Users, ClipboardList,
+  Star, Award, Vote, BarChart3, Bell, Settings, User, Gavel, Users, ClipboardList, Network,
 } from 'lucide-react';
 
 const ACCOUNT_TAIL = {

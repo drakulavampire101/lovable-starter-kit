@@ -213,6 +213,8 @@ export default function AppRoutes() {
           <Route path="/mission-9/results" element={<ElectionResults />} />
           <Route path="/mission-9/admin" element={<ElectionAdmin />} />
           <Route path="/mission-9/history" element={<ElectionHistory />} />
+          <Route path="/mission-10" element={<TrustDashboard />} />
+          <Route path="/mission-10/flags" element={<TrustFlags />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/profile" element={<Profile />} />
