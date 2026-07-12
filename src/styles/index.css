@@ -59,17 +59,9 @@
     font-feature-settings: "ss01", "cv11";
   }
 
-  /* Subject-appropriate paper texture — very subtle, one hairline grid */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(to bottom, rgb(var(--rule) / 0.035) 1px, transparent 1px);
-    background-size: 100% 32px;
-    pointer-events: none;
-    z-index: 0;
-  }
+  /* Pure white surface — no paper grid overlay */
+  body::before { content: none; }
+
   #root { position: relative; z-index: 1; }
 
   /* Visible focus ring — brief-mandated accessibility floor */
