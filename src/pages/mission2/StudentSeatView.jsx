@@ -62,12 +62,18 @@ export default function StudentSeatView() {
                     title={mine ? `Your seat: ${seat.label}` : filled ? `${seat.student.name} · ${seat.label}` : `Empty · ${seat.label}`}
                   >
                     <span className={cx('text-[8px]', mine ? 'opacity-90' : 'text-subtle')}>{seat.label}</span>
-                    <span className="truncate w-full">
+                    <span className="truncate w-full font-semibold">
                       {mine ? 'YOU' : filled ? firstName : ''}
                     </span>
+                    {filled && (
+                      <span className={cx('truncate w-full text-[8px]', mine ? 'opacity-80' : 'text-muted')}>
+                        {seat.student.roll}
+                      </span>
+                    )}
                   </div>
                 );
               })}
+
             </div>
             <p className="mt-4 text-xs text-muted">
               Your seat is highlighted. Names are shown for reference only — the plan is view-only.
