@@ -146,8 +146,9 @@ export default function StudentManagement() {
 
       <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-3">
         {view.map((s) => (
-          <StudentCard key={s.id} student={s} onEdit={setEditing} onDelete={setDeleteTarget} />
+          <StudentCard key={s.id} student={s} />
         ))}
+
         {view.length === 0 && (
           <div className="sm:col-span-2"><EmptyState title="No students match" /></div>
         )}
