@@ -52,7 +52,9 @@ export const ROLE_ACCESS = {
 };
 
 export function canAccess(role, pathname) {
-  const allow = ROLE_ACCESS[role] || ROLE_ACCESS.student;
+  // Teacher shares Office permissions (grouped together).
+  const effective = role === 'teacher' ? 'office' : role;
+  const allow = ROLE_ACCESS[effective] || ROLE_ACCESS.student;
   if (allow.includes('*')) return true;
   return allow.some((p) => pathname === p || pathname.startsWith(p + '/'));
 }
