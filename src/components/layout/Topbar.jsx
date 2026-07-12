@@ -1,9 +1,11 @@
-import { Menu, Search, Bell, Sun, Moon } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, Search, Bell, Sun, Moon, Siren } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 import Avatar from '../ui/Avatar.jsx';
 import { Dropdown, Popover } from '../ui/Overlays.jsx';
 import { useLocation, useNavigate } from 'react-router-dom';
+import SosReportModal from '../mission5/SosReportModal.jsx';
 
 const TITLES = {
   '/': 'Daily Bulletin',
@@ -43,13 +45,21 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
   const base = '/' + (pathname.split('/')[1] || '');
   const title = TITLES[base] || 'Console';
   const code = CODES[base] || 'OFFICE';
+  const [sosOpen, setSosOpen] = useState(false);
+  const isStudent = user?.role === 'student';
 
   const handleSignOut = () => {
     signOut();
     navigate('/auth/welcome', { replace: true });
   };
 
+  const handleSosSubmit = (payload) => {
+    setSosOpen(false);
+    navigate('/mission-5/success', { state: payload });
+  };
+
   return (
+    <>
     <header
       style={{ background: 'rgb(var(--sidebar-bg))', color: 'rgb(var(--chrome-fg))' }}
       className="sticky top-0 z-20 border-b border-[rgb(var(--chrome-fg))]/15 text-[rgb(var(--chrome-fg))]"
@@ -83,6 +93,16 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
         </div>
 
         <div className="flex items-center gap-2">
+          {isStudent && (
+            <button
+              onClick={() => setSosOpen(true)}
+              aria-label="Trigger SOS emergency"
+              className="inline-flex items-center gap-1.5 h-9 px-3 rounded-sm bg-danger text-white font-mono text-[11px] font-bold tracking-widest uppercase hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-danger/60 shadow-sm"
+            >
+              <Siren size={14} />
+              SOS
+            </button>
+          )}
           <label className="hidden md:flex items-center gap-2 w-72 h-9 px-3 border border-[rgb(var(--chrome-fg))]/30 bg-[rgb(var(--chrome-fg))]/8 text-sm text-[rgb(var(--chrome-fg))]/90 rounded-sm focus-within:border-white focus-within:bg-[rgb(var(--chrome-fg))]/10">
             <Search size={14} />
             <input
@@ -129,5 +149,9 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
       </div>
 
     </header>
+    {isStudent && (
+      <SosReportModal open={sosOpen} onClose={() => setSosOpen(false)} onSubmit={handleSosSubmit} />
+    )}
+    </>
   );
 }
