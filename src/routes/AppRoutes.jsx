@@ -137,14 +137,15 @@ export default function AppRoutes() {
           <Route path="/mission-1/captain" element={<M1CaptainDashboard />} />
           <Route path="/mission-1/moderation" element={<TeacherModeration />} />
           <Route path="/mission-1/analytics" element={<ComplaintAnalytics />} />
-          <Route path="/mission-2" element={<ViewOnlyGate><Mission2Overview /></ViewOnlyGate>} />
-          <Route path="/mission-2/students" element={<ViewOnlyGate><StudentManagement /></ViewOnlyGate>} />
-          <Route path="/mission-2/classroom" element={<ViewOnlyGate><ClassroomLayout /></ViewOnlyGate>} />
-          <Route path="/mission-2/interactive" element={<ViewOnlyGate><InteractiveSeating /></ViewOnlyGate>} />
-          <Route path="/mission-2/constraints" element={<ViewOnlyGate><Mission2Constraints /></ViewOnlyGate>} />
-          <Route path="/mission-2/line-of-sight" element={<ViewOnlyGate><LineOfSight /></ViewOnlyGate>} />
-          <Route path="/mission-2/plan" element={<ViewOnlyGate><GeneratedPlan /></ViewOnlyGate>} />
-          <Route path="/mission-2/analytics" element={<ViewOnlyGate><SeatAnalytics /></ViewOnlyGate>} />
+          <Route path="/mission-2" element={<RoleGuard allow={['student']} fallback={<Mission2Overview />}><StudentSeatView /></RoleGuard>} />
+          <Route path="/mission-2/students" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><StudentManagement /></RoleGuard>} />
+          <Route path="/mission-2/classroom" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><ClassroomLayout /></RoleGuard>} />
+          <Route path="/mission-2/interactive" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><InteractiveSeating /></RoleGuard>} />
+          <Route path="/mission-2/constraints" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><Mission2Constraints /></RoleGuard>} />
+          <Route path="/mission-2/line-of-sight" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><LineOfSight /></RoleGuard>} />
+          <Route path="/mission-2/plan" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><GeneratedPlan /></RoleGuard>} />
+          <Route path="/mission-2/analytics" element={<RoleGuard allow={['captain','office','teacher']} fallback={<StudentSeatView />}><SeatAnalytics /></RoleGuard>} />
+
 
           <Route path="/mission-3" element={<AIWorkspace />} />
           <Route path="/mission-3/input" element={<SyllabusInput />} />
