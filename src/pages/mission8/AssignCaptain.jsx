@@ -17,7 +17,8 @@ import {
 } from '../../mocks/rosterStore.js';
 
 export default function AssignCaptain() {
-  const students = useSyncExternalStore(subscribe, getStudents, getStudents);
+  useSyncExternalStore(subscribe, getVersion, getVersion);
+  const students = getStudents();
   const [query, setQuery] = useState('');
   const [cls, setCls] = useState('all');
   const [sec, setSec] = useState('all');
