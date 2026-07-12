@@ -37,13 +37,13 @@ function seed() {
   return list;
 }
 
+let version = 0;
 const STUDENTS = seed();
 const listeners = new Set();
-const notify = () => listeners.forEach((fn) => fn());
+const notify = () => { version++; listeners.forEach((fn) => fn()); };
 
-export function getStudents() {
-  return STUDENTS;
-}
+export function getStudents() { return STUDENTS; }
+export function getVersion() { return version; }
 
 export function subscribe(fn) {
   listeners.add(fn);
