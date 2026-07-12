@@ -11,10 +11,13 @@ import FilterDropdown from '../../components/mission1/FilterDropdown.jsx';
 import StatusBadge from '../../components/mission1/StatusBadge.jsx';
 import CategoryBadge from '../../components/mission1/CategoryBadge.jsx';
 import ComplaintCard from '../../components/mission1/ComplaintCard.jsx';
+import ModerationModal from '../../components/mission1/ModerationModal.jsx';
 import Pagination from '../../components/ui/Pagination.jsx';
 import EmptyState from '../../components/feedback/EmptyState.jsx';
-import { CATEGORIES, STATUSES, complaints } from '../../mocks/data/complaints.js';
-import { History, Eye, ArrowUpDown } from 'lucide-react';
+import { CATEGORIES, STATUSES, complaints as seedComplaints } from '../../mocks/data/complaints.js';
+import { History, Eye, ArrowUpDown, Gavel } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { useToast } from '../../components/feedback/Toast.jsx';
 
 const PAGE_SIZE = 8;
 
@@ -30,14 +33,19 @@ function StrikeWeightCell({ w = 0 }) {
 }
 
 export default function ComplaintHistory() {
+  const { role } = useAuth();
+  const toast = useToast();
+  const isReviewer = role === 'teacher' || role === 'office';
+  const [rows, setRows] = useState(seedComplaints);
   const [q, setQ] = useState('');
   const [cat, setCat] = useState('');
   const [status, setStatus] = useState('');
   const [sort, setSort] = useState('newest');
   const [page, setPage] = useState(1);
+  const [reviewing, setReviewing] = useState(null);
 
   const filtered = useMemo(() => {
-    let out = complaints.filter((c) => {
+    let out = rows.filter((c) => {
       if (cat && c.category !== cat) return false;
       if (status && c.status !== status) return false;
       if (q) {
@@ -57,10 +65,26 @@ export default function ComplaintHistory() {
       return dB - dA;
     });
     return out;
-  }, [q, cat, status, sort]);
+  }, [q, cat, status, sort, rows]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageRows = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  const handleDecide = ({ decision, notes }) => {
+    if (!reviewing) return;
+    const nextStatus = decision === 'resolved' ? 'resolved'
+      : decision === 'rejected' ? 'rejected'
+      : 'under_review';
+    setRows((prev) => prev.map((c) => c.id === reviewing.id
+      ? { ...c, status: nextStatus, teacherRemark: notes, lastUpdated: new Date().toISOString() }
+      : c));
+    toast.push({
+      tone: nextStatus === 'resolved' ? 'success' : nextStatus === 'rejected' ? 'error' : 'warning',
+      title: `Case ${reviewing.id}`,
+      message: `Marked as ${nextStatus.replace('_', ' ')}.`,
+    });
+    setReviewing(null);
+  };
 
   const columns = [
     { key: 'id', label: 'Anonymous ID', render: (r) => <span className="font-mono text-xs">{r.id}</span> },
@@ -72,7 +96,9 @@ export default function ComplaintHistory() {
     {
       key: 'actions',
       label: '',
-      render: () => (
+      render: (r) => isReviewer ? (
+        <Button size="sm" variant="secondary" leftIcon={<Gavel size={12} />} onClick={() => setReviewing(r)}>Review</Button>
+      ) : (
         <Button size="sm" variant="ghost" leftIcon={<Eye size={12} />}>View</Button>
       ),
     },
@@ -81,8 +107,10 @@ export default function ComplaintHistory() {
   return (
     <PageContainer>
       <PageHeader
-        title="Complaint History"
-        subtitle="Track every anonymous report you've filed and its current status."
+        title={isReviewer ? 'Case Archive' : 'Complaint History'}
+        subtitle={isReviewer
+          ? 'Review each case and mark it resolved, rejected, or under review.'
+          : "Track every anonymous report you've filed and its current status."}
         icon={<History size={18} />}
       />
       <Mission1SubNav />
@@ -130,6 +158,13 @@ export default function ComplaintHistory() {
           </div>
         </>
       )}
+
+      <ModerationModal
+        complaint={reviewing}
+        open={!!reviewing}
+        onClose={() => setReviewing(null)}
+        onDecide={handleDecide}
+      />
     </PageContainer>
   );
 }
