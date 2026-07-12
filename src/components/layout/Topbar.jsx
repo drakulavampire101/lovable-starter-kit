@@ -46,7 +46,7 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
   const title = TITLES[base] || 'Console';
   const code = CODES[base] || 'OFFICE';
   const [sosOpen, setSosOpen] = useState(false);
-  const isStudent = user?.role === 'student';
+  const isStudent = role === 'student' || user?.role === 'student' || user?.roles?.includes('student');
 
   const handleSignOut = () => {
     signOut();
