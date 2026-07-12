@@ -55,6 +55,7 @@ export default function FactCheckResult() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null); // { message, fieldErrors }
   const [result, setResult] = useState(null);
+  const toast = useToast();
 
   useEffect(() => {
     if (!query) return;
@@ -64,11 +65,16 @@ export default function FactCheckResult() {
     verifyClaim(query, { signal: ac.signal })
       .then((raw) => setResult(normalizeVerify(raw)))
       .catch((e) => {
-        if (e?.name === 'AbortError') return;
+        if (e?.name === 'AbortError' || ac.signal.aborted) return;
         if (e instanceof AkpApiError) {
           setError({ message: e.message, fieldErrors: e.fieldErrors || {} });
+          if (e.code !== 'validation') {
+            toast.push({ tone: 'error', title: 'Fact check failed', message: e.toUserMessage() });
+          }
         } else {
-          setError({ message: e?.message || 'Something went wrong.', fieldErrors: {} });
+          const msg = e?.message || 'Something went wrong.';
+          setError({ message: msg, fieldErrors: {} });
+          toast.push({ tone: 'error', title: 'Fact check failed', message: msg });
         }
       })
       .finally(() => setLoading(false));
