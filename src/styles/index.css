@@ -33,22 +33,27 @@
 
 
   .dark {
-    --bg: 28 22 16;
-    --surface: 40 32 24;
-    --elevated: 52 42 32;
-    --border: 90 72 52;
-    --rule: 245 245 220;
-    --fg: 245 245 220;
-    --muted: 200 185 160;
-    --subtle: 150 135 115;
-    --brand: 120 200 150;
-    --brand-fg: 10 30 20;
-    --brand-soft: 30 70 50;
-    --accent: 120 200 150;
-    --accent-fg: 10 30 20;
-    --success: 120 180 130;
-    --warning: 251 192 45;
-    --danger: 220 80 80;
+    /* Body bg = old header text color (deep green); text = old header bg (mint) */
+    --bg: 20 60 40;
+    --surface: 26 72 50;
+    --elevated: 32 84 58;
+    --border: 60 120 90;
+    --rule: 178 232 200;
+    --fg: 178 232 200;
+    --muted: 150 200 175;
+    --subtle: 110 160 135;
+    --brand: 178 232 200;
+    --brand-fg: 20 60 40;
+    --brand-soft: 30 90 60;
+    --accent: 178 232 200;
+    --accent-fg: 20 60 40;
+    --success: 140 210 170;
+    --warning: 240 200 90;
+    --danger: 230 110 110;
+    /* Header themed to match — deeper green bg, mint text */
+    --sidebar-bg: 14 44 30;
+    --sidebar-bg-strong: 10 34 22;
+    --chrome-fg: 178 232 200;
   }
 
   /* Colorblind mode — pure black & white high-contrast system.
