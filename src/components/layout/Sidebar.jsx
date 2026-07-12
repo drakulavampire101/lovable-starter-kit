@@ -6,7 +6,9 @@ import { NAV_BY_ROLE } from '../../routes/navigation.js';
 
 export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   const { role } = useAuth();
-  const NAV = NAV_BY_ROLE[role] || NAV_BY_ROLE.student;
+  // Teacher and Office share the same navigation (grouped together).
+  const navRole = role === 'teacher' ? 'office' : role;
+  const NAV = NAV_BY_ROLE[navRole] || NAV_BY_ROLE.student;
   return (
     <>
       {mobileOpen && (
