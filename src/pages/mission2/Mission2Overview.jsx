@@ -9,20 +9,27 @@ import { StatCard, FeatureCard } from '../../components/common/Cards.jsx';
 import ConstraintBadge from '../../components/mission2/ConstraintBadge.jsx';
 import { Grid3X3, Users, Sofa, LayoutGrid, Sparkles, Eye, Ear, ArrowUpToLine, Lock, Target, Plus, PlayCircle } from 'lucide-react';
 import { SUMMARY } from '../../mocks/data/mission2.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function Mission2Overview() {
+  const { role } = useAuth();
+  const isCaptain = role === 'captain';
+  const canEdit = role === 'teacher' || role === 'office';
+
   return (
     <PageContainer>
       <PageHeader
         title="Anti-Camouflage Seat Planner"
-        subtitle="Plan classrooms with height, accessibility and line-of-sight constraints — so nobody hides."
+        subtitle={isCaptain
+          ? 'Choose a saved classroom layout for your section. Only teachers can create new layouts or edit rosters.'
+          : 'Plan classrooms with height, accessibility and line-of-sight constraints — so nobody hides.'}
         icon={<Grid3X3 size={18} />}
-        actions={
+        actions={canEdit ? (
           <div className="flex gap-2">
             <Link to="/mission-2/students"><Button variant="secondary" leftIcon={<Users size={14} />}>Manage Students</Button></Link>
             <Link to="/mission-2/plan"><Button leftIcon={<Sparkles size={14} />}>Generate Plan</Button></Link>
           </div>
-        }
+        ) : null}
       />
       <Mission2SubNav />
 
@@ -34,8 +41,8 @@ export default function Mission2Overview() {
         <StatCard icon={<Grid3X3 size={16} />} label="Utilization" value={`${Math.round((SUMMARY.totalStudents / SUMMARY.capacity) * 100)}%`} hint="Seats occupied" trend={4.1} />
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-6">
-        <Card className="xl:col-span-2 p-5">
+      <div className={`grid grid-cols-1 ${isCaptain ? '' : 'xl:grid-cols-3'} gap-4 mt-6`}>
+        <Card className={`${isCaptain ? '' : 'xl:col-span-2'} p-5`}>
           <SectionHeader title="Constraint Summary" description="Live view of who needs what before you press Generate." />
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <ConstraintStat icon={<Eye size={14} />} label="Vision Priority" value={SUMMARY.visionPriority} />
@@ -53,16 +60,18 @@ export default function Mission2Overview() {
           </div>
         </Card>
 
-        <Card className="p-5">
-          <SectionHeader title="Quick Actions" description="Jump straight into planning." />
-          <div className="space-y-2">
-            <Link to="/mission-2/students"><Button variant="secondary" className="w-full justify-start" leftIcon={<Plus size={14} />}>Add Student</Button></Link>
-            <Link to="/mission-2/classroom"><Button variant="secondary" className="w-full justify-start" leftIcon={<LayoutGrid size={14} />}>Configure Classroom</Button></Link>
-            <Link to="/mission-2/interactive"><Button variant="secondary" className="w-full justify-start" leftIcon={<Grid3X3 size={14} />}>Interactive Seating</Button></Link>
-            <Link to="/mission-2/line-of-sight"><Button variant="secondary" className="w-full justify-start" leftIcon={<Target size={14} />}>Line-of-Sight View</Button></Link>
-            <Link to="/mission-2/plan"><Button className="w-full justify-start" leftIcon={<PlayCircle size={14} />}>Generate Seating Plan</Button></Link>
-          </div>
-        </Card>
+        {!isCaptain && (
+          <Card className="p-5">
+            <SectionHeader title="Quick Actions" description="Jump straight into planning." />
+            <div className="space-y-2">
+              <Link to="/mission-2/students"><Button variant="secondary" className="w-full justify-start" leftIcon={<Plus size={14} />}>Add Student</Button></Link>
+              <Link to="/mission-2/classroom"><Button variant="secondary" className="w-full justify-start" leftIcon={<LayoutGrid size={14} />}>Configure Classroom</Button></Link>
+              <Link to="/mission-2/interactive"><Button variant="secondary" className="w-full justify-start" leftIcon={<Grid3X3 size={14} />}>Interactive Seating</Button></Link>
+              <Link to="/mission-2/line-of-sight"><Button variant="secondary" className="w-full justify-start" leftIcon={<Target size={14} />}>Line-of-Sight View</Button></Link>
+              <Link to="/mission-2/plan"><Button className="w-full justify-start" leftIcon={<PlayCircle size={14} />}>Generate Seating Plan</Button></Link>
+            </div>
+          </Card>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
@@ -73,6 +82,7 @@ export default function Mission2Overview() {
     </PageContainer>
   );
 }
+
 
 function ConstraintStat({ icon, label, value }) {
   return (

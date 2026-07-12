@@ -14,9 +14,12 @@ import TransactionRow from '../../components/mission4/TransactionRow.jsx';
 import TransactionDrawer from '../../components/mission4/TransactionDrawer.jsx';
 import TransactionModal from '../../components/mission4/TransactionModal.jsx';
 import { SUMMARY, TRANSACTIONS, formatBDT } from '../../mocks/data/mission4.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 
 export default function Mission4Overview() {
+  const { role } = useAuth();
+  const canEdit = role !== 'student';
   const [drawerTx, setDrawerTx] = useState(null);
   const [modal, setModal] = useState(false);
   const [modalType, setModalType] = useState('expense');
@@ -29,14 +32,16 @@ export default function Mission4Overview() {
     <PageContainer>
       <PageHeader
         title="Corrupt Economy Ledger"
-        subtitle="Transparent class finances — track income, expenses, and tiffin costs in real time."
+        subtitle={canEdit
+          ? 'Transparent class finances — track income, expenses, and tiffin costs in real time.'
+          : 'Transparent class finances — view only for students.'}
         icon={<Coins size={18} />}
-        actions={
+        actions={canEdit ? (
           <div className="flex gap-2">
             <Button variant="outline" leftIcon={<Download size={14} />}>Export</Button>
             <Button leftIcon={<Plus size={14} />} onClick={() => openAdd('expense')}>Add Transaction</Button>
           </div>
-        }
+        ) : null}
       />
       <Mission4SubNav />
 
@@ -51,8 +56,8 @@ export default function Mission4Overview() {
       </div>
 
       {/* Budget progress + Quick actions */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-        <Card className="p-5 lg:col-span-2">
+      <div className={`grid grid-cols-1 ${canEdit ? 'lg:grid-cols-3' : ''} gap-4 mt-6`}>
+        <Card className={`p-5 ${canEdit ? 'lg:col-span-2' : ''}`}>
           <SectionHeader title="Budget Overview" description="Where the class fund is going right now." />
           <div className="grid sm:grid-cols-2 gap-5">
             <BudgetProgress label="Tiffin Budget" spent={SUMMARY.tiffinSpent} budget={SUMMARY.tiffinBudget} />
@@ -61,18 +66,21 @@ export default function Mission4Overview() {
             <BudgetProgress label="Emergency" spent={900} budget={3000} tone="success" />
           </div>
         </Card>
-        <Card className="p-5">
-          <SectionHeader title="Quick Actions" description="Common tasks" />
-          <div className="grid grid-cols-2 gap-2">
-            <QuickBtn icon={<ArrowUpRight size={14} />} label="Add Income" onClick={() => openAdd('income')} />
-            <QuickBtn icon={<ArrowDownRight size={14} />} label="Add Expense" onClick={() => openAdd('expense')} />
-            <QuickBtn icon={<Utensils size={14} />} label="Add Tiffin" onClick={() => openAdd('expense')} />
-            <Link to="/mission-4/analytics"><QuickBtn icon={<BarChart3 size={14} />} label="Analytics" /></Link>
-            <Link to="/mission-4/exports"><QuickBtn icon={<FileText size={14} />} label="Report" /></Link>
-            <Link to="/mission-4/exports"><QuickBtn icon={<Download size={14} />} label="Export" /></Link>
-          </div>
-        </Card>
+        {canEdit && (
+          <Card className="p-5">
+            <SectionHeader title="Quick Actions" description="Common tasks" />
+            <div className="grid grid-cols-2 gap-2">
+              <QuickBtn icon={<ArrowUpRight size={14} />} label="Add Income" onClick={() => openAdd('income')} />
+              <QuickBtn icon={<ArrowDownRight size={14} />} label="Add Expense" onClick={() => openAdd('expense')} />
+              <QuickBtn icon={<Utensils size={14} />} label="Add Tiffin" onClick={() => openAdd('expense')} />
+              <Link to="/mission-4/analytics"><QuickBtn icon={<BarChart3 size={14} />} label="Analytics" /></Link>
+              <Link to="/mission-4/exports"><QuickBtn icon={<FileText size={14} />} label="Report" /></Link>
+              <Link to="/mission-4/exports"><QuickBtn icon={<Download size={14} />} label="Export" /></Link>
+            </div>
+          </Card>
+        )}
       </div>
+
 
       {/* Recent transactions moved up — charts live on the Analytics tab */}
 

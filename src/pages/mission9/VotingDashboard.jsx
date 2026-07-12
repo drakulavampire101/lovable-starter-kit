@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
-import { Vote, Users, UserCheck, TrendingUp, ListChecks, BarChart3, ArrowRight, ShieldCheck, FileText } from 'lucide-react';
+import { Vote, Users, UserCheck, TrendingUp, ListChecks, BarChart3, ArrowRight, ShieldCheck, FileText, Clock } from 'lucide-react';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
 import Card from '../../components/common/Card.jsx';
 import Button from '../../components/common/Button.jsx';
+import EmptyState from '../../components/feedback/EmptyState.jsx';
 import SectionHeader from '../../components/ui/SectionHeader.jsx';
 import Mission9SubNav from '../../components/mission9/Mission9SubNav.jsx';
 import ElectionStatCard from '../../components/mission9/ElectionStatCard.jsx';
@@ -11,16 +12,44 @@ import ElectionStatusBadge from '../../components/mission9/ElectionStatusBadge.j
 import CountdownTimer from '../../components/mission9/CountdownTimer.jsx';
 import CandidateVoteCard from '../../components/mission9/CandidateVoteCard.jsx';
 import { CANDIDATES, ELECTION, TURNOUT_PCT } from '../../mocks/data/mission9.js';
-
-const quick = [
-  { to: '/mission-9/ballot',     icon: <Vote size={16} />,       title: 'Vote Now',        desc: 'Cast your ballot for the Spring 2026 captain' },
-  { to: '/mission-9/candidates', icon: <Users size={16} />,      title: 'View Candidates', desc: 'Browse manifestos and profiles' },
-  { to: '/mission-9/results',    icon: <BarChart3 size={16} />,  title: 'Election Results',desc: 'Live tally, charts, and turnout' },
-  { to: '#rules',                icon: <ShieldCheck size={16} />, title: 'Election Rules', desc: 'What counts as a valid ballot' },
-];
+import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function VotingDashboard() {
+  const { role } = useAuth();
+  const isStaff = role === 'teacher' || role === 'office';
+  const isVotingOpen = ELECTION.status === 'active';
   const top3 = [...CANDIDATES].sort((a, b) => b.overallScore - a.overallScore).slice(0, 3);
+
+  // Voting closed for students → show "no voting yet" state.
+  if (!isStaff && !isVotingOpen) {
+    return (
+      <PageContainer>
+        <PageHeader
+          title="Captain Voting"
+          subtitle="Voting is not open right now."
+          icon={<Vote size={18} />}
+        />
+        <Mission9SubNav />
+        <Card className="p-8">
+          <EmptyState
+            icon={<Clock size={20} />}
+            title="No voting yet"
+            message="Your teacher hasn't started the election. Come back when voting opens — you'll see the shortlisted candidates and can cast your ballot then."
+          />
+          <div className="mt-4 flex justify-center">
+            <ElectionStatusBadge status={ELECTION.status} />
+          </div>
+        </Card>
+      </PageContainer>
+    );
+  }
+
+  const quick = [
+    !isStaff && { to: '/mission-9/ballot',     icon: <Vote size={16} />,       title: 'Vote Now',        desc: 'Cast your ballot for the Spring 2026 captain' },
+    { to: '/mission-9/candidates', icon: <Users size={16} />,      title: 'View Candidates', desc: 'Browse manifestos and profiles' },
+    { to: '/mission-9/results',    icon: <BarChart3 size={16} />,  title: 'Election Results',desc: 'Live tally, charts, and turnout' },
+    { to: '#rules',                icon: <ShieldCheck size={16} />, title: 'Election Rules', desc: 'What counts as a valid ballot' },
+  ].filter(Boolean);
 
   return (
     <PageContainer>
@@ -28,15 +57,16 @@ export default function VotingDashboard() {
         title="Captain Voting"
         subtitle={`${ELECTION.name} · closes ${new Date(ELECTION.closes).toLocaleDateString()}`}
         icon={<Vote size={18} />}
-        actions={
+        actions={!isStaff ? (
           <Link to="/mission-9/ballot"><Button leftIcon={<Vote size={14} />}>Vote Now</Button></Link>
-        }
+        ) : null}
       />
       <Mission9SubNav />
 
       <div className="mb-6 flex flex-wrap items-center gap-2">
         <ElectionStatusBadge status={ELECTION.status} />
         <span className="text-xs text-muted">Election ID: <span className="font-mono text-fg">{ELECTION.id}</span></span>
+        {isStaff && <span className="text-[11px] text-muted ml-2">Admin view — voting is disabled for staff.</span>}
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
@@ -96,3 +126,4 @@ export default function VotingDashboard() {
     </PageContainer>
   );
 }
+

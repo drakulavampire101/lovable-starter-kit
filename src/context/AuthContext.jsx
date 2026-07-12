@@ -4,14 +4,14 @@ import { getToken, clearToken } from '../services/api.js';
 
 const AuthContext = createContext(null);
 
-const ROLE_ROUTES = { student: '/student', captain: '/captain', office: '/office', teacher: '/office', admin: '/office' };
+const ROLE_ROUTES = { student: '/student', captain: '/captain', office: '/office', teacher: '/teacher', admin: '/office' };
 const ROLE_KEY = 'akp:selectedRole';
 const USER_KEY = 'akp:user';
 
 function normalizeRole(r) {
   if (!r) return null;
   const v = String(r).toLowerCase();
-  if (v === 'teacher' || v === 'admin') return 'office';
+  if (v === 'admin') return 'office';
   return v;
 }
 

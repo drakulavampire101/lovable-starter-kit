@@ -2,7 +2,8 @@
 export const MOCK_USERS = {
   '220101': { name: 'John Doe', roll: '220101', roles: ['student'], batch: '2022', dept: 'CSE' },
   '220001': { name: 'Jane Smith', roll: '220001', roles: ['student', 'captain'], batch: '2022', dept: 'CSE' },
-  T001: { name: 'Dr. Ahmed', roll: 'T001', roles: ['office'], batch: 'Faculty', dept: 'CSE' },
+  T001: { name: 'Dr. Ahmed', roll: 'T001', roles: ['teacher'], batch: 'Faculty', dept: 'CSE' },
+  O001: { name: 'Office Desk', roll: 'O001', roles: ['office'], batch: 'Faculty', dept: 'Admin' },
 };
 
 export const VALID_ROLLS = Object.keys(MOCK_USERS);
@@ -20,16 +21,15 @@ export const ROLE_META = {
     tone: 'accent',
     path: '/captain',
   },
+  teacher: {
+    label: 'Teacher',
+    description: 'Review complaints, run captain engine, and administer elections.',
+    tone: 'warning',
+    path: '/teacher',
+  },
   office: {
     label: 'Office',
-    description: 'Oversee moderation, view analytics, and manage elections.',
-    tone: 'danger',
-    path: '/office',
-  },
-  // Backwards-compat alias
-  teacher: {
-    label: 'Office',
-    description: 'Oversee moderation, view analytics, and manage elections.',
+    description: 'Oversee moderation, view analytics, and manage records.',
     tone: 'danger',
     path: '/office',
   },
