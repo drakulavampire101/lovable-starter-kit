@@ -76,7 +76,7 @@ export async function akpFetch(
   while (attempt <= retries) {
     // Per-attempt controller so timeouts don't poison later retries.
     const controller = new AbortController();
-    linkSignals(signal, controller);
+    const unlink = linkSignals(signal, controller);
     const timer = setTimeout(() => {
       controller.abort(new DOMException('Timeout', 'TimeoutError'));
     }, timeoutMs);
