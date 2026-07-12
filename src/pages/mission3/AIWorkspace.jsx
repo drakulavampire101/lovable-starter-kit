@@ -59,19 +59,8 @@ export default function AIWorkspace() {
     return { tone: 'live', label: 'Does not make sense' };
   }, [result]);
 
-  const handleFiles = async (fileList) => {
-    const arr = Array.from(fileList || []);
-    if (!arr.length) return;
-    const f = arr[0];
-    const text = await new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result || ''));
-      reader.onerror = () => resolve('');
-      reader.readAsText(f);
-    });
-    setGivenFile(f);
-    setGiven(text);
-  };
+
+
 
   return (
     <PageContainer>
