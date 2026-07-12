@@ -38,7 +38,7 @@ const CODES = {
 };
 
 export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
-  const { theme, toggle } = useTheme();
+  const { theme, toggle, colorblind, toggleColorblind } = useTheme();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { signOut, user, role } = useAuth();
