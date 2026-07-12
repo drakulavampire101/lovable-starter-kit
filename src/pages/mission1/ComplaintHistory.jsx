@@ -11,10 +11,13 @@ import FilterDropdown from '../../components/mission1/FilterDropdown.jsx';
 import StatusBadge from '../../components/mission1/StatusBadge.jsx';
 import CategoryBadge from '../../components/mission1/CategoryBadge.jsx';
 import ComplaintCard from '../../components/mission1/ComplaintCard.jsx';
+import ModerationModal from '../../components/mission1/ModerationModal.jsx';
 import Pagination from '../../components/ui/Pagination.jsx';
 import EmptyState from '../../components/feedback/EmptyState.jsx';
-import { CATEGORIES, STATUSES, complaints } from '../../mocks/data/complaints.js';
-import { History, Eye, ArrowUpDown } from 'lucide-react';
+import { CATEGORIES, STATUSES, complaints as seedComplaints } from '../../mocks/data/complaints.js';
+import { History, Eye, ArrowUpDown, Gavel } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext.jsx';
+import { useToast } from '../../components/feedback/Toast.jsx';
 
 const PAGE_SIZE = 8;
 
