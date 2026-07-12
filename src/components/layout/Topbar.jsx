@@ -111,6 +111,17 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
 
+          {isStudent && (
+            <button
+              onClick={() => setSosOpen(true)}
+              aria-label="Trigger SOS emergency"
+              className="inline-flex items-center gap-1.5 h-9 px-3 rounded-sm bg-danger text-white font-mono text-[11px] font-bold tracking-widest uppercase hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-danger/60 shadow-sm"
+            >
+              <Siren size={14} />
+              SOS
+            </button>
+          )}
+
           <Popover
             trigger={
               <span className="relative h-9 w-9 border border-[rgb(var(--chrome-fg))]/30 text-[rgb(var(--chrome-fg))]/90 hover:text-[rgb(var(--chrome-fg))] hover:bg-[rgb(var(--chrome-fg))]/8 flex items-center justify-center rounded-sm">
