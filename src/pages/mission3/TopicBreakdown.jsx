@@ -6,7 +6,7 @@ import Card from '../../components/common/Card.jsx';
 import SectionHeader from '../../components/ui/SectionHeader.jsx';
 import SearchBar from '../../components/mission3/SearchBar.jsx';
 import TopicCard from '../../components/mission3/TopicCard.jsx';
-import EmptyState from '../../components/mission3/EmptyState.jsx';
+import EmptyState from '../../components/feedback/EmptyState.jsx';
 import { ListChecks } from 'lucide-react';
 import { MOCK_TOPICS, DIFFICULTIES } from '../../mocks/data/mission3.js';
 import { cx } from '../../utils/index.js';
@@ -50,7 +50,7 @@ export default function TopicBreakdown() {
       <Card className="p-5 mb-4">
         <SectionHeader
           title={`${filtered.length} topics`}
-          description="Filter and sort to prioritize what to study first."
+          message="Filter and sort to prioritize what to study first."
           action={
             <div className="flex flex-wrap items-center gap-2">
               <SearchBar value={q} onChange={setQ} placeholder="Search topics..." className="w-full sm:w-56" />
@@ -84,7 +84,7 @@ export default function TopicBreakdown() {
       </Card>
 
       {filtered.length === 0 ? (
-        <EmptyState title="No topics match your filter" description="Adjust the difficulty or search query." />
+        <EmptyState title="No topics match your filter" message="Adjust the difficulty or search query." />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
           {filtered.map((t) => <TopicCard key={t.id} topic={t} />)}
