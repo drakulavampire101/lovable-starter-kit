@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Hash, ArrowRight, Loader2, Lock, User, GraduationCap, Users, Shield } from 'lucide-react';
+import { Hash, ArrowRight, Loader2, Lock, User, GraduationCap, Users, Info } from 'lucide-react';
 import AuthShell from '../../components/auth/AuthShell.jsx';
 import LoginCard from '../../components/auth/LoginCard.jsx';
 import FormField from '../../components/forms/FormField.jsx';
@@ -9,18 +9,15 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 const CLASSES = ['6', '7', '8', '9', '10'];
 const SECTIONS = ['A', 'B', 'C', 'D'];
-const ROLES = [
-  { value: 'student', label: 'Student' },
-  { value: 'captain', label: 'Class Captain' },
-  { value: 'office', label: 'Office / Teacher' },
-];
 
 export default function Register() {
   const nav = useNavigate();
   const { signUp } = useAuth();
   const [className, setClassName] = useState('9');
   const [section, setSection] = useState('C');
-  const [role, setRole] = useState('student');
+  // Students are the only self-serve role. Captains are promoted by teachers,
+  // and teacher/office accounts are pre-seeded.
+  const role = 'student';
   const [rollNumber, setRoll] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
