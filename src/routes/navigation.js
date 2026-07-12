@@ -24,10 +24,10 @@ export const NAV_BY_ROLE = {
       { to: '/mission-3', label: 'Syllabus AI', code: '03', icon: BookOpen },
       { to: '/mission-4/tiffin', label: 'Tiffin report', code: '04', icon: Coins },
       { to: '/mission-6', label: 'Fact checker', code: '06', icon: SearchCheck },
-      { to: '/mission-9', label: 'Captain voting', code: '09', icon: Vote },
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-7', label: 'Peer rating', code: 'R1', icon: Star },
+      { to: '/mission-9', label: 'Captain voting', code: 'R2', icon: Vote },
     ]},
     ACCOUNT_TAIL,
   ],
