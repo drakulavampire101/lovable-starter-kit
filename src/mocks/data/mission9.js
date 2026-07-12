@@ -103,8 +103,8 @@ export const TURNOUT_TREND = ['Feb 01','Feb 05','Feb 09','Feb 13','Feb 17','Feb 
   cumulative: Math.round((30 + i * 90) * (i + 1) / 2),
 }));
 
-export const DEPT_TURNOUT = DEPTS.map((d, i) => ({
-  name: d,
+export const DEPT_TURNOUT = CLASSES.map((d, i) => ({
+  name: `Class ${d}`,
   turnout: 55 + Math.floor(rnd(i + 21) * 40),
   eligible: 40 + Math.floor(rnd(i + 22) * 20),
 }));
