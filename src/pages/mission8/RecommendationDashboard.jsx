@@ -11,10 +11,10 @@ import CandidateCard from '../../components/mission8/CandidateCard.jsx';
 import { CANDIDATES, LEADERBOARDS, CURRENT_ROUND } from '../../mocks/data/mission8.js';
 
 const quick = [
+  { to: '/mission-8/assign',    icon: <UserCheck size={16} />, title: 'Assign Captain', desc: 'Promote one student per section' },
   { to: '/mission-8/rankings',    icon: <ListOrdered size={16} />, title: 'View Rankings', desc: 'Full ranked candidate list' },
   { to: '/mission-8/candidates/cand-1', icon: <User size={16} />, title: 'Candidate Profiles', desc: 'Deep-dive on a leader' },
   { to: '/mission-8/analytics',   icon: <BarChart3 size={16} />, title: 'Analytics', desc: 'Selection trends & distributions' },
-  { to: '/mission-8/review',      icon: <ShieldCheck size={16} />, title: 'Teacher Review', desc: 'Approve or reject candidates' },
 ];
 
 export default function RecommendationDashboard() {
