@@ -35,16 +35,16 @@ export const NAV_BY_ROLE = {
     { section: 'Register', code: '00', items: [
       { to: '/captain', label: 'Captain desk', code: '00', icon: LayoutDashboard, end: true },
     ]},
-    { section: 'Captain tools', code: '01–09', items: [
+    { section: 'Captain tools', code: '01–05', items: [
       { to: '/mission-1/captain', label: 'Complaint queue', code: '01', icon: ShieldAlert },
       { to: '/mission-2', label: 'Seat planner', code: '02', icon: Grid3X3 },
       { to: '/mission-4', label: 'Tiffin ledger', code: '04', icon: Coins },
       { to: '/mission-5/captain', label: 'SOS console', code: '05', icon: Siren },
-      { to: '/mission-9/results', label: 'Vote results', code: '09', icon: Vote },
     ]},
     { section: 'Reviews', code: 'R', items: [
       { to: '/mission-7/leaderboard', label: 'Peer leaderboard', code: 'R1', icon: Star },
       { to: '/mission-8', label: 'Captain engine', code: 'R2', icon: Award },
+      { to: '/mission-9/results', label: 'Vote results', code: 'R3', icon: Vote },
     ]},
     ACCOUNT_TAIL,
   ],
