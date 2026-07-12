@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PageContainer from '../../components/layout/PageContainer.jsx';
 import PageHeader from '../../components/layout/PageHeader.jsx';
@@ -23,6 +23,16 @@ export default function SyllabusInput() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null); // { message, fieldErrors }
   const navigate = useNavigate();
+  const abortRef = useRef(null);
+  const mountedRef = useRef(true);
+
+  // Cancel any in-flight request on unmount so we don't setState after teardown.
+  useEffect(() => {
+    return () => {
+      mountedRef.current = false;
+      abortRef.current?.abort();
+    };
+  }, []);
 
   const { chars, words, minutes } = useMemo(() => {
     const w = text.trim() ? text.trim().split(/\s+/).length : 0;
@@ -35,13 +45,18 @@ export default function SyllabusInput() {
   const handleSubmit = async () => {
     setError(null);
     setSubmitting(true);
+    abortRef.current?.abort();
+    const ac = new AbortController();
+    abortRef.current = ac;
     try {
-      const result = await summarizeSyllabus(text);
+      const result = await summarizeSyllabus(text, { signal: ac.signal });
+      if (!mountedRef.current || ac.signal.aborted) return;
       setLastRun({ kind: 'summary', syllabusText: text, result, createdAt: Date.now() });
       toast.push({ tone: 'success', title: 'Summary ready', message: 'AI finished analyzing the syllabus.' });
       navigate('/mission-3/summary');
     } catch (e) {
-      if (e?.name === 'AbortError') return;
+      if (e?.name === 'AbortError' || ac.signal.aborted) return;
+      if (!mountedRef.current) return;
       if (e instanceof AkpApiError) {
         setError({ message: e.message, fieldErrors: e.fieldErrors || {} });
         if (e.code !== 'validation') {
@@ -53,7 +68,7 @@ export default function SyllabusInput() {
         toast.push({ tone: 'error', title: 'Analysis failed', message: msg });
       }
     } finally {
-      setSubmitting(false);
+      if (mountedRef.current) setSubmitting(false);
     }
   };
 
