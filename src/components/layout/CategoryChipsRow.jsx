@@ -48,14 +48,15 @@ export default function CategoryChipsRow() {
                     : 'bg-surface text-fg border-border hover:bg-elevated'
                 )
               }
-              data-active={undefined}
-              children={({ isActive }) => (
+            >
+              {({ isActive }) => (
                 <span data-active={isActive ? 'true' : 'false'} className="inline-flex items-center gap-2">
                   <Icon size={14} />
                   {label}
                 </span>
               )}
-            />
+            </NavLink>
+
           ))}
         </nav>
 
