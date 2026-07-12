@@ -53,12 +53,14 @@ function parseValidationError(payload) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// Merge caller AbortSignal with our internal timeout signal.
+// Merge caller AbortSignal with our internal (per-attempt) controller.
+// Returns an unlink function so we don't leak listeners across retries.
 function linkSignals(external, internal) {
-  if (!external) return;
-  if (external.aborted) { internal.abort(external.reason); return; }
+  if (!external) return () => {};
+  if (external.aborted) { internal.abort(external.reason); return () => {}; }
   const onAbort = () => internal.abort(external.reason);
-  external.addEventListener('abort', onAbort, { once: true });
+  external.addEventListener('abort', onAbort);
+  return () => external.removeEventListener('abort', onAbort);
 }
 
 export async function akpFetch(
@@ -74,7 +76,7 @@ export async function akpFetch(
   while (attempt <= retries) {
     // Per-attempt controller so timeouts don't poison later retries.
     const controller = new AbortController();
-    linkSignals(signal, controller);
+    const unlink = linkSignals(signal, controller);
     const timer = setTimeout(() => {
       controller.abort(new DOMException('Timeout', 'TimeoutError'));
     }, timeoutMs);
@@ -123,10 +125,8 @@ export async function akpFetch(
         throw err;
       }
     } catch (e) {
-      // Propagate caller aborts and validation errors immediately — never retry these.
-      if (signal?.aborted || (e?.name === 'AbortError' && !signal?.aborted && e?.code !== 'timeout')) {
-        throw e;
-      }
+      // Caller aborted the request — bubble the AbortError up unchanged.
+      if (signal?.aborted) throw e;
       if (e instanceof AkpApiError) {
         if (e.code === 'validation' || e.code === 'client') throw e;
         // network/timeout/server — retry if attempts remain.
@@ -138,6 +138,7 @@ export async function akpFetch(
       }
     } finally {
       clearTimeout(timer);
+      unlink();
     }
 
     // Backoff before next attempt.
