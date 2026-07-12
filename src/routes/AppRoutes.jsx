@@ -3,6 +3,8 @@ import { lazy, Suspense } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import LoadingPage from '../pages/LoadingPage.jsx';
 import { RequireAuth, RoleGuard } from './guards.jsx';
+import ViewOnlyGate from './ViewOnlyGate.jsx';
+
 
 // Eagerly loaded — always needed on first paint
 const Dashboard = lazy(() => import('../pages/Dashboard.jsx'));
@@ -135,14 +137,15 @@ export default function AppRoutes() {
           <Route path="/mission-1/captain" element={<M1CaptainDashboard />} />
           <Route path="/mission-1/moderation" element={<TeacherModeration />} />
           <Route path="/mission-1/analytics" element={<ComplaintAnalytics />} />
-          <Route path="/mission-2" element={<Mission2Overview />} />
-          <Route path="/mission-2/students" element={<StudentManagement />} />
-          <Route path="/mission-2/classroom" element={<ClassroomLayout />} />
-          <Route path="/mission-2/interactive" element={<InteractiveSeating />} />
-          <Route path="/mission-2/constraints" element={<Mission2Constraints />} />
-          <Route path="/mission-2/line-of-sight" element={<LineOfSight />} />
-          <Route path="/mission-2/plan" element={<GeneratedPlan />} />
-          <Route path="/mission-2/analytics" element={<SeatAnalytics />} />
+          <Route path="/mission-2" element={<ViewOnlyGate><Mission2Overview /></ViewOnlyGate>} />
+          <Route path="/mission-2/students" element={<ViewOnlyGate><StudentManagement /></ViewOnlyGate>} />
+          <Route path="/mission-2/classroom" element={<ViewOnlyGate><ClassroomLayout /></ViewOnlyGate>} />
+          <Route path="/mission-2/interactive" element={<ViewOnlyGate><InteractiveSeating /></ViewOnlyGate>} />
+          <Route path="/mission-2/constraints" element={<ViewOnlyGate><Mission2Constraints /></ViewOnlyGate>} />
+          <Route path="/mission-2/line-of-sight" element={<ViewOnlyGate><LineOfSight /></ViewOnlyGate>} />
+          <Route path="/mission-2/plan" element={<ViewOnlyGate><GeneratedPlan /></ViewOnlyGate>} />
+          <Route path="/mission-2/analytics" element={<ViewOnlyGate><SeatAnalytics /></ViewOnlyGate>} />
+
           <Route path="/mission-3" element={<AIWorkspace />} />
           <Route path="/mission-3/input" element={<SyllabusInput />} />
           <Route path="/mission-3/processing" element={<AIProcessing />} />
