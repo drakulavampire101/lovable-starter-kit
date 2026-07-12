@@ -107,6 +107,7 @@ export default function Register() {
             value={rollNumber}
             onChange={(e) => setRoll(e.target.value)}
             leadingIcon={<Hash size={14} />}
+            required
           />
           <FormField
             label="Full Name"
@@ -115,7 +116,38 @@ export default function Register() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             leadingIcon={<User size={14} />}
+            required
           />
+          <FormField
+            label="Height (cm)"
+            name="height"
+            type="number"
+            min={80}
+            max={250}
+            placeholder="e.g. 160"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            leadingIcon={<Ruler size={14} />}
+            state={height !== '' && !heightValid ? 'error' : 'default'}
+            message={height !== '' && !heightValid ? 'Enter a height between 80 and 250 cm' : ''}
+            required
+          />
+          <div className="grid grid-cols-2 gap-3">
+            <SelectField
+              label="Eyesight"
+              value={vision}
+              onChange={(e) => setVision(e.target.value)}
+              icon={<Eye size={14} />}
+              options={IMPAIRMENT}
+            />
+            <SelectField
+              label="Hearing"
+              value={hearing}
+              onChange={(e) => setHearing(e.target.value)}
+              icon={<Ear size={14} />}
+              options={IMPAIRMENT}
+            />
+          </div>
           <FormField
             label="Password"
             name="password"
@@ -126,6 +158,8 @@ export default function Register() {
             leadingIcon={<Lock size={14} />}
             state={error ? 'error' : 'default'}
             message={error || ''}
+            required
+            minLength={6}
           />
           <motion.button
             whileTap={{ scale: canSubmit ? 0.98 : 1 }}
