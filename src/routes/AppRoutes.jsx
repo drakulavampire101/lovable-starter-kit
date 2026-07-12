@@ -62,7 +62,7 @@ const SeatAnalytics = lazy(() => import('../pages/mission2/SeatAnalytics.jsx'));
 // Mission 3
 const AIWorkspace = lazy(() => import('../pages/mission3/AIWorkspace.jsx'));
 const SyllabusInput = lazy(() => import('../pages/mission3/SyllabusInput.jsx'));
-const AIProcessing = lazy(() => import('../pages/mission3/AIProcessing.jsx'));
+// AIProcessing route removed — summarize is synchronous, no polling needed.
 const AISummary = lazy(() => import('../pages/mission3/AISummary.jsx'));
 const StudyPlan = lazy(() => import('../pages/mission3/StudyPlan.jsx'));
 const StudyCalendar = lazy(() => import('../pages/mission3/StudyCalendar.jsx'));
