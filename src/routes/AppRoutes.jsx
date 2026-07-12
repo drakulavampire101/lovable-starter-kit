@@ -162,7 +162,7 @@ export default function AppRoutes() {
 
           <Route path="/mission-3" element={<AIWorkspace />} />
           <Route path="/mission-3/input" element={<SyllabusInput />} />
-          <Route path="/mission-3/processing" element={<AIProcessing />} />
+          <Route path="/mission-3/processing" element={<Navigate to="/mission-3/summary" replace />} />
           <Route path="/mission-3/summary" element={<AISummary />} />
           <Route path="/mission-3/plan" element={<StudyPlan />} />
           <Route path="/mission-3/calendar" element={<StudyCalendar />} />
