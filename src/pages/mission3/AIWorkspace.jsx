@@ -4,7 +4,7 @@ import PageHeader from '../../components/layout/PageHeader.jsx';
 import Card from '../../components/common/Card.jsx';
 import Button from '../../components/common/Button.jsx';
 import Badge from '../../components/ui/Badge.jsx';
-import { GitCompare, Check, X, AlertTriangle, RotateCcw, Upload, FileText, ClipboardCheck, Database } from 'lucide-react';
+import { GitCompare, Check, X, AlertTriangle, RotateCcw, Upload, FileText, ClipboardCheck } from 'lucide-react';
 
 // Reference syllabus lives server-side. This is a mock stand-in for the UI
 // until the /api/mission3/reference endpoint is wired.
