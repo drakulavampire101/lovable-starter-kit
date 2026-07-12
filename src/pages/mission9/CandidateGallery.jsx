@@ -30,7 +30,7 @@ export default function CandidateGallery() {
 
   const filtered = useMemo(() => {
     let arr = CANDIDATES.filter((c) => {
-      if (dept !== 'All' && c.department !== dept) return false;
+      if (cls !== 'All' && c.className !== cls) return false;
       if (q) {
         const s = q.toLowerCase();
         return c.name.toLowerCase().includes(s) || c.roll.includes(s) || c.manifesto.toLowerCase().includes(s);
