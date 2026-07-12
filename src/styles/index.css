@@ -51,9 +51,9 @@
     --warning: 240 200 90;
     --danger: 230 110 110;
     /* Header themed to match — deeper green bg, mint text */
-    --sidebar-bg: 5 18 12;
-    --sidebar-bg-strong: 3 12 8;
-    --chrome-fg: 178 232 200;
+    --sidebar-bg: 2 6 4;
+    --sidebar-bg-strong: 0 3 2;
+    --chrome-fg: 235 250 240;
   }
 
   /* Colorblind mode — pure black & white high-contrast system.
