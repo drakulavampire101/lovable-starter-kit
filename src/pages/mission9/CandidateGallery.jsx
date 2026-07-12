@@ -59,8 +59,8 @@ export default function CandidateGallery() {
         <div className="sm:col-span-2">
           <SearchInput value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} placeholder="Search name, roll, or manifesto…" />
         </div>
-        <Select value={dept} onChange={(e) => { setDept(e.target.value); setPage(1); }}>
-          {DEPTS.map((d) => <option key={d} value={d}>{d === 'All' ? 'All departments' : d}</option>)}
+        <Select value={cls} onChange={(e) => { setCls(e.target.value); setPage(1); }}>
+          {CLASSES.map((d) => <option key={d} value={d}>{d === 'All' ? 'All classes' : `Class ${d}`}</option>)}
         </Select>
         <Select value={sort} onChange={(e) => setSort(e.target.value)}>
           {SORTS.map((s) => <option key={s.value} value={s.value}>Sort · {s.label}</option>)}
