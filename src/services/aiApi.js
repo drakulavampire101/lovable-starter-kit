@@ -125,10 +125,8 @@ export async function akpFetch(
         throw err;
       }
     } catch (e) {
-      // Propagate caller aborts and validation errors immediately — never retry these.
-      if (signal?.aborted || (e?.name === 'AbortError' && !signal?.aborted && e?.code !== 'timeout')) {
-        throw e;
-      }
+      // Caller aborted the request — bubble the AbortError up unchanged.
+      if (signal?.aborted) throw e;
       if (e instanceof AkpApiError) {
         if (e.code === 'validation' || e.code === 'client') throw e;
         // network/timeout/server — retry if attempts remain.
@@ -140,6 +138,7 @@ export async function akpFetch(
       }
     } finally {
       clearTimeout(timer);
+      unlink();
     }
 
     // Backoff before next attempt.
