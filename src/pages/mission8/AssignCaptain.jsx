@@ -9,6 +9,7 @@ import Mission8SubNav from '../../components/mission8/Mission8SubNav.jsx';
 import { useToast } from '../../components/feedback/Toast.jsx';
 import {
   getStudents,
+  getVersion,
   subscribe,
   setCaptain,
   CLASS_OPTIONS,
