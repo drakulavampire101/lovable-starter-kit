@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { NAV_BY_ROLE } from '../../routes/navigation.js';
 import { prefetchRoute } from '../../routes/prefetch.js';
 
-export default function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
+function Sidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   const { role } = useAuth();
   // Teacher and Office share the same navigation (grouped together).
   const navRole = role === 'teacher' ? 'office' : role;
