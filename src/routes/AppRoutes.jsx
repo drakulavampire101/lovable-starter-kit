@@ -140,14 +140,15 @@ export default function AppRoutes() {
           <Route path="/mission-1/captain" element={<M1CaptainDashboard />} />
           <Route path="/mission-1/moderation" element={<TeacherModeration />} />
           <Route path="/mission-1/analytics" element={<ComplaintAnalytics />} />
-          <Route path="/mission-2" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<Mission2Overview />} />} />
-          <Route path="/mission-2/students" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<StudentManagement />} />} />
-          <Route path="/mission-2/classroom" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ClassroomLayout />} />} />
-          <Route path="/mission-2/interactive" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<InteractiveSeating />} />} />
-          <Route path="/mission-2/constraints" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<Mission2Constraints />} />} />
-          <Route path="/mission-2/line-of-sight" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<LineOfSight />} />} />
-          <Route path="/mission-2/plan" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<GeneratedPlan />} />} />
-          <Route path="/mission-2/analytics" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<SeatAnalytics />} />} />
+          <Route path="/mission-2" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><Mission2Overview /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/students" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><StudentManagement /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/classroom" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><ClassroomLayout /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/interactive" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><InteractiveSeating /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/constraints" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><Mission2Constraints /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/line-of-sight" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><LineOfSight /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/plan" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><GeneratedPlan /></ViewOnlyGate>} />} />
+          <Route path="/mission-2/analytics" element={<RoleSwitch studentEl={<StudentSeatView />} staffEl={<ViewOnlyGate><SeatAnalytics /></ViewOnlyGate>} />} />
+
 
 
 
