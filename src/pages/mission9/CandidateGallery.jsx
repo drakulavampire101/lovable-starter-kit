@@ -44,7 +44,7 @@ export default function CandidateGallery() {
       return b.overallScore - a.overallScore;
     });
     return arr;
-  }, [q, dept, sort]);
+  }, [q, cls, sort]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const p = Math.min(page, pages);
