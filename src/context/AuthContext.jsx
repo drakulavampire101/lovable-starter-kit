@@ -34,6 +34,11 @@ export function AuthProvider({ children }) {
   const [role, setRoleState] = useState(() => localStorage.getItem(ROLE_KEY));
   const [loading, setLoading] = useState(Boolean(getToken()));
   const [error, setError] = useState(null);
+  const roles = deriveRoles(user);
+  const normalizedRole = normalizeRole(role);
+  const activeRole = normalizedRole && (!roles.length || roles.includes(normalizedRole))
+    ? normalizedRole
+    : roles[0] || null;
 
   const persistUser = (u) => {
     setUser(u);
@@ -125,7 +130,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, role, roles: deriveRoles(user), loading, error, signIn, signUp, chooseRole, signOut }}
+      value={{ user, role: activeRole, roles, loading, error, signIn, signUp, chooseRole, signOut }}
     >
       {children}
     </AuthContext.Provider>
