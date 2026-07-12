@@ -116,6 +116,7 @@ const RecommendationAnalytics = lazy(() => import('../pages/mission8/Recommendat
 const TeacherReview = lazy(() => import('../pages/mission8/TeacherReview.jsx'));
 const RecommendationHistory = lazy(() => import('../pages/mission8/RecommendationHistory.jsx'));
 const M8Leaderboard = lazy(() => import('../pages/mission8/LeaderboardPage.jsx'));
+const AssignCaptain = lazy(() => import('../pages/mission8/AssignCaptain.jsx'));
 
 // Mission 9
 const VotingDashboard = lazy(() => import('../pages/mission9/VotingDashboard.jsx'));
