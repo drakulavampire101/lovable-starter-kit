@@ -93,16 +93,6 @@ export default function Topbar({ onOpenSidebar, liveCount = 0 }) {
         </div>
 
         <div className="flex items-center gap-2">
-          {isStudent && (
-            <button
-              onClick={() => setSosOpen(true)}
-              aria-label="Trigger SOS emergency"
-              className="inline-flex items-center gap-1.5 h-9 px-3 rounded-sm bg-danger text-white font-mono text-[11px] font-bold tracking-widest uppercase hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-danger/60 shadow-sm"
-            >
-              <Siren size={14} />
-              SOS
-            </button>
-          )}
           <label className="hidden md:flex items-center gap-2 w-72 h-9 px-3 border border-[rgb(var(--chrome-fg))]/30 bg-[rgb(var(--chrome-fg))]/8 text-sm text-[rgb(var(--chrome-fg))]/90 rounded-sm focus-within:border-white focus-within:bg-[rgb(var(--chrome-fg))]/10">
             <Search size={14} />
             <input
