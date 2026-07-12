@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import DashboardLayout from '../components/layout/DashboardLayout.jsx';
 import LoadingPage from '../pages/LoadingPage.jsx';
